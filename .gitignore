@@ -1,0 +1,23 @@
+DerivedData/
+build/
+.DS_Store
+*.xcuserstate
+*.moved-aside
+*.xcuserdatad/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+
+# Local secrets. Do not commit real API keys.
+LocalSecrets.xcconfig
+LocalSecrets.plist
+*.local.xcconfig
+.neon
+.env.local
+node_modules/
+
+# Local agent/diagnostic tooling.
+.agents/
+skills-lock.json
+neon.ts
+/package.json
+/package-lock.json

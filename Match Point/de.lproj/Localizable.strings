@@ -1,0 +1,630 @@
+// German (de) mirror of pt-BR.lproj/Localizable.strings.
+
+// MARK: - Tab titles
+
+"Partidas" = "Spiele";
+"Ao Vivo" = "Live";
+"Para Você" = "Für Dich";
+"Match Point" = "Match Point";
+"Perfil" = "Profil";
+"Meus Jogadores" = "Meine Spieler";
+"Favoritos" = "Favoriten";
+"Torneios" = "Turniere";
+"Rankings" = "Rangliste";
+"Jogadores" = "Spieler";
+"Alertas" = "Warnungen";
+"Provider" = "Anbieter";
+
+// MARK: - Common filters
+
+"Todas" = "Alle";
+"Ao vivo" = "Live";
+"Próximas" = "Kommende";
+"Para você" = "Für dich";
+"Todos" = "Alle";
+
+// MARK: - Onboarding
+
+"Pular" = "Überspringen";
+"Entrar no app" = "App öffnen";
+"Sincronizar agora" = "Jetzt synchronisieren";
+"Adicionar populares" = "Beliebte hinzufügen";
+"Permitir" = "Erlauben";
+"Verificar" = "Prüfen";
+"Notificações" = "Mitteilungen";
+"iCloud" = "iCloud";
+"Permissões" = "Berechtigungen";
+"Dados iniciais" = "Startdaten";
+"Favoritos iniciais" = "Startfavoriten";
+"Li e aceito a política de privacidade" = "Ich habe die Datenschutzerklärung gelesen und akzeptiere sie";
+"Ler política de privacidade" = "Datenschutzerklärung lesen";
+"Escolha uma opção acima" = "Wähle eine Option oben";
+
+// MARK: - Settings / general
+
+"Configurações" = "Einstellungen";
+"Versão" = "Version";
+"Fechar" = "Schließen";
+"Cancelar" = "Abbrechen";
+"Excluir" = "Löschen";
+"OK" = "OK";
+"Salvar" = "Speichern";
+"Atualizar" = "Aktualisieren";
+"Carregar" = "Laden";
+"Sincronizar" = "Synchronisieren";
+"Recarregar" = "Neu laden";
+
+// MARK: - Sections / labels
+
+"Info" = "Info";
+"Status" = "Status";
+"Saldo" = "Guthaben";
+"Ranking" = "Ranking";
+"Histórico" = "Verlauf";
+"Estatísticas" = "Statistik";
+"Confirmar previsão" = "Vorhersage bestätigen";
+"Saldo insuficiente" = "Unzureichendes Guthaben";
+"Mínimo 4 caracteres" = "Mindestens 4 Zeichen";
+"Criar poll" = "Umfrage erstellen";
+"Publicar comentário" = "Kommentar posten";
+"Enviar resposta" = "Antwort senden";
+"Recarregar categorias" = "Kategorien neu laden";
+"Iniciar Live Activity" = "Live Activity starten";
+"Carregar mais partidas" = "Mehr Spiele laden";
+"Carregar mais WTA" = "Mehr WTA laden";
+"Carregar mais ATP" = "Mehr ATP laden";
+"Quem vence?" = "Wer gewinnt?";
+
+// MARK: - Empty states / errors
+
+"Sem rankings" = "Keine Ranglisten";
+"Nenhum favorito ainda" = "Noch keine Favoriten";
+"Sem partidas elegíveis" = "Keine passenden Spiele";
+"Sem jogadores sincronizados" = "Keine synchronisierten Spieler";
+"Nenhum jogador encontrado" = "Kein Spieler gefunden";
+"Falha ao excluir" = "Löschen fehlgeschlagen";
+
+// MARK: - Live / WebSocket states
+
+"Live On" = "Live On";
+"Iniciar Live" = "Live starten";
+"Parar Live" = "Live beenden";
+"Reconectar" = "Neu verbinden";
+"Sinal ao vivo" = "Live-Signal";
+"Sem rankings para a categoria selecionada." = "Keine Ranglisten für die gewählte Kategorie.";
+
+// MARK: - Privacy / consent
+
+"Excluir todos os meus dados?" = "Alle meine Daten löschen?";
+"Resultado" = "Ergebnis";
+"Em resposta a %@" = "Als Antwort auf %@";
+"Privacidade" = "Datenschutz";
+"Identidade" = "Identität";
+"Dados" = "Daten";
+"Como o Match Point trata seus dados." = "Wie Match Point deine Daten behandelt.";
+"Direito de portabilidade (LGPD)" = "Recht auf Datenübertragbarkeit (LGPD)";
+
+// MARK: - Tours / surfaces
+
+"ATP" = "ATP";
+"WTA" = "WTA";
+"Tour" = "Tour";
+"Hard" = "Hartplatz";
+"Clay" = "Sandplatz";
+"Grass" = "Rasen";
+
+// MARK: - Common short labels
+
+"Sim" = "Ja";
+"Não" = "Nein";
+"LIVE" = "LIVE";
+"Live" = "Live";
+"Live Center" = "Live Center";
+"Live Tracker" = "Live Tracker";
+"Live Match" = "Live-Spiel";
+"Score" = "Spielstand";
+"Stats" = "Stats";
+"Overview" = "Übersicht";
+"Timeline" = "Zeitleiste";
+"Odds" = "Quoten";
+"Players" = "Spieler";
+"Head-to-Head" = "Direkter Vergleich";
+"Previous Matches" = "Frühere Spiele";
+"Populares" = "Beliebt";
+"Recentes" = "Neueste";
+"Fixados" = "Angeheftet";
+"Ocultos" = "Ausgeblendet";
+"Reportados" = "Gemeldet";
+"Aparência" = "Darstellung";
+"Pré-jogo" = "Vor dem Spiel";
+"Por set" = "Pro Satz";
+
+// MARK: - Empty / status descriptions
+
+"Nada por aqui no momento." = "Hier ist gerade nichts.";
+"Nada neste filtro." = "Nichts in diesem Filter.";
+"Nenhuma partida hoje." = "Heute keine Spiele.";
+"Nenhum próximo jogo no momento." = "Zurzeit keine anstehenden Spiele.";
+"Nenhuma previsão criada ainda." = "Noch keine Vorhersagen erstellt.";
+"Sem previsões públicas ainda." = "Noch keine öffentlichen Vorhersagen.";
+"Sem comentários reportados ou fixados." = "Keine gemeldeten oder angehefteten Kommentare.";
+"Sem próximos jogos confirmados." = "Keine bestätigten kommenden Spiele.";
+"Sem partidas conectadas aos seus favoritos ainda." = "Noch keine Spiele mit deinen Favoriten verknüpft.";
+"Sem histórico H2H disponível para esses jogadores." = "Kein H2H-Verlauf für diese Spieler verfügbar.";
+"Sem histórico head-to-head suficiente." = "Nicht genügend Direktvergleiche.";
+"Sem perfil disponível na API para este jogador." = "Kein API-Profil für diesen Spieler verfügbar.";
+"Ainda não há partidas finalizadas suficientes." = "Noch nicht genügend abgeschlossene Spiele.";
+"Nenhum favorito público ainda." = "Noch keine öffentlichen Favoriten.";
+"Nenhuma odd publicada para essa partida no momento." = "Für dieses Spiel wurden derzeit keine Quoten veröffentlicht.";
+
+// MARK: - Diagnostic / sync prompts
+
+"Configuração salva. O próximo Sync já usa esses valores." = "Konfiguration gespeichert. Die nächste Sync nutzt diese Werte.";
+"A API key é igual ao placeholder. Substitua pela sua chave real." = "Der API-Schlüssel entspricht noch dem Beispielwert. Gib deinen echten Schlüssel ein.";
+"Complete a API key antes do diagnóstico." = "Fülle den API-Key vor der Diagnose aus.";
+"Informe uma API key apenas para testes locais sem backend." = "Gib einen API-Key nur für lokale Tests ohne Backend an.";
+"Toque longo no número da versão para abrir o diagnóstico de provedor (uso interno)." = "Langer Druck auf die Versionsnummer öffnet die Anbieter-Diagnose (interne Nutzung).";
+
+// MARK: - Push / notification copy
+
+"Push remoto" = "Remote-Push";
+"As notificações estão desativadas no sistema. Reative em Ajustes para receber alertas." = "Mitteilungen sind im System deaktiviert. Aktiviere sie in den Einstellungen, um Warnungen zu erhalten.";
+
+// MARK: - Persistence recovery copy
+
+"Não foi possível abrir seus dados" = "Deine Daten konnten nicht geöffnet werden";
+"Sessão temporária: dados não serão salvos ao fechar." = "Temporäre Sitzung: Daten werden beim Schließen nicht gespeichert.";
+"Use a sessão temporária apenas para diagnosticar. Dados criados nela não serão persistidos." = "Verwende die temporäre Sitzung nur zur Diagnose. Darin erstellte Daten werden nicht dauerhaft gespeichert.";
+"O app não vai trocar para banco em memória sem avisar, porque isso faria os dados sumirem ao fechar." = "Die App wechselt nicht ohne Warnung zu einer In-Memory-Datenbank, weil deine Daten sonst beim Schließen verloren gingen.";
+
+// MARK: - Account deletion copy
+
+"Apaga seu perfil, predições, posts, votos e desativa todos os favoritos. Ação irreversível." = "Löscht dein Profil, Vorhersagen, Beiträge, Stimmen und deaktiviert alle Favoriten. Unumkehrbare Aktion.";
+"Remove perfil, predições, posts, votos e desativa favoritos. Ação irreversível e atende ao Art. 18 da LGPD." = "Entfernt Profil, Tipps, Beiträge und Stimmen und deaktiviert Favoriten. Diese Aktion ist unumkehrbar und entspricht Art. 18 LGPD.";
+"Gera um arquivo JSON com perfil, favoritos, predições e posts. Você decide como compartilhar." = "Erzeugt eine JSON-Datei mit Profil, Favoriten, Vorhersagen und Beiträgen. Du entscheidest, wie du sie teilst.";
+
+// MARK: - First-run / onboarding copy
+
+"Necessário para sincronizar dados, registrar push e usar o iCloud." = "Notwendig, um Daten zu synchronisieren, Push zu registrieren und iCloud zu nutzen.";
+"Seu nome e avatar aparecem no perfil, posts e rankings. Use a aba Perfil para criar conta, entrar ou recuperar acesso." = "Dein Name und Avatar erscheinen im Profil, in Beiträgen und Ranglisten. Nutze den Profil-Tab, um ein Konto zu erstellen, dich anzumelden oder den Zugriff wiederherzustellen.";
+"Sincronize a API ou adicione uma lista inicial de jogadores populares para começar agora." = "Synchronisiere die API oder füge eine Startliste beliebter Spieler hinzu, um sofort loszulegen.";
+"Siga jogadores, torneios e partidas para acompanhar tudo aqui." = "Folge Spielern, Turnieren und Spielen, um hier alles zu verfolgen.";
+"Volta para a tela inicial com o passo a passo de favoritos e permissões." = "Kehrt zum Startbildschirm mit der Schritt-für-Schritt-Anleitung für Favoriten und Berechtigungen zurück.";
+
+// MARK: - Auto-catalogued from hardcoded literals (2026-08-13)
+
+"15 min antes" = "15 Min vorher";
+"30 min antes" = "30 Min vorher";
+"5 min antes" = "5 Min vorher";
+"60 min antes" = "60 Min vorher";
+"A JOGAR" = "AUSSTEHEND";
+"A auto-exclusão bloqueia o wizard de apostas por completo pelo período escolhido. Não é possível reverter antes do término — é essa a proteção do recurso." = "Die Selbstsperre blockiert den Tipp-Assistenten vollständig für den gewählten Zeitraum. Sie kann vor Ende nicht rückgängig gemacht werden; genau darin liegt der Schutz.";
+"A decisão de push inteligente deve rodar no servidor, usando fila de eventos, dedupe e histórico auditável de placares." = "Die intelligente Push-Entscheidung sollte auf dem Server laufen, mit Event-Queue, Dedupe und prüfbarer Punktestand-Historie.";
+"A definir" = "Noch offen";
+"A lista inicial aparece automaticamente." = "Die anfängliche Liste erscheint automatisch.";
+"AO VIVO" = "LIVE";
+"ASSISTENTE DA PARTIDA" = "MATCH-ASSISTENT";
+"Abrir Ajustes do iOS" = "iOS-Einstellungen öffnen";
+"Abrir cronograma" = "Zeitplan öffnen";
+"Abrir leitura completa" = "Vollständige Ansicht öffnen";
+"Abrir sessão temporária" = "Temporäre Sitzung öffnen";
+"Aces, winners, break points e pontos de saque aparecem aqui quando a partida acumular mais lances na timeline ao vivo." = "Asse, Winner, Break Points und Aufschlagpunkte erscheinen hier, sobald die Live-Zeitleiste mehr Ballwechsel sammelt.";
+"Add" = "Hinzufügen";
+"Add ATP 250 (Hard)" = "ATP 250 (Hartplatz) hinzufügen";
+"Add WTA 500 (Clay)" = "WTA 500 (Sand) hinzufügen";
+"Agenda" = "Agenda";
+"Agendado" = "Geplant";
+"Aguardando o primeiro lance da partida. Quando o saque sair, os eventos chegam aqui como notificações em tempo real." = "Warten auf den ersten Ballwechsel. Sobald der Aufschlag erfolgt, treffen Ereignisse hier als Echtzeit-Mitteilungen ein.";
+"Ainda sem dados globais. O ranking aparece depois que previsões forem liquidadas pelo servidor." = "Noch keine globalen Daten. Die Rangliste erscheint, nachdem der Server die Vorhersagen abgerechnet hat.";
+"Ajuda" = "Hilfe";
+"Ajustar filtros" = "Filter anpassen";
+"Alertas bloqueados pelo iOS" = "Warnungen von iOS blockiert";
+"Alertas e notificações" = "Warnungen und Mitteilungen";
+"Alertas reagendados" = "Warnungen neu geplant";
+"Análise" = "Analyse";
+"Apaga perfil, previsões, posts, votos e desfavorita todos os jogadores/torneios/partidas. Ação irreversível — atende ao Art. 18 da LGPD (direito de erasure)." = "Löscht Profil, Tipps, Beiträge und Stimmen und entfernt alle Spieler, Turniere und Matches aus den Favoriten. Diese Aktion ist unumkehrbar und entspricht Art. 18 LGPD (Recht auf Löschung).";
+"Apostar" = "Tipp abgeben";
+"As enquetes aparecem aqui assim que houver partidas no app." = "Umfragen erscheinen hier, sobald es Spiele in der App gibt.";
+"As previsões usam apenas pontos simbólicos. O app não executa apostas, não envia ordens para bookmakers e não paga prêmios fora do ranking interno." = "Die Tipps verwenden nur symbolische Punkte. Die App platziert keine Wetten, sendet keine Einsätze an Wettanbieter und zahlt keine Gewinne außerhalb der internen Rangliste aus.";
+"As previsões usam somente pontos simbólicos. O Match Point não aceita dinheiro, não realiza apostas reais e não substitui limites pessoais de jogo responsável." = "Tipps verwenden nur symbolische Punkte. Match Point nimmt kein Geld an, platziert keine echten Wetten und ersetzt keine persönlichen Limits für verantwortungsvolles Spielverhalten.";
+"Assistente da partida" = "Match-Assistent";
+"Ativar alertas" = "Warnungen aktivieren";
+"Ativar auto-exclusão" = "Selbstsperre aktivieren";
+"Banir autor" = "Autor sperren";
+"Buscar jogador ou país" = "Spieler oder Land suchen";
+"Buscar torneio, cidade ou país" = "Turnier, Stadt oder Land suchen";
+"Caminho dos favoritos" = "Weg der Favoriten";
+"Canais de apoio no Brasil" = "Hilfsangebote in Brasilien";
+"Carregando odds do provider..." = "Lade Quoten vom Anbieter...";
+"Carregar ranking global" = "Globale Rangliste laden";
+"Chave do torneio" = "Turnierauslosung";
+"Comentar agora" = "Jetzt kommentieren";
+"Comentário em destaque" = "Hervorgehobener Kommentar";
+"Comentários aparecem aqui assim que houver partidas no app." = "Kommentare erscheinen hier, sobald es Spiele in der App gibt.";
+"Comunidade" = "Community";
+"Concluído" = "Fertig";
+"Confiança dos dados" = "Datenvertrauen";
+"Configure limites diários, semanais e cooldowns. As apostas do wizard usam pontos simbólicos, mas os controles ajudam a manter o hábito saudável." = "Lege Tages- und Wochenlimits sowie Abkühlphasen fest. Tipps im Assistenten verwenden symbolische Punkte, aber die Kontrollen helfen, das Verhalten im Blick zu behalten.";
+"Confirmar mesmo assim" = "Trotzdem bestätigen";
+"Conta" = "Konto";
+"Conta e identidade" = "Konto und Identität";
+"Conversas" = "Gespräche";
+"Cooldown após perdas" = "Abkühlzeit nach Verlusten";
+"Criar enquete" = "Umfrage erstellen";
+"Crie um perfil em Configurações para começar a prever." = "Erstelle ein Profil in den Einstellungen, um mit Vorhersagen zu beginnen.";
+"DRAW" = "AUSLOSUNG";
+"Defina limites em Configurações se perceber aumento de frequência, stake alto ou tentativa de recuperar perdas." = "Lege Limits in den Einstellungen fest, wenn du häufiger tippst, hohe Einsätze wählst oder Verluste aufholen willst.";
+"Deixe em branco para não aplicar limite. Novas apostas que ultrapassem o valor configurado serão bloqueadas até o próximo período." = "Leer lassen, um kein Limit anzuwenden. Neue Tipps, die den festgelegten Wert überschreiten, werden bis zur nächsten Periode blockiert.";
+"Denunciar" = "Melden";
+"Desativar" = "Deaktivieren";
+"Detalhes" = "Details";
+"Detalhes da partida" = "Match-Details";
+"Detalhes por ponto" = "Punkt-für-Punkt-Details";
+"E se?" = "Was wäre wenn?";
+"ESTIMADO" = "GESCHÄTZT";
+"Editar regras" = "Regeln bearbeiten";
+"Enquanto o período estiver ativo, nenhuma nova aposta poderá ser criada. Não é possível desfazer antes do término." = "Solange der Zeitraum aktiv ist, können keine neuen Tipps erstellt werden. Ein Widerruf vor Ablauf ist nicht möglich.";
+"Entendi" = "Verstanden";
+"Escolha até 3 jogadores" = "Wähle bis zu 3 Spieler";
+"Escolha outro dia para ver a ordem por quadra." = "Wähle einen anderen Tag, um die Reihenfolge pro Platz zu sehen.";
+"Escolha se você quer ver partidas do circuito masculino (ATP), feminino (WTA) ou os dois juntos." = "Wähle, ob du Spiele der Herren (ATP), Damen (WTA) oder beide sehen möchtest.";
+"Estatísticas da partida" = "Match-Statistik";
+"Estatísticas expandidas em breve" = "Erweiterte Statistik bald verfügbar";
+"Etapas concluídas" = "Erledigte Schritte";
+"Excluir todos os meus dados" = "Alle meine Daten löschen";
+"Exportar meus dados (JSON)" = "Meine Daten exportieren (JSON)";
+"FINAL" = "FINAL";
+"Favorito" = "Favorit";
+"Fechar draw" = "Auslosung schließen";
+"Feed State" = "Feed-Status";
+"Feed vazio" = "Leerer Feed";
+"Final" = "Finale";
+"Fixar" = "Anheften";
+"Funil de onboarding, favoritos, widgets, Live Activities, alertas, push e retenção local D1/D7." = "Onboarding-Trichter, Favoriten, Widgets, Live Activities, Warnungen, Push und lokale D1/D7-Retention.";
+"Gerando explicação…" = "Erklärung wird erstellt…";
+"Global" = "Global";
+"H2H exige IDs externos de ambos os jogadores. Sincronize jogadores antes." = "H2H erfordert externe IDs beider Spieler. Synchronisiere zuerst die Spieler.";
+"HOME DO SEU JOGADOR" = "HOME DEINES SPIELERS";
+"Head-to-head" = "Direkter Vergleich";
+"Hoje" = "Heute";
+"Home dos seus jogadores" = "Home deiner Spieler";
+"Identidade salva" = "Identität gespeichert";
+"Jogador" = "Spieler";
+"Jogo responsável" = "Verantwortungsvolles Spielen";
+"Lance a lance" = "Ballwechsel für Ballwechsel";
+"Limites" = "Limits";
+"Limites e auto-exclusão" = "Limits und Selbstsperre";
+"Limpar filtros" = "Filter zurücksetzen";
+"Match Point não tem vínculo com essas organizações. Os contatos são referência pública. Se apostar deixou de ser lazer, procure ajuda — não é fraqueza pedir suporte." = "Match Point ist nicht mit diesen Organisationen verbunden. Die Kontakte sind öffentliche Hinweise. Wenn Tippen oder Wetten nicht mehr Freizeit ist, hole dir Hilfe; Unterstützung zu suchen ist keine Schwäche.";
+"Max" = "Max";
+"Mestre dos alertas locais. Quando desligado, nenhum tipo abaixo dispara." = "Hauptschalter für lokale Warnungen. Wenn aus, wird kein Typ unten ausgelöst.";
+"Mestre dos alertas. Quando desligado nenhum tipo abaixo dispara." = "Hauptschalter für Warnungen. Wenn aus, wird kein Typ unten ausgelöst.";
+"Meus favoritos" = "Meine Favoriten";
+"Modelo baseado no placar de sets, do set corrente e nos últimos pontos. Oscila conforme a partida evolui." = "Modell basierend auf Satzstand, aktuellem Satz und letzten Punkten. Schwankt mit dem Match-Verlauf.";
+"Moderação" = "Moderation";
+"Modo torneio" = "Turniermodus";
+"Momentum" = "Momentum";
+"Momentum estimado, provedor não confirmou o vencedor dos pontos" = "Momentum geschätzt, Anbieter hat den Punktgewinner nicht bestätigt";
+"Nenhum jogo pendente com dois jogadores definidos." = "Kein ausstehendes Spiel mit zwei festgelegten Spielern.";
+"Nenhuma partida disponível agora. Sincronize ou aguarde jogos dos seus favoritos." = "Kein Spiel gerade verfügbar. Synchronisiere oder warte auf Spiele deiner Favoriten.";
+"Ninguém comentou ainda" = "Noch niemand hat kommentiert";
+"Nome e avatar" = "Name und Avatar";
+"Notificações bloqueadas pelo iOS. Reative em Ajustes para receber alertas." = "Mitteilungen von iOS blockiert. Reaktiviere sie in den Einstellungen, um Warnungen zu erhalten.";
+"Nova previsão" = "Neue Vorhersage";
+"NÃO ANTES DE" = "NICHT VOR";
+"Não, obrigado" = "Nein, danke";
+"Números derivados da timeline ao vivo. Podem se ajustar durante a partida conforme novos lances chegam." = "Zahlen aus der Live-Zeitleiste abgeleitet. Sie können sich während des Spiels anpassen, wenn neue Ballwechsel eintreffen.";
+"O Match Point monta seu feed, tour e alertas a partir desses favoritos. Dá para mudar tudo depois." = "Match Point baut deinen Feed, deine Tour und Warnungen aus diesen Favoriten. Alles lässt sich später ändern.";
+"O app sincroniza torneios, jogadores e rankings automaticamente em segundo plano — você não precisa fazer nada. Exportar gera um JSON com perfil, favoritos, previsões e posts (LGPD Art. 18)." = "Die App synchronisiert Turniere, Spieler und Ranglisten automatisch im Hintergrund. Du musst nichts tun. Der Export erzeugt eine JSON-Datei mit Profil, Favoriten, Tipps und Beiträgen (LGPD Art. 18).";
+"O backend deve armazenar o token com retenção limitada, remover tokens inválidos e respeitar opt-in/opt-out." = "Das Backend muss das Token mit begrenzter Aufbewahrung speichern, ungültige Tokens entfernen und Opt-in/Opt-out respektieren.";
+"O login social usa a conta iCloud ativa neste aparelho. Para trocar usuário, altere a conta iCloud nos Ajustes do iOS e volte para verificar." = "Der Social Login verwendet den auf diesem Gerät aktiven iCloud-Account. Um den Nutzer zu wechseln, ändere den iCloud-Account in den iOS-Einstellungen und komm zum Prüfen zurück.";
+"O token APNs identifica este aparelho para entrega de notificações, mas não deve ser exibido publicamente nem vendido." = "Das APNs-Token identifiziert dieses Gerät für die Zustellung von Mitteilungen, sollte aber nicht öffentlich angezeigt oder verkauft werden.";
+"O wizard usa pontos simbólicos que não valem dinheiro real. Mesmo assim, você pode configurar limites pessoais aqui — o app respeita a decisão e bloqueia novas apostas fora do que você estabeleceu." = "Der Assistent nutzt symbolische Punkte ohne Geldwert. Trotzdem kannst du hier persönliche Limits setzen; die App respektiert sie und blockiert neue Tipps außerhalb deiner Vorgaben.";
+"ORDEM DE JOGOS" = "SPIELPLAN";
+"Observabilidade" = "Observability";
+"Observabilidade do produto" = "Produkt-Observability";
+"Odds exigem ID externo da partida. Sincronize antes." = "Quoten erfordern die externe Match-ID. Synchronisiere zuerst.";
+"Os pontos são apenas simbólicos — não valem dinheiro real, prêmios físicos ou qualquer recompensa fora do app. Servem só pra alimentar seu ranking de tipster contra outros usuários." = "Die Punkte sind rein symbolisch. Sie haben keinen Geldwert, keine Sachpreise und keine Belohnung außerhalb der App. Sie zählen nur für deine Tipster-Rangliste gegen andere Nutzer.";
+"PARTIDAS" = "SPIELE";
+"POR SUPERFÍCIE" = "NACH BELAG";
+"PRESSÃO" = "DRUCK";
+"PRÓXIMO FAVORITO" = "NÄCHSTER FAVORIT";
+"Partida ao vivo" = "Live-Spiel";
+"Partidas dos seus favoritos, jogos ao vivo e momentos-chave — curados pra você." = "Spiele deiner Favoriten, Live-Spiele und Schlüsselmomente — für dich kuratiert.";
+"Partidas em aberto" = "Offene Spiele";
+"Partidas favoritadas" = "Favorisierte Spiele";
+"Pausa temporária" = "Temporäre Pause";
+"Perfil API exige o ID externo do jogador. Sincronize antes." = "Das API-Profil erfordert die externe Spieler-ID. Synchronisiere zuerst.";
+"Perfil público" = "Öffentliches Profil";
+"Permissão do sistema, tipos de evento, antecedência e push remoto — tudo numa tela." = "Systemberechtigung, Ereignistypen, Vorlaufzeit und Remote-Push — alles auf einem Bildschirm.";
+"Permitir notificações" = "Mitteilungen erlauben";
+"Personalizar feed" = "Feed personalisieren";
+"Personalização do perfil" = "Profilanpassung";
+"Personalize o que aparece no seu feed." = "Personalisiere, was in deinem Feed erscheint.";
+"Placar" = "Spielstand";
+"Política de Privacidade" = "Datenschutzerklärung";
+"Pontos simbólicos" = "Symbolische Punkte";
+"Por que estamos destacando isso" = "Warum wir das hervorheben";
+"Por que está aqui" = "Warum das hier ist";
+"Por que está em destaque" = "Warum das hervorgehoben wird";
+"Preciso de ajuda" = "Ich brauche Hilfe";
+"Previsão" = "Vorhersage";
+"Previsão criada!" = "Vorhersage erstellt!";
+"Prioridade agora" = "Priorität jetzt";
+"Probabilidade ao vivo" = "Live-Wahrscheinlichkeit";
+"Produto" = "Produkt";
+"Projeção" = "Projektion";
+"Prévia da partida" = "Match-Vorschau";
+"Próximo jogo, ranking, forma, rivalidade, calendário e alertas em um só lugar." = "Nächstes Spiel, Rangliste, Form, Rivalität, Kalender und Warnungen an einem Ort.";
+"Pts" = "Pkt";
+"QUADRA AO VIVO" = "LIVE-PLATZ";
+"Qual tour mostrar" = "Welche Tour anzeigen";
+"Quando a partida começar, esta aba destaca pressão, momentum e contexto da quadra em tempo real." = "Wenn das Spiel beginnt, hebt dieser Tab Druck, Momentum und Platz-Kontext in Echtzeit hervor.";
+"Quando ligado, o app envia token APNs, favoritos, regras e contrato de data plane ao backend. Ao desligar, envia uma revogação para parar pushes remotos." = "Wenn aktiviert, sendet die App APNs-Token, Favoriten, Regeln und Data-Plane-Vertrag ans Backend. Beim Deaktivieren wird ein Widerruf gesendet, um Remote-Pushes zu stoppen.";
+"Quando ligado, partidas com seus favoritos pulam pro topo do feed mesmo se outros jogos estiverem ao vivo." = "Wenn aktiviert, springen Spiele mit deinen Favoriten an die Spitze des Feeds, auch wenn andere Spiele live sind.";
+"Quer ser avisado quando jogadores, partidas ou torneios favoritos estiverem acontecendo?" = "Möchtest du benachrichtigt werden, wenn deine Lieblingsspieler, -spiele oder -turniere stattfinden?";
+"Radar dos favoritos" = "Favoriten-Radar";
+"Ranking de simples" = "Einzelrangliste";
+"Recap do jogo" = "Match-Zusammenfassung";
+"Recriar alertas agendados" = "Geplante Warnungen neu erstellen";
+"Reenviar token ao backend" = "Token erneut an Backend senden";
+"Refazer onboarding" = "Onboarding wiederholen";
+"Registrar no APNs" = "Bei APNs registrieren";
+"Regras" = "Regeln";
+"Remover suposição" = "Annahme entfernen";
+"Salvar backend de push" = "Push-Backend speichern";
+"Salvar regras" = "Regeln speichern";
+"Se ambos os campos estiverem preenchidos, o app pausa apostas novas quando você acumular a sequência de derrotas escolhida." = "Wenn beide Felder ausgefüllt sind, pausiert die App neue Tipps, sobald du die gewählte Niederlagenserie erreichst.";
+"Se só puder ver 3 hoje" = "Wenn du heute nur 3 sehen kannst";
+"Selecione uma partida acima para criar uma enquete." = "Wähle oben ein Spiel, um eine Umfrage zu erstellen.";
+"Sem dinheiro real" = "Kein echtes Geld";
+"Sem enquetes ainda" = "Noch keine Umfragen";
+"Sem histórico contra o próximo adversário." = "Kein Verlauf gegen den nächsten Gegner.";
+"Sem partidas finalizadas com superfície registrada." = "Keine abgeschlossenen Spiele mit erfasstem Belag.";
+"Sem próximo jogo sincronizado ainda." = "Noch kein nächstes Spiel synchronisiert.";
+"Sem regras carregadas do backend." = "Keine Regeln vom Backend geladen.";
+"Sets" = "Sätze";
+"Siga jogadores na aba Jogadores ou no perfil do atleta." = "Folge Spielern im Tab Spieler oder aus dem Profil des Athleten.";
+"Simulador de cenários" = "Szenario-Simulator";
+"Simular cenários de ranking" = "Ranking-Szenarien simulieren";
+"Sinais avançados" = "Erweiterte Signale";
+"Sincronizando partidas" = "Spiele werden synchronisiert";
+"Sincronizando ranking global…" = "Globale Rangliste wird synchronisiert…";
+"Sincronize partidas do torneio para montar a chave." = "Synchronisiere Turnierspiele, um die Auslosung aufzubauen.";
+"Sincronize partidas para abrir enquetes por jogo." = "Synchronisiere Spiele, um Umfragen pro Spiel zu öffnen.";
+"Sincronize partidas para abrir salas por jogo." = "Synchronisiere Spiele, um Räume pro Spiel zu öffnen.";
+"Sincronize partidas para conectar comentários a um jogo." = "Synchronisiere Spiele, um Kommentare mit einem Spiel zu verbinden.";
+"Sincronize rankings para mostrar a tabela do torneio." = "Synchronisiere Ranglisten, um die Turniertabelle anzuzeigen.";
+"Stats-chave" = "Kernstatistiken";
+"Status & Permissões" = "Status & Berechtigungen";
+"Status admin" = "Admin-Status";
+"Status da conexão ao vivo" = "Status der Live-Verbindung";
+"Storylines" = "Storylines";
+"TIE-BREAK" = "TIE-BREAK";
+"Tema Grand Slam" = "Grand-Slam-Thema";
+"Tema do app" = "App-Design";
+"Tentar abrir novamente" = "Erneut versuchen zu öffnen";
+"Tipos de alerta" = "Warnungstypen";
+"Torneios disputados" = "Bestrittene Turniere";
+"Torneios favoritos" = "Lieblingsturniere";
+"Total" = "Gesamt";
+"Tours" = "Touren";
+"URL deve ser https:// e ter host" = "Die URL muss https:// sein und einen Host haben";
+"Uma regra por linha. O backend mantém auditoria da alteração e aplica o conjunto salvo como referência de comunidade." = "Eine Regel pro Zeile. Das Backend protokolliert Änderungen und wendet das gespeicherte Set als Community-Referenz an.";
+"Use a faixa de datas para navegar por todos os dias do torneio." = "Nutze die Datumsleiste, um durch alle Turniertage zu navigieren.";
+"Uso recente" = "Neueste Nutzung";
+"Uso simbólico" = "Symbolische Nutzung";
+"Ver perfil público" = "Öffentliches Profil ansehen";
+"Verificar iCloud e perfil" = "iCloud und Profil prüfen";
+"Você ativou alertas locais aqui no app, mas a permissão de notificação está negada nas Ajustes do iOS. Nenhuma notificação está sendo entregue até reativar." = "Du hast lokale Warnungen hier in der App aktiviert, aber die Mitteilungsberechtigung ist in den iOS-Einstellungen verweigert. Es werden keine Mitteilungen zugestellt, bis du sie reaktivierst.";
+"Você não receberá lembretes antes da partida, walk-on, começo nem fim. Pode reativar a qualquer momento aqui." = "Du erhältst keine Erinnerungen vor dem Spiel, Walk-on, Start oder Ende. Du kannst sie jederzeit hier reaktivieren.";
+"Você não receberá lembretes antes da partida, walk-on, começo nem fim. Pode reativar a qualquer momento." = "Du erhältst keine Erinnerungen vor dem Spiel, Walk-on, Start oder Ende. Du kannst sie jederzeit reaktivieren.";
+"Voltar" = "Zurück";
+"WebSocket disponível apenas com API Tennis. Scores chegam via REST." = "WebSocket nur mit API Tennis verfügbar. Punktestände kommen per REST.";
+"WebSocket disponível apenas com API Tennis. Use Sync para atualizar via REST." = "WebSocket nur mit API Tennis verfügbar. Nutze Sync, um per REST zu aktualisieren.";
+"Zerar" = "Zurücksetzen";
+"Zona de perigo" = "Gefahrenzone";
+"ao vivo" = "live";
+"jogos" = "Spiele";
+"mais recente →" = "aktuellste →";
+"quadras" = "Plätze";
+"vs" = "vs";
+"×" = "×";
+"ÚLTIMO ENCONTRO" = "LETZTE BEGEGNUNG";
+"ÚLTIMOS ENCONTROS" = "LETZTE BEGEGNUNGEN";
+"Última sincronização" = "Letzte Synchronisation";
+"Útil após mudar favoritos ou tipos — reagenda os pushs locais imediatamente." = "Nützlich nach Änderung von Favoriten oder Typen — plant lokale Pushes sofort neu.";
+"Útil se você acabou de mudar tipos de alerta ou favoritos e quer reagendar os pushs locais imediatamente." = "Nützlich, wenn du gerade Warnungstypen oder Favoriten geändert hast und lokale Pushes sofort neu planen willst.";
+"–" = "–";
+"—" = "—";
+"•" = "•";
+
+// MARK: - Ranking scenario templates
+
+"Escolha um vencedor por partida restante — projetamos como isso muda o ranking %@." = "Wähle für jedes verbleibende Spiel einen Sieger — wir projizieren, wie sich das %@-Ranking verändert.";
+"%d suposições" = "%d Annahmen";
+"Escolha um vencedor abaixo para ver o impacto no ranking." = "Wähle unten einen Sieger, um die Auswirkung auf das Ranking zu sehen.";
+"Nenhuma mudança projetada nas posições atuais." = "Keine projizierte Änderung der aktuellen Positionen.";
+"%@%d pts" = "%@%d Pkt.";
+"%d jogos" = "%d Spiele";
+
+// MARK: - Match intelligence
+
+"Está ao vivo agora" = "Jetzt live";
+"Partida favoritada" = "Favorisiertes Spiel";
+"Jogador favorito: %@" = "Favoritenspieler: %@";
+" e " = " und ";
+"Torneio favorito: %@" = "Favorisiertes Turnier: %@";
+"em menos de 1h" = "in weniger als 1 Std.";
+"em ~%dh" = "in ca. %d Std.";
+"Começa %@" = "Beginnt %@";
+"Top 10: %@ (#%d)" = "Top 10: %@ (#%d)";
+"Break point ativo" = "Aktiver Breakball";
+"Ajuste personalizado (IA)" = "Personalisierte Anpassung (KI)";
+"Must Watch" = "Unbedingt ansehen";
+"High Relevance" = "Hohe Relevanz";
+"Worth Checking" = "Einen Blick wert";
+"Background" = "Hintergrund";
+"Sem previsão" = "Keine Prognose";
+"Equilibrado" = "Ausgeglichen";
+"%@ está ao vivo. %@" = "%@ ist live. %@";
+"%@ começa %@ em %@." = "%@ beginnt %@ bei %@.";
+"%@ terminou com %@." = "%@ endete mit %@.";
+"%@ segue em %@." = "%@ läuft weiter bei %@.";
+"Abrir agora" = "Jetzt öffnen";
+"Vale ativar alerta" = "Alarm lohnt sich";
+"Bom para revisar histórico" = "Gut zum Verlauf prüfen";
+"Acompanhar se sobrar tempo" = "Verfolgen, wenn Zeit bleibt";
+"game %@" = "Game %@";
+"pontos %@" = "Punkte %@";
+"saque %@" = "Aufschlag %@";
+"Sem telemetria adicional." = "Keine zusätzliche Telemetrie.";
+
+// MARK: - Remaining direct SwiftUI literals
+
+"\"Sistema\" segue o tema do iOS. Mudanças são aplicadas imediatamente." = "\"System\" folgt dem iOS-Design. Änderungen werden sofort übernommen.";
+"Em \"Automático\", o app usa as cores do Slam em andamento (AO, Roland Garros, Wimbledon, US Open). Fora de temporada mantém o tema clássico." = "Bei \"Automatisch\" nutzt die App die Farben des laufenden Slams (AO, Roland Garros, Wimbledon, US Open). Außerhalb der Saison bleibt das klassische Design aktiv.";
+"Toque longo no número da versão para abrir o diagnóstico de provedor (uso interno). \"Refazer onboarding\" volta pra tela inicial de boas-vindas — seus dados (favoritos, previsões, posts) ficam intactos." = "Drücke lange auf die Versionsnummer, um die Anbieterdiagnose zu öffnen (interne Nutzung). \"Onboarding wiederholen\" führt zurück zum Begrüßungsbildschirm — deine Daten (Favoriten, Vorhersagen, Posts) bleiben erhalten.";
+"Em \"Automático\", o app usa as cores do Slam em andamento. Escolher um Slam específico congela as cores deste Slam o ano todo." = "Bei \"Automatisch\" nutzt die App die Farben des laufenden Slams. Ein bestimmter Slam fixiert dessen Farben für das ganze Jahr.";
+"Ao desativar \"Enviar token ao backend\", o app envia uma revogação para parar pushes remotos." = "Wenn \"Token an Backend senden\" deaktiviert wird, sendet die App einen Widerruf, um Remote-Pushes zu stoppen.";
+"Esconde partidas sem ninguém famoso, fora dos seus favoritos. O Match Brain decide o que é \"importante\" baseado em ranking, favorito e momento ao vivo." = "Blendet Spiele ohne bekannte Spieler außerhalb deiner Favoriten aus. Match Brain entscheidet anhand von Ranking, Favoriten und Live-Moment, was \"wichtig\" ist.";
+"F" = "F";
+
+// MARK: - Match Brain narrative
+
+"saque indefinido" = "Aufschlag unklar";
+"%@ sacando" = "%@ schlägt auf";
+"%@. %@ que pode mudar o set." = "%@. %@ kann den Satz kippen.";
+"%@. Match point: a partida pode acabar neste game." = "%@. Match point: the match can end in this game.";
+"Tie-break em andamento. Cada mini-break pesa dobrado agora." = "Tie-break in progress. Every mini-break weighs double now.";
+"Game em construção." = "Game building.";
+"Ponto %@." = "Point %@.";
+"%@. %@" = "%@. %@";
+"Jogo chegando: %@ vs %@." = "Match coming up: %@ vs %@.";
+"Resultado consolidado: %@." = "Final result: %@.";
+"%@ a um ponto de quebrar o saque de %@." = "%@ is one point from breaking %@'s serve.";
+"Match point" = "Match point";
+"%@ pode fechar a partida neste ponto." = "%@ can close the match on this point.";
+"Set point" = "Set point";
+"Este ponto pode fechar o set atual." = "This point can close the current set.";
+"Tie-break em andamento" = "Tie-break in progress";
+"Cada mini-break pesa dobrado. Quem abrir 2 pontos vira o set." = "Every mini-break weighs double. A 2-point gap can turn the set.";
+"Virada em curso" = "Comeback in progress";
+"%@ x %@ num momento decisivo." = "%@ vs %@ in a decisive moment.";
+"O game virou zona de pressão porque quem recebe está a um ponto de quebrar." = "This game became a pressure zone because the receiver is one point from breaking.";
+"O último set foi decidido no detalhe, então qualquer oscilação de saque importa." = "The last set came down to details, so any serve wobble matters.";
+"O game travou no iguais; quem ganhar dois pontos seguidos ganha controle emocional." = "The game is stuck at deuce; two straight points can take emotional control.";
+"Ainda não há ruptura clara, mas o saque atual define o ritmo do próximo game." = "No clear break yet, but the current serve sets the rhythm for the next game.";
+"A leitura principal vem do placar final e da sequência recente dos jogadores." = "The main read comes from the final score and the players' recent run.";
+"Importa agora porque envolve favorito, placar vivo e chance real de mudar o roteiro da partida." = "It matters now because it involves a favorite, live score, and a real chance to change the match story.";
+"Importa para você porque um dos seus jogadores favoritos está diretamente envolvido." = "It matters to you because one of your favorite players is directly involved.";
+"Importa antes do início porque é a melhor janela para previsão e alerta." = "It matters before the start because this is the best window for predictions and alerts.";
+"%@ e %@ ainda têm contexto útil para ranking, forma e retrospecto." = "%@ and %@ still have useful context for ranking, form, and history.";
+"placar pressionado" = "pressured score";
+"games %@" = "games %@";
+"Este é o game mais importante agora: break point com %@." = "This is the most important game right now: break point with %@.";
+"Este game pode decidir o set." = "This game can decide the set.";
+"Este game pode decidir a partida." = "This game can decide the match.";
+"Se vencer, %@ protege posição de elite e pressiona a briga pelo topo." = "With a win, %@ protects an elite position and pressures the race for the top.";
+"Vitória pode aproximar %@ de cabeça de chave maior nas próximas semanas." = "A win can move %@ closer to a higher seed in the coming weeks.";
+"Resultado ajuda %@ a ganhar fôlego no ranking e no calendário." = "The result helps %@ gain breathing room in the ranking and calendar.";
+"Saque atual: %@" = "Current serve: %@";
+"Game atual: %@" = "Current game: %@";
+"%d set(s) no placar" = "%d set(s) on the scoreboard";
+"H2H registrado no app: %d jogo(s)" = "H2H recorded in app: %d match(es)";
+"%@ ganhou %d dos últimos %d pontos confirmados no saque." = "%@ won %d of the last %d confirmed service points.";
+"Este foi o game mais carregado até aqui: %d eventos de pressão nos últimos %d registros." = "This was the heaviest game so far: %d pressure events in the last %d records.";
+"O jogo virou porque %@ passou a dominar os registros recentes depois de uma sequência de %@." = "The match turned because %@ started dominating recent records after a run from %@.";
+
+// MARK: - Native sharing
+
+"Compartilhar partida" = "Spiel teilen";
+"Compartilhar previsão" = "Vorhersage teilen";
+"Estou acompanhando %@ no Match Point.\n%@ • %@ • %@%@" = "Ich verfolge %@ auf Match Point.\n%@ • %@ • %@%@";
+"Minha previsão no Match Point\n%@\n%@\n%@\nStatus: %@" = "Meine Match Point-Vorhersage\n%@\n%@\n%@\nStatus: %@";
+"%d pts simbólicos • retorno possível %d pts" = "%d symbolische Pkt. • möglicher Ertrag %d Pkt.";
+"Próxima" = "Bevorstehend";
+"Finalizada" = "Beendet";
+"Status pendente" = "Status ausstehend";
+"MATCH POINT PICK" = "MATCH POINT PICK";
+"matchpoint.app" = "matchpoint.app";
+"Crie previsões para abrir sua temporada social." = "Erstelle Tipps, um deine Social-Saison zu starten.";
+"Compartilhar card da previsão" = "Tipp-Karte teilen";
+"Publicar comentário do pick" = "Tipp-Kommentar posten";
+"Resumo social" = "Social-Zusammenfassung";
+"Esta semana (local)" = "Diese Woche (lokal)";
+"Temporada" = "Saison";
+"Previsões" = "Tipps";
+"Comentar este pick" = "Diesen Tipp kommentieren";
+"Conquistas" = "Abzeichen";
+"Histórico recente" = "Neueste Historie";
+
+// MARK: - Native market/legal review additions
+"Resumo" = "Kurzfassung";
+"Match Point coleta apenas o necessário para funcionar (posts sociais, favoritos, token de notificação push) e não usa esses dados para rastreamento entre apps ou empresas." = "Match Point erhebt nur, was für den Betrieb nötig ist (Social Posts, Favoriten, Push-Benachrichtigungstoken), und nutzt diese Daten nicht für Tracking über Apps oder Unternehmen hinweg.";
+"Dados que coletamos" = "Daten, die wir erfassen";
+"Posts sociais e enquetes criadas por você (NSPrivacyCollectedDataTypeOtherUserContent)." = "Social Posts und Umfragen, die du erstellst (NSPrivacyCollectedDataTypeOtherUserContent).";
+"Token de notificação remota (APNs) — enviado ao backend configurado por você, sempre via HTTPS." = "Token für Remote-Benachrichtigungen (APNs), der immer per HTTPS an das von dir konfigurierte Backend gesendet wird.";
+"Interações com o app: favoritos, predições, pontuação local (NSPrivacyCollectedDataTypeProductInteraction)." = "App-Interaktionen: Favoriten, Tipps und lokaler Punktestand (NSPrivacyCollectedDataTypeProductInteraction).";
+"Dados que NÃO coletamos" = "Daten, die wir NICHT erfassen";
+"Identificadores de rastreamento (IDFA, IDFV)." = "Tracking-Identifikatoren (IDFA, IDFV).";
+"Localização precisa ou aproximada." = "Genauer oder ungefährer Standort.";
+"Contatos, fotos, microfone ou câmera." = "Kontakte, Fotos, Mikrofon oder Kamera.";
+"Pagamentos, cartão de crédito ou informações financeiras." = "Zahlungen, Kreditkarten oder Finanzdaten.";
+"Onde os dados ficam" = "Wo die Daten gespeichert werden";
+"Dados locais ficam no SwiftData, dentro do sandbox do app." = "Lokale Daten bleiben in SwiftData innerhalb der App-Sandbox.";
+"Posts e pontuação sincronizam via iCloud privado/público quando habilitado." = "Posts und Punkte werden bei Aktivierung über privates/öffentliches iCloud synchronisiert.";
+"Token APNs vai ao backend que você configurar em Configurações." = "Das APNs-Token geht an das Backend, das du in den Einstellungen konfigurierst.";
+"Exportar seus dados a qualquer momento em Configurações." = "Du kannst deine Daten jederzeit in den Einstellungen exportieren.";
+"Excluir todos os seus dados locais com um toque em Configurações." = "Du kannst alle lokalen Daten mit einem Tippen in den Einstellungen löschen.";
+"Pedir esclarecimentos sobre uso dos dados via e-mail de suporte." = "Du kannst per Support-E-Mail Auskunft zur Datennutzung anfordern.";
+"Última atualização: %@" = "Zuletzt aktualisiert: %@";
+"Seus direitos de privacidade" = "Deine Datenschutzrechte";
+"Seus direitos (GDPR)" = "Deine Rechte (DSGVO)";
+"Seus direitos (UK GDPR)" = "Deine Rechte (UK GDPR)";
+"Seus direitos (LGPD)" = "Deine Rechte (LGPD)";
+"Seu estilo: pressão" = "Dein Stil: Druckmomente";
+"Seu estilo: grandes nomes" = "Dein Stil: große Namen";
+"Seu estilo: zebra possível" = "Dein Stil: Außenseiter im Blick";
+"No horário que você prefere" = "In deinem bevorzugten Zeitfenster";
+"contexto geral" = "allgemeiner Kontext";
+"%@: %@" = "%@: %@";
+"Momentos de pressão" = "Druckmomente";
+"Grandes nomes" = "Große Namen";
+"Zebras e viradas" = "Überraschungen und Comebacks";
+"Qualquer horário" = "Jederzeit";
+"Meu horário usual" = "Meine übliche Zeit";
+"Manhã" = "Morgen";
+"Tarde" = "Nachmittag";
+"Noite" = "Abend";
+"Madrugada" = "Späte Nacht";
+"Torneio" = "Turnier";
+"Partida" = "Match";
+"torneio" = "Turnier";
+"%@ é a melhor abertura agora: %@." = "%@ ist jetzt der beste Einstieg: %@.";
+"%@ é o alerta mais importante da próxima janela." = "%@ ist der wichtigste Alert im nächsten Zeitfenster.";
+"%@ tem o contexto mais útil para revisar." = "%@ bietet den nützlichsten Kontext zum Prüfen.";
+"começa em %dh" = "beginnt in %d Std.";
+"%d%% de sinais úteis" = "%d%% nützliche Signale";
+"%d de %d aberturas recomendadas viraram sinal positivo." = "%d von %d empfohlenen Einstiegen wurden zu einem positiven Signal.";
+"Aprendendo com suas aberturas" = "Lernt aus deinen Einstiegen";
+"Abra jogos recomendados para o Match Brain medir quais sinais realmente valem seu tempo." = "Öffne empfohlene Matches, damit Match Brain lernt, welche Signale deine Zeit wirklich wert sind.";
+"Sem jogo forte no radar agora" = "Gerade kein starkes Match auf dem Radar";
+"Melhor jogo ao vivo agora" = "Bestes Live-Match jetzt";
+"Abra agora" = "Jetzt öffnen";
+"Prepare o alerta certo" = "Den passenden Alert setzen";
+"Contexto mais útil para revisar" = "Nützlichster Kontext zum Prüfen";
+"Ao vivo agora" = "Jetzt live";
+"Sem telemetria extra ainda." = "Noch keine zusätzlichen Telemetriedaten.";
+"%@: %@ agora." = "%@: %@ jetzt.";
+"%@: %@ com jogo em andamento." = "%@: %@ bei laufendem Match.";
+"sinal forte" = "starkes Signal";
+"%@: começa em menos de 90 min." = "%@: beginnt in weniger als 90 Min.";
+
+// MARK: - Match Brain availability localization
+"Jogador 1" = "Spieler 1";
+"Jogador 2" = "Spieler 2";
+"modelo baixando" = "Modell wird geladen";
+"dispositivo não elegível" = "Gerät nicht geeignet";
+"Apple Intelligence off" = "Apple Intelligence aus";
+"iOS mais antigo" = "älteres iOS";

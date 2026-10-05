@@ -1,0 +1,45 @@
+// pt-BR is the project's development language. Keys here mirror the
+// English file in en.lproj/Localizable.strings — the key is intentionally the
+// pt-BR sentence so `Text("Partidas")` works identically in both locales.
+
+"Partidas" = "Partidas";
+"Ao Vivo" = "Ao Vivo";
+"Para Você" = "Para Você";
+"Match Point" = "Match Point";
+"Perfil" = "Perfil";
+"Meus Jogadores" = "Meus Jogadores";
+"Favoritos" = "Favoritos";
+"Torneios" = "Torneios";
+"Rankings" = "Rankings";
+"Jogadores" = "Jogadores";
+"Alertas" = "Alertas";
+"Provider" = "Provider";
+"Todas" = "Todas";
+"Ao vivo" = "Ao vivo";
+"Próximas" = "Próximas";
+"Para você" = "Para você";
+"Todos" = "Todos";
+
+// Onboarding
+"Pular" = "Pular";
+"Entrar no app" = "Entrar no app";
+"Sincronizar agora" = "Sincronizar agora";
+"Adicionar populares" = "Adicionar populares";
+"Permitir" = "Permitir";
+"Verificar" = "Verificar";
+"Notificações" = "Notificações";
+"iCloud" = "iCloud";
+"Permissões" = "Permissões";
+"Dados iniciais" = "Dados iniciais";
+"Favoritos iniciais" = "Favoritos iniciais";
+"Li e aceito a política de privacidade" = "Li e aceito a política de privacidade";
+"Ler política de privacidade" = "Ler política de privacidade";
+
+// Settings / general
+"Configurações" = "Configurações";
+"Versão" = "Versão";
+"Fechar" = "Fechar";
+"Cancelar" = "Cancelar";
+"Excluir" = "Excluir";
+"OK" = "OK";
+"Salvar" = "Salvar";

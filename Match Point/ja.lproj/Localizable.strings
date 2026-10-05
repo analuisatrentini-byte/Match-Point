@@ -1,0 +1,627 @@
+// Japanese (ja) mirror of pt-BR.lproj/Localizable.strings.
+
+// MARK: - Tab titles
+
+"Partidas" = "試合";
+"Ao Vivo" = "ライブ";
+"Para Você" = "あなたへ";
+"Match Point" = "Match Point";
+"Perfil" = "プロフィール";
+"Meus Jogadores" = "マイプレーヤー";
+"Favoritos" = "お気に入り";
+"Torneios" = "トーナメント";
+"Rankings" = "ランキング";
+"Jogadores" = "プレーヤー";
+"Alertas" = "通知";
+"Provider" = "プロバイダ";
+
+// MARK: - Common filters
+
+"Todas" = "すべて";
+"Ao vivo" = "ライブ";
+"Próximas" = "予定";
+"Para você" = "あなたへ";
+"Todos" = "すべて";
+
+// MARK: - Onboarding
+
+"Pular" = "スキップ";
+"Entrar no app" = "アプリに入る";
+"Sincronizar agora" = "今すぐ同期";
+"Adicionar populares" = "人気を追加";
+"Permitir" = "許可";
+"Verificar" = "確認";
+"Notificações" = "通知";
+"iCloud" = "iCloud";
+"Permissões" = "権限";
+"Dados iniciais" = "初期データ";
+"Favoritos iniciais" = "初期のお気に入り";
+"Li e aceito a política de privacidade" = "プライバシーポリシーを読み、同意します";
+"Ler política de privacidade" = "プライバシーポリシーを読む";
+"Escolha uma opção acima" = "上のオプションから選択";
+
+// MARK: - Settings / general
+
+"Configurações" = "設定";
+"Versão" = "バージョン";
+"Fechar" = "閉じる";
+"Cancelar" = "キャンセル";
+"Excluir" = "削除";
+"OK" = "OK";
+"Salvar" = "保存";
+"Atualizar" = "更新";
+"Carregar" = "読み込み";
+"Sincronizar" = "同期";
+"Recarregar" = "再読み込み";
+
+// MARK: - Sections / labels
+
+"Info" = "情報";
+"Status" = "ステータス";
+"Saldo" = "残高";
+"Ranking" = "ランキング";
+"Histórico" = "履歴";
+"Estatísticas" = "統計";
+"Confirmar previsão" = "予測を確定";
+"Saldo insuficiente" = "残高不足";
+"Mínimo 4 caracteres" = "最低4文字";
+"Criar poll" = "投票を作成";
+"Publicar comentário" = "コメントを投稿";
+"Enviar resposta" = "返信を送信";
+"Recarregar categorias" = "カテゴリを再読み込み";
+"Iniciar Live Activity" = "Live Activityを開始";
+"Carregar mais partidas" = "もっと試合を読み込む";
+"Carregar mais WTA" = "WTAをもっと読み込む";
+"Carregar mais ATP" = "ATPをもっと読み込む";
+"Quem vence?" = "誰が勝つ?";
+
+// MARK: - Empty states / errors
+
+"Sem rankings" = "ランキングなし";
+"Nenhum favorito ainda" = "お気に入りはまだありません";
+"Sem partidas elegíveis" = "対象の試合はありません";
+"Sem jogadores sincronizados" = "同期されたプレーヤーはいません";
+"Nenhum jogador encontrado" = "プレーヤーが見つかりません";
+"Falha ao excluir" = "削除に失敗しました";
+
+// MARK: - Live / WebSocket states
+
+"Live On" = "Live On";
+"Iniciar Live" = "ライブ開始";
+"Parar Live" = "ライブ停止";
+"Reconectar" = "再接続";
+"Sinal ao vivo" = "ライブ信号";
+"Sem rankings para a categoria selecionada." = "選択したカテゴリのランキングはありません。";
+
+// MARK: - Privacy / consent
+
+"Excluir todos os meus dados?" = "すべてのデータを削除しますか?";
+"Resultado" = "結果";
+"Em resposta a %@" = "%@への返信";
+"Privacidade" = "プライバシー";
+"Identidade" = "アイデンティティ";
+"Dados" = "データ";
+"Como o Match Point trata seus dados." = "Match Pointがデータをどう扱うか。";
+"Direito de portabilidade (LGPD)" = "データポータビリティの権利（LGPD）";
+
+// MARK: - Tours / surfaces
+
+"ATP" = "ATP";
+"WTA" = "WTA";
+"Tour" = "ツアー";
+"Hard" = "ハード";
+"Clay" = "クレー";
+"Grass" = "グラス";
+
+// MARK: - Common short labels
+
+"Sim" = "はい";
+"Não" = "いいえ";
+"LIVE" = "LIVE";
+"Live" = "ライブ";
+"Live Center" = "ライブセンター";
+"Live Tracker" = "ライブトラッカー";
+"Live Match" = "ライブ試合";
+"Score" = "スコア";
+"Stats" = "スタッツ";
+"Overview" = "概要";
+"Timeline" = "タイムライン";
+"Odds" = "オッズ";
+"Players" = "プレーヤー";
+"Head-to-Head" = "対戦成績";
+"Previous Matches" = "過去の試合";
+"Populares" = "人気";
+"Recentes" = "最近";
+"Fixados" = "ピン留め";
+"Ocultos" = "非表示";
+"Reportados" = "報告済み";
+"Aparência" = "外観";
+"Pré-jogo" = "試合前";
+"Por set" = "セット別";
+
+// MARK: - Empty / status descriptions
+
+"Nada por aqui no momento." = "現在は何もありません。";
+"Nada neste filtro." = "このフィルターには何もありません。";
+"Nenhuma partida hoje." = "今日は試合がありません。";
+"Nenhum próximo jogo no momento." = "現在、予定の試合はありません。";
+"Nenhuma previsão criada ainda." = "まだ予測が作成されていません。";
+"Sem previsões públicas ainda." = "まだ公開予測はありません。";
+"Sem comentários reportados ou fixados." = "報告されたコメントやピン留めされたコメントはありません。";
+"Sem próximos jogos confirmados." = "確定した予定の試合はありません。";
+"Sem partidas conectadas aos seus favoritos ainda." = "お気に入りに関連する試合はまだありません。";
+"Sem histórico H2H disponível para esses jogadores." = "これらのプレーヤーの対戦履歴はありません。";
+"Sem histórico head-to-head suficiente." = "対戦履歴が十分ではありません。";
+"Sem perfil disponível na API para este jogador." = "このプレーヤーのAPIプロフィールはありません。";
+"Ainda não há partidas finalizadas suficientes." = "終了した試合がまだ十分ではありません。";
+"Nenhum favorito público ainda." = "公開お気に入りはまだありません。";
+"Nenhuma odd publicada para essa partida no momento." = "この試合のオッズは現在公開されていません。";
+
+// MARK: - Diagnostic / sync prompts
+
+"Configuração salva. O próximo Sync já usa esses valores." = "設定を保存しました。次の同期からこれらの値が使用されます。";
+"A API key é igual ao placeholder. Substitua pela sua chave real." = "APIキーがプレースホルダのままです。実際のキーに置き換えてください。";
+"Complete a API key antes do diagnóstico." = "診断の前にAPIキーを入力してください。";
+"Informe uma API key apenas para testes locais sem backend." = "バックエンドなしのローカルテスト用にのみAPIキーを入力してください。";
+"Toque longo no número da versão para abrir o diagnóstico de provedor (uso interno)." = "バージョン番号を長押しするとプロバイダ診断が開きます (内部使用)。";
+
+// MARK: - Push / notification copy
+
+"Push remoto" = "リモートプッシュ";
+"As notificações estão desativadas no sistema. Reative em Ajustes para receber alertas." = "システムで通知が無効になっています。設定で再度有効にすると通知を受け取れます。";
+
+// MARK: - Persistence recovery copy
+
+"Não foi possível abrir seus dados" = "データを開けませんでした";
+"Sessão temporária: dados não serão salvos ao fechar." = "一時セッション: 閉じるとデータは保存されません。";
+"Use a sessão temporária apenas para diagnosticar. Dados criados nela não serão persistidos." = "一時セッションは診断のみに使用してください。作成されたデータは保持されません。";
+"O app não vai trocar para banco em memória sem avisar, porque isso faria os dados sumirem ao fechar." = "アプリは通知なくインメモリDBに切り替えません。切り替えると閉じたときにデータが失われるためです。";
+
+// MARK: - Account deletion copy
+
+"Apaga seu perfil, predições, posts, votos e desativa todos os favoritos. Ação irreversível." = "プロフィール、予測、投稿、投票を削除し、すべてのお気に入りを無効化します。取り消せない操作です。";
+"Remove perfil, predições, posts, votos e desativa favoritos. Ação irreversível e atende ao Art. 18 da LGPD." = "プロフィール、予想、投稿、投票を削除し、お気に入りを無効にします。取り消しできない操作で、LGPD第18条に沿った対応です。";
+"Gera um arquivo JSON com perfil, favoritos, predições e posts. Você decide como compartilhar." = "プロフィール、お気に入り、予測、投稿を含むJSONファイルを生成します。共有方法はあなたが決めます。";
+
+// MARK: - First-run / onboarding copy
+
+"Necessário para sincronizar dados, registrar push e usar o iCloud." = "データの同期、プッシュ登録、iCloud利用に必要です。";
+"Seu nome e avatar aparecem no perfil, posts e rankings. Use a aba Perfil para criar conta, entrar ou recuperar acesso." = "名前とアバターはプロフィール、投稿、ランキングに表示されます。アカウント作成、サインイン、アクセス復旧はプロフィールタブで行えます。";
+"Sincronize a API ou adicione uma lista inicial de jogadores populares para começar agora." = "APIを同期するか、人気プレーヤーの初期リストを追加してすぐに始めましょう。";
+"Siga jogadores, torneios e partidas para acompanhar tudo aqui." = "プレーヤー、トーナメント、試合をフォローしてここで追跡できます。";
+"Volta para a tela inicial com o passo a passo de favoritos e permissões." = "お気に入りと権限のステップバイステップを含む初期画面に戻ります。";
+
+// MARK: - Ranking scenario
+
+"E se?" = "もしも?";
+"Zerar" = "リセット";
+"Simulador de cenários" = "シナリオシミュレーター";
+"Escolha um vencedor por partida restante — projetamos como isso muda o ranking %@." = "残りの各試合で勝者を選ぶと、%@ランキングへの影響を予測します。";
+"Projeção" = "予測";
+"%d suposições" = "%d件の仮定";
+"Escolha um vencedor abaixo para ver o impacto no ranking." = "ランキングへの影響を見るには、下で勝者を選んでください。";
+"Nenhuma mudança projetada nas posições atuais." = "現在の順位に予測される変動はありません。";
+"%@%d pts" = "%@%d pt";
+"Partidas em aberto" = "未確定の試合";
+"%d jogos" = "%d試合";
+"Nenhum jogo pendente com dois jogadores definidos." = "2人のプレーヤーが確定した未決試合はありません。";
+"Remover suposição" = "仮定を削除";
+"A definir" = "未定";
+
+// MARK: - Match intelligence
+
+"Está ao vivo agora" = "現在ライブ";
+"Partida favoritada" = "お気に入りの試合";
+"Jogador favorito: %@" = "お気に入りプレーヤー: %@";
+" e " = " と ";
+"Torneio favorito: %@" = "お気に入りトーナメント: %@";
+"em menos de 1h" = "1時間以内";
+"em ~%dh" = "約%d時間後";
+"Começa %@" = "%@開始";
+"Top 10: %@ (#%d)" = "トップ10: %@ (#%d)";
+"Break point ativo" = "ブレークポイント中";
+"Ajuste personalizado (IA)" = "パーソナライズ調整 (AI)";
+"Must Watch" = "必見";
+"High Relevance" = "関連度高";
+"Worth Checking" = "要チェック";
+"Background" = "背景";
+"Sem previsão" = "予測なし";
+"Equilibrado" = "拮抗";
+"%@ está ao vivo. %@" = "%@はライブ中です。%@";
+"%@ começa %@ em %@." = "%@は%@に%@で開始します。";
+"%@ terminou com %@." = "%@は%@で終了しました。";
+"%@ segue em %@." = "%@は%@で進行中です。";
+"Abrir agora" = "今すぐ開く";
+"Vale ativar alerta" = "通知を有効にする価値あり";
+"Bom para revisar histórico" = "履歴確認向き";
+"Acompanhar se sobrar tempo" = "時間があればフォロー";
+"game %@" = "ゲーム %@";
+"pontos %@" = "ポイント %@";
+"saque %@" = "サーブ %@";
+"Sem telemetria adicional." = "追加テレメトリはありません。";
+
+// MARK: - Remaining direct SwiftUI literals
+
+"\"Sistema\" segue o tema do iOS. Mudanças são aplicadas imediatamente." = "\"システム\"はiOSのテーマに従います。変更はすぐに適用されます。";
+"Em \"Automático\", o app usa as cores do Slam em andamento (AO, Roland Garros, Wimbledon, US Open). Fora de temporada mantém o tema clássico." = "\"自動\"では、開催中のSlam (AO、Roland Garros、Wimbledon、US Open) の色を使います。シーズン外はクラシックテーマを維持します。";
+"Toque longo no número da versão para abrir o diagnóstico de provedor (uso interno). \"Refazer onboarding\" volta pra tela inicial de boas-vindas — seus dados (favoritos, previsões, posts) ficam intactos." = "バージョン番号を長押しするとプロバイダ診断を開きます (内部用)。\"オンボーディングをやり直す\"はようこそ画面に戻ります。データ (お気に入り、予測、投稿) は保持されます。";
+"Em \"Automático\", o app usa as cores do Slam em andamento. Escolher um Slam específico congela as cores deste Slam o ano todo." = "\"自動\"では、開催中のSlamの色を使います。特定のSlamを選ぶと、その色が一年中固定されます。";
+"Ao desativar \"Enviar token ao backend\", o app envia uma revogação para parar pushes remotos." = "\"トークンをバックエンドに送信\"をオフにすると、アプリはリモートプッシュを停止するための取り消しを送信します。";
+"Esconde partidas sem ninguém famoso, fora dos seus favoritos. O Match Brain decide o que é \"importante\" baseado em ranking, favorito e momento ao vivo." = "有名選手がいない、またはお気に入り外の試合を非表示にします。Match Brainはランキング、お気に入り、ライブ状況から\"重要\"かどうかを判断します。";
+"F" = "F";
+
+// MARK: - Match Brain narrative
+
+"saque indefinido" = "サーバー未確認";
+"%@ sacando" = "%@のサービス";
+"%@. %@ que pode mudar o set." = "%@。%@がこのセットの流れを変える可能性があります。";
+"%@. Match point: a partida pode acabar neste game." = "%@. Match point: the match can end in this game.";
+"Tie-break em andamento. Cada mini-break pesa dobrado agora." = "Tie-break in progress. Every mini-break weighs double now.";
+"Game em construção." = "Game building.";
+"Ponto %@." = "Point %@.";
+"%@. %@" = "%@. %@";
+"Jogo chegando: %@ vs %@." = "Match coming up: %@ vs %@.";
+"Resultado consolidado: %@." = "Final result: %@.";
+"%@ a um ponto de quebrar o saque de %@." = "%@ is one point from breaking %@'s serve.";
+"Match point" = "Match point";
+"%@ pode fechar a partida neste ponto." = "%@ can close the match on this point.";
+"Set point" = "Set point";
+"Este ponto pode fechar o set atual." = "This point can close the current set.";
+"Tie-break em andamento" = "Tie-break in progress";
+"Cada mini-break pesa dobrado. Quem abrir 2 pontos vira o set." = "Every mini-break weighs double. A 2-point gap can turn the set.";
+"Virada em curso" = "Comeback in progress";
+"%@ x %@ num momento decisivo." = "%@ vs %@ in a decisive moment.";
+"O game virou zona de pressão porque quem recebe está a um ponto de quebrar." = "This game became a pressure zone because the receiver is one point from breaking.";
+"O último set foi decidido no detalhe, então qualquer oscilação de saque importa." = "The last set came down to details, so any serve wobble matters.";
+"O game travou no iguais; quem ganhar dois pontos seguidos ganha controle emocional." = "The game is stuck at deuce; two straight points can take emotional control.";
+"Ainda não há ruptura clara, mas o saque atual define o ritmo do próximo game." = "No clear break yet, but the current serve sets the rhythm for the next game.";
+"A leitura principal vem do placar final e da sequência recente dos jogadores." = "The main read comes from the final score and the players' recent run.";
+"Importa agora porque envolve favorito, placar vivo e chance real de mudar o roteiro da partida." = "It matters now because it involves a favorite, live score, and a real chance to change the match story.";
+"Importa para você porque um dos seus jogadores favoritos está diretamente envolvido." = "It matters to you because one of your favorite players is directly involved.";
+"Importa antes do início porque é a melhor janela para previsão e alerta." = "It matters before the start because this is the best window for predictions and alerts.";
+"%@ e %@ ainda têm contexto útil para ranking, forma e retrospecto." = "%@ and %@ still have useful context for ranking, form, and history.";
+"placar pressionado" = "pressured score";
+"games %@" = "games %@";
+"Este é o game mais importante agora: break point com %@." = "This is the most important game right now: break point with %@.";
+"Este game pode decidir o set." = "This game can decide the set.";
+"Este game pode decidir a partida." = "This game can decide the match.";
+"Se vencer, %@ protege posição de elite e pressiona a briga pelo topo." = "With a win, %@ protects an elite position and pressures the race for the top.";
+"Vitória pode aproximar %@ de cabeça de chave maior nas próximas semanas." = "A win can move %@ closer to a higher seed in the coming weeks.";
+"Resultado ajuda %@ a ganhar fôlego no ranking e no calendário." = "The result helps %@ gain breathing room in the ranking and calendar.";
+"Saque atual: %@" = "Current serve: %@";
+"Game atual: %@" = "Current game: %@";
+"%d set(s) no placar" = "%d set(s) on the scoreboard";
+"H2H registrado no app: %d jogo(s)" = "H2H recorded in app: %d match(es)";
+"%@ ganhou %d dos últimos %d pontos confirmados no saque." = "%@ won %d of the last %d confirmed service points.";
+"Este foi o game mais carregado até aqui: %d eventos de pressão nos últimos %d registros." = "This was the heaviest game so far: %d pressure events in the last %d records.";
+"O jogo virou porque %@ passou a dominar os registros recentes depois de uma sequência de %@." = "The match turned because %@ started dominating recent records after a run from %@.";
+
+// MARK: - Native sharing
+
+"Compartilhar partida" = "試合を共有";
+"Compartilhar previsão" = "予測を共有";
+"Estou acompanhando %@ no Match Point.\n%@ • %@ • %@%@" = "Match Pointで%@をフォロー中。\n%@ • %@ • %@%@";
+"Minha previsão no Match Point\n%@\n%@\n%@\nStatus: %@" = "Match Pointでの予測\n%@\n%@\n%@\nステータス: %@";
+"%d pts simbólicos • retorno possível %d pts" = "%dシンボルpt • 可能リターン%d pt";
+"Próxima" = "予定";
+"Finalizada" = "終了";
+"Status pendente" = "ステータス未定";
+"MATCH POINT PICK" = "MATCH POINT PICK";
+"matchpoint.app" = "matchpoint.app";
+"Crie previsões para abrir sua temporada social." = "予想を作成してソーシャルシーズンを始めましょう。";
+"Compartilhar card da previsão" = "予想カードを共有";
+"Publicar comentário do pick" = "ピックへのコメントを投稿";
+"Resumo social" = "ソーシャル概要";
+"Esta semana (local)" = "今週（ローカル）";
+"Temporada" = "シーズン";
+"Previsões" = "予想";
+"Comentar este pick" = "このピックにコメント";
+"Conquistas" = "バッジ";
+"Histórico recente" = "最近の履歴";
+
+// MARK: - Native market/legal review additions
+"15 min antes" = "15分前";
+"30 min antes" = "30分前";
+"5 min antes" = "5分前";
+"60 min antes" = "60分前";
+"A JOGAR" = "開始前";
+"A auto-exclusão bloqueia o wizard de apostas por completo pelo período escolhido. Não é possível reverter antes do término — é essa a proteção do recurso." = "自己除外を有効にすると、選択した期間中は予想アシスタントを完全にブロックします。期間終了前に解除することはできません。この仕組み自体が保護機能です。";
+"A decisão de push inteligente deve rodar no servidor, usando fila de eventos, dedupe e histórico auditável de placares." = "スマートプッシュの判断はサーバー側で実行し、イベントキュー、重複排除、監査可能なスコア履歴を使う必要があります。";
+"A lista inicial aparece automaticamente." = "最初のリストは自動的に表示されます。";
+"AO VIVO" = "ライブ";
+"ASSISTENTE DA PARTIDA" = "試合アシスタント";
+"Abrir Ajustes do iOS" = "iOS設定を開く";
+"Abrir cronograma" = "日程を開く";
+"Abrir leitura completa" = "詳細を開く";
+"Abrir sessão temporária" = "一時セッションを開始";
+"Aces, winners, break points e pontos de saque aparecem aqui quando a partida acumular mais lances na timeline ao vivo." = "ライブタイムラインにプレーが蓄積されると、エース、ウィナー、ブレークポイント、サービス時のポイントがここに表示されます。";
+"Add" = "追加";
+"Add ATP 250 (Hard)" = "ATP 250（ハード）を追加";
+"Add WTA 500 (Clay)" = "WTA 500（クレー）を追加";
+"Agenda" = "日程";
+"Agendado" = "予定済み";
+"Aguardando o primeiro lance da partida. Quando o saque sair, os eventos chegam aqui como notificações em tempo real." = "試合最初のポイントを待っています。サービスが始まると、イベントがリアルタイム通知としてここに届きます。";
+"Ainda sem dados globais. O ranking aparece depois que previsões forem liquidadas pelo servidor." = "まだグローバルデータがありません。サーバーで予想が確定されるとランキングが表示されます。";
+"Ajuda" = "ヘルプ";
+"Ajustar filtros" = "フィルターを調整";
+"Alertas bloqueados pelo iOS" = "iOSで通知がブロックされています";
+"Alertas e notificações" = "アラートと通知";
+"Alertas reagendados" = "通知を再スケジュールしました";
+"Análise" = "分析";
+"Apaga perfil, previsões, posts, votos e desfavorita todos os jogadores/torneios/partidas. Ação irreversível — atende ao Art. 18 da LGPD (direito de erasure)." = "プロフィール、予想、投稿、投票を削除し、すべての選手・大会・試合のお気に入りを解除します。取り消しできない操作で、LGPD第18条（消去権）に沿った対応です。";
+"Apostar" = "予想する";
+"As enquetes aparecem aqui assim que houver partidas no app." = "アプリに試合が入ると、投票がここに表示されます。";
+"As previsões usam apenas pontos simbólicos. O app não executa apostas, não envia ordens para bookmakers e não paga prêmios fora do ranking interno." = "予想に使うのは象徴的なポイントのみです。アプリは実際の賭けを行わず、ブックメーカーへ注文を送信せず、内部ランキング以外の賞金や報酬を支払いません。";
+"As previsões usam somente pontos simbólicos. O Match Point não aceita dinheiro, não realiza apostas reais e não substitui limites pessoais de jogo responsável." = "予想には象徴的なポイントのみを使用します。Match Point は金銭を受け取らず、実際の賭けを行わず、責任あるプレーのための個人上限の代わりにはなりません。";
+"Assistente da partida" = "試合アシスタント";
+"Ativar alertas" = "通知を有効にする";
+"Ativar auto-exclusão" = "自己除外を有効にする";
+"Banir autor" = "投稿者を禁止";
+"Buscar jogador ou país" = "選手または国を検索";
+"Buscar torneio, cidade ou país" = "大会、都市、国を検索";
+"Caminho dos favoritos" = "お気に入りの動き";
+"Canais de apoio no Brasil" = "ブラジルの相談窓口";
+"Carregando odds do provider..." = "プロバイダーからオッズを読み込み中...";
+"Carregar ranking global" = "グローバルランキングを読み込む";
+"Chave do torneio" = "ドロー表";
+"Comentar agora" = "今コメントする";
+"Comentário em destaque" = "注目コメント";
+"Comentários aparecem aqui assim que houver partidas no app." = "アプリに試合が入ると、コメントがここに表示されます。";
+"Comunidade" = "コミュニティ";
+"Concluído" = "完了";
+"Confiança dos dados" = "データ信頼度";
+"Configure limites diários, semanais e cooldowns. As apostas do wizard usam pontos simbólicos, mas os controles ajudam a manter o hábito saudável." = "1日・1週間の上限とクールダウンを設定します。アシスタントの予想は象徴的なポイントだけを使いますが、これらの管理機能は健全な使い方を保つ助けになります。";
+"Confirmar mesmo assim" = "それでも確認";
+"Conta" = "アカウント";
+"Conta e identidade" = "アカウントと本人情報";
+"Conversas" = "会話";
+"Cooldown após perdas" = "負けた後のクールダウン";
+"Criar enquete" = "投票を作成";
+"Crie um perfil em Configurações para começar a prever." = "予想を始めるには、設定でプロフィールを作成してください。";
+"DRAW" = "ドロー";
+"Defina limites em Configurações se perceber aumento de frequência, stake alto ou tentativa de recuperar perdas." = "利用頻度の増加、高いポイント投入、負けを取り戻そうとする行動に気づいたら、設定で上限を決めてください。";
+"Deixe em branco para não aplicar limite. Novas apostas que ultrapassem o valor configurado serão bloqueadas até o próximo período." = "上限を適用しない場合は空欄にしてください。設定値を超える新しい予想は、次の期間までブロックされます。";
+"Denunciar" = "通報";
+"Desativar" = "無効にする";
+"Detalhes" = "詳細";
+"Detalhes da partida" = "試合詳細";
+"Detalhes por ponto" = "ポイント別詳細";
+"ESTIMADO" = "推定";
+"Editar regras" = "ルールを編集";
+"Enquanto o período estiver ativo, nenhuma nova aposta poderá ser criada. Não é possível desfazer antes do término." = "期間中は新しい予想を作成できません。終了前に取り消すことはできません。";
+"Entendi" = "了解";
+"Escolha até 3 jogadores" = "最大3選手を選択";
+"Escolha outro dia para ver a ordem por quadra." = "コート別の進行を見るには別の日を選んでください。";
+"Escolha se você quer ver partidas do circuito masculino (ATP), feminino (WTA) ou os dois juntos." = "男子ツアー（ATP）、女子ツアー（WTA）、または両方の試合を表示するか選択してください。";
+"Estatísticas da partida" = "試合スタッツ";
+"Estatísticas expandidas em breve" = "詳細スタッツはまもなく対応";
+"Etapas concluídas" = "完了したステップ";
+"Excluir todos os meus dados" = "すべてのデータを削除";
+"Exportar meus dados (JSON)" = "データを書き出す（JSON）";
+"FINAL" = "終了";
+"Favorito" = "お気に入り";
+"Fechar draw" = "ドローを閉じる";
+"Feed State" = "フィード状態";
+"Feed vazio" = "フィードは空です";
+"Final" = "決勝";
+"Fixar" = "固定";
+"Funil de onboarding, favoritos, widgets, Live Activities, alertas, push e retenção local D1/D7." = "オンボーディング、お気に入り、ウィジェット、Live Activities、通知、プッシュ、D1/D7ローカル継続率のファネル。";
+"Gerando explicação…" = "説明を生成中…";
+"Global" = "グローバル";
+"H2H exige IDs externos de ambos os jogadores. Sincronize jogadores antes." = "H2Hには両選手の外部IDが必要です。先に選手を同期してください。";
+"HOME DO SEU JOGADOR" = "お気に入り選手ホーム";
+"Head-to-head" = "対戦成績";
+"Hoje" = "今日";
+"Home dos seus jogadores" = "お気に入り選手ホーム";
+"Identidade salva" = "プロフィールを保存しました";
+"Jogador" = "選手";
+"Jogo responsável" = "責任あるプレー";
+"Lance a lance" = "ポイント速報";
+"Limites" = "上限";
+"Limites e auto-exclusão" = "上限と自己除外";
+"Limpar filtros" = "フィルターをクリア";
+"Match Point não tem vínculo com essas organizações. Os contatos são referência pública. Se apostar deixou de ser lazer, procure ajuda — não é fraqueza pedir suporte." = "Match Point はこれらの団体と提携していません。連絡先は公開情報に基づく参考です。予想やギャンブルが楽しみでなくなった場合は相談してください。助けを求めることは弱さではありません。";
+"Max" = "最大";
+"Mestre dos alertas locais. Quando desligado, nenhum tipo abaixo dispara." = "ローカル通知の主設定です。オフにすると、下の通知タイプは送信されません。";
+"Mestre dos alertas. Quando desligado nenhum tipo abaixo dispara." = "通知の主設定です。オフにすると下の通知タイプは送信されません。";
+"Meus favoritos" = "お気に入り";
+"Modelo baseado no placar de sets, do set corrente e nos últimos pontos. Oscila conforme a partida evolui." = "セットスコア、現在のセット、直近ポイントをもとにしたモデルです。試合の進行に合わせて変動します。";
+"Moderação" = "モデレーション";
+"Modo torneio" = "大会モード";
+"Momentum" = "モメンタム";
+"Momentum estimado, provedor não confirmou o vencedor dos pontos" = "モメンタムは推定値です。プロバイダーがポイント勝者を確認していません。";
+"Nenhuma partida disponível agora. Sincronize ou aguarde jogos dos seus favoritos." = "現在表示できる試合はありません。同期するか、お気に入りの試合をお待ちください。";
+"Ninguém comentou ainda" = "まだコメントはありません";
+"Nome e avatar" = "名前とアバター";
+"Notificações bloqueadas pelo iOS. Reative em Ajustes para receber alertas." = "iOSで通知がブロックされています。通知を受け取るには設定で再度有効にしてください。";
+"Nova previsão" = "新しい予想";
+"NÃO ANTES DE" = "開始予定以降";
+"Não, obrigado" = "いいえ、結構です";
+"Números derivados da timeline ao vivo. Podem se ajustar durante a partida conforme novos lances chegam." = "ライブタイムラインから算出した数値です。新しいポイントが届くと試合中に調整される場合があります。";
+"O Match Point monta seu feed, tour e alertas a partir desses favoritos. Dá para mudar tudo depois." = "Match Point はこのお気に入りをもとにフィード、ツアー、通知を作ります。あとからいつでも変更できます。";
+"O app sincroniza torneios, jogadores e rankings automaticamente em segundo plano — você não precisa fazer nada. Exportar gera um JSON com perfil, favoritos, previsões e posts (LGPD Art. 18)." = "アプリは大会、選手、ランキングをバックグラウンドで自動同期します。操作は不要です。エクスポートすると、プロフィール、お気に入り、予想、投稿を含むJSONが生成されます（LGPD第18条）。";
+"O backend deve armazenar o token com retenção limitada, remover tokens inválidos e respeitar opt-in/opt-out." = "バックエンドはトークンを保存期間を限定して保管し、無効なトークンを削除し、オプトイン/オプトアウトを尊重する必要があります。";
+"O login social usa a conta iCloud ativa neste aparelho. Para trocar usuário, altere a conta iCloud nos Ajustes do iOS e volte para verificar." = "ソーシャルログインはこのデバイスで有効なiCloudアカウントを使用します。ユーザーを切り替えるには、iOS設定でiCloudアカウントを変更してから戻って確認してください。";
+"O token APNs identifica este aparelho para entrega de notificações, mas não deve ser exibido publicamente nem vendido." = "APNsトークンは通知配信のためにこのデバイスを識別しますが、公開表示したり販売したりしてはいけません。";
+"O wizard usa pontos simbólicos que não valem dinheiro real. Mesmo assim, você pode configurar limites pessoais aqui — o app respeita a decisão e bloqueia novas apostas fora do que você estabeleceu." = "アシスタントは金銭的価値のない象徴的なポイントを使用します。それでもここで個人上限を設定でき、アプリはその設定を尊重して範囲外の新しい予想をブロックします。";
+"ORDEM DE JOGOS" = "試合順";
+"Observabilidade" = "観測性";
+"Observabilidade do produto" = "プロダクト観測性";
+"Odds exigem ID externo da partida. Sincronize antes." = "オッズには試合の外部IDが必要です。先に同期してください。";
+"Os pontos são apenas simbólicos — não valem dinheiro real, prêmios físicos ou qualquer recompensa fora do app. Servem só pra alimentar seu ranking de tipster contra outros usuários." = "ポイントは象徴的なものです。現金、物品、アプリ外の報酬には交換できません。他のユーザーとの予想ランキングにのみ使われます。";
+"PARTIDAS" = "試合";
+"POR SUPERFÍCIE" = "サーフェス別";
+"PRESSÃO" = "プレッシャー";
+"PRÓXIMO FAVORITO" = "次のお気に入り";
+"Partida ao vivo" = "ライブ試合";
+"Partidas dos seus favoritos, jogos ao vivo e momentos-chave — curados pra você." = "お気に入りの試合、ライブ試合、重要局面をあなた向けに整理します。";
+"Partidas favoritadas" = "お気に入り試合";
+"Pausa temporária" = "一時停止";
+"Perfil API exige o ID externo do jogador. Sincronize antes." = "APIプロフィールには選手の外部IDが必要です。先に同期してください。";
+"Perfil público" = "公開プロフィール";
+"Permissão do sistema, tipos de evento, antecedência e push remoto — tudo numa tela." = "システム権限、イベント種別、事前通知、リモートプッシュを1画面で管理します。";
+"Permitir notificações" = "通知を許可";
+"Personalizar feed" = "フィードをカスタマイズ";
+"Personalização do perfil" = "プロフィールのカスタマイズ";
+"Personalize o que aparece no seu feed." = "フィードに表示する内容をカスタマイズします。";
+"Placar" = "スコア";
+"Política de Privacidade" = "プライバシーポリシー";
+"Pontos simbólicos" = "象徴的なポイント";
+"Por que estamos destacando isso" = "注目している理由";
+"Por que está aqui" = "ここに表示される理由";
+"Por que está em destaque" = "注目される理由";
+"Preciso de ajuda" = "助けが必要です";
+"Previsão" = "予想";
+"Previsão criada!" = "予想を作成しました！";
+"Prioridade agora" = "今の優先度";
+"Probabilidade ao vivo" = "ライブ勝率";
+"Produto" = "プロダクト";
+"Prévia da partida" = "試合プレビュー";
+"Próximo jogo, ranking, forma, rivalidade, calendário e alertas em um só lugar." = "次の試合、ランキング、調子、ライバル関係、日程、通知を1か所にまとめます。";
+"Pts" = "Pt";
+"QUADRA AO VIVO" = "ライブコート";
+"Qual tour mostrar" = "表示するツアー";
+"Quando a partida começar, esta aba destaca pressão, momentum e contexto da quadra em tempo real." = "試合が始まると、このタブでプレッシャー、モメンタム、コート状況をリアルタイムに強調します。";
+"Quando ligado, o app envia token APNs, favoritos, regras e contrato de data plane ao backend. Ao desligar, envia uma revogação para parar pushes remotos." = "オンにすると、アプリはAPNsトークン、お気に入り、ルール、データプレーン契約をバックエンドへ送信します。オフにすると、リモートプッシュ停止の取り消し通知を送ります。";
+"Quando ligado, partidas com seus favoritos pulam pro topo do feed mesmo se outros jogos estiverem ao vivo." = "オンにすると、他にライブ試合があっても、お気に入りが含まれる試合がフィード上位に表示されます。";
+"Quer ser avisado quando jogadores, partidas ou torneios favoritos estiverem acontecendo?" = "お気に入りの選手、試合、大会が進行中のときに通知を受け取りますか？";
+"Radar dos favoritos" = "お気に入りレーダー";
+"Ranking de simples" = "シングルスランキング";
+"Recap do jogo" = "試合まとめ";
+"Recriar alertas agendados" = "予定済み通知を作り直す";
+"Reenviar token ao backend" = "トークンをバックエンドへ再送信";
+"Refazer onboarding" = "オンボーディングをやり直す";
+"Registrar no APNs" = "APNsに登録";
+"Regras" = "ルール";
+"Salvar backend de push" = "プッシュバックエンドを保存";
+"Salvar regras" = "ルールを保存";
+"Se ambos os campos estiverem preenchidos, o app pausa apostas novas quando você acumular a sequência de derrotas escolhida." = "両方の欄が入力されている場合、選択した連敗数に達すると新しい予想を一時停止します。";
+"Se só puder ver 3 hoje" = "今日3試合だけ見るなら";
+"Selecione uma partida acima para criar uma enquete." = "投票を作成するには上の試合を選択してください。";
+"Sem dinheiro real" = "現金なし";
+"Sem enquetes ainda" = "まだ投票はありません";
+"Sem histórico contra o próximo adversário." = "次の相手との対戦履歴はありません。";
+"Sem partidas finalizadas com superfície registrada." = "サーフェスが記録された終了済み試合はありません。";
+"Sem próximo jogo sincronizado ainda." = "次の試合はまだ同期されていません。";
+"Sem regras carregadas do backend." = "バックエンドから読み込まれたルールはありません。";
+"Sets" = "セット";
+"Siga jogadores na aba Jogadores ou no perfil do atleta." = "選手タブまたは選手プロフィールからフォローしてください。";
+"Simular cenários de ranking" = "ランキングシナリオをシミュレート";
+"Sinais avançados" = "高度なシグナル";
+"Sincronizando partidas" = "試合を同期中";
+"Sincronizando ranking global…" = "グローバルランキングを同期中…";
+"Sincronize partidas do torneio para montar a chave." = "ドロー表を作るには大会の試合を同期してください。";
+"Sincronize partidas para abrir enquetes por jogo." = "試合ごとの投票を開くには試合を同期してください。";
+"Sincronize partidas para abrir salas por jogo." = "試合ごとのルームを開くには試合を同期してください。";
+"Sincronize partidas para conectar comentários a um jogo." = "コメントを試合に紐づけるには試合を同期してください。";
+"Sincronize rankings para mostrar a tabela do torneio." = "大会表を表示するにはランキングを同期してください。";
+"Stats-chave" = "主要スタッツ";
+"Status & Permissões" = "ステータスと権限";
+"Status admin" = "管理者ステータス";
+"Status da conexão ao vivo" = "ライブ接続ステータス";
+"Storylines" = "注目ストーリー";
+"TIE-BREAK" = "タイブレーク";
+"Tema Grand Slam" = "グランドスラムテーマ";
+"Tema do app" = "アプリテーマ";
+"Tentar abrir novamente" = "もう一度開く";
+"Tipos de alerta" = "通知タイプ";
+"Torneios disputados" = "出場大会";
+"Torneios favoritos" = "お気に入り大会";
+"Total" = "合計";
+"Tours" = "ツアー";
+"URL deve ser https:// e ter host" = "URLは https:// でホストを含む必要があります";
+"Uma regra por linha. O backend mantém auditoria da alteração e aplica o conjunto salvo como referência de comunidade." = "1行につき1つのルールを入力してください。バックエンドは変更履歴を監査用に保持し、保存されたセットをコミュニティ基準として適用します。";
+"Use a faixa de datas para navegar por todos os dias do torneio." = "日付範囲を使って大会全日程を移動します。";
+"Uso recente" = "最近の利用";
+"Uso simbólico" = "象徴的な利用";
+"Ver perfil público" = "公開プロフィールを見る";
+"Verificar iCloud e perfil" = "iCloudとプロフィールを確認";
+"Você ativou alertas locais aqui no app, mas a permissão de notificação está negada nas Ajustes do iOS. Nenhuma notificação está sendo entregue até reativar." = "アプリ内でローカル通知を有効にしていますが、iOS設定で通知権限が拒否されています。再度有効にするまで通知は配信されません。";
+"Você não receberá lembretes antes da partida, walk-on, começo nem fim. Pode reativar a qualquer momento aqui." = "試合前、入場、開始、終了のリマインダーは届きません。ここからいつでも再度有効にできます。";
+"Você não receberá lembretes antes da partida, walk-on, começo nem fim. Pode reativar a qualquer momento." = "試合前、入場、開始、終了のリマインダーは届きません。いつでも再度有効にできます。";
+"Voltar" = "戻る";
+"WebSocket disponível apenas com API Tennis. Scores chegam via REST." = "WebSocketはAPI Tennisでのみ利用できます。スコアはREST経由で届きます。";
+"WebSocket disponível apenas com API Tennis. Use Sync para atualizar via REST." = "WebSocketはAPI Tennisでのみ利用できます。RESTで更新するには同期を使ってください。";
+"Zona de perigo" = "危険ゾーン";
+"ao vivo" = "ライブ";
+"jogos" = "試合";
+"mais recente →" = "新しい順 →";
+"quadras" = "コート";
+"vs" = "vs";
+"×" = "×";
+"ÚLTIMO ENCONTRO" = "前回対戦";
+"ÚLTIMOS ENCONTROS" = "最近の対戦";
+"Última sincronização" = "最終同期";
+"Útil após mudar favoritos ou tipos — reagenda os pushs locais imediatamente." = "お気に入りや通知タイプを変更した後に便利です。ローカルプッシュをすぐ再スケジュールします。";
+"Útil se você acabou de mudar tipos de alerta ou favoritos e quer reagendar os pushs locais imediatamente." = "通知タイプやお気に入りを変更した直後、ローカルプッシュをすぐ再スケジュールしたい場合に便利です。";
+"–" = "–";
+"—" = "—";
+"•" = "•";
+"Resumo" = "概要";
+"Match Point coleta apenas o necessário para funcionar (posts sociais, favoritos, token de notificação push) e não usa esses dados para rastreamento entre apps ou empresas." = "Match Point は、機能に必要なデータ（ソーシャル投稿、お気に入り、プッシュ通知トークン）のみを収集し、アプリや企業をまたいだトラッキングには使用しません。";
+"Dados que coletamos" = "収集するデータ";
+"Posts sociais e enquetes criadas por você (NSPrivacyCollectedDataTypeOtherUserContent)." = "あなたが作成したソーシャル投稿と投票（NSPrivacyCollectedDataTypeOtherUserContent）。";
+"Token de notificação remota (APNs) — enviado ao backend configurado por você, sempre via HTTPS." = "リモート通知トークン（APNs）。あなたが設定したバックエンドへ、常に HTTPS で送信されます。";
+"Interações com o app: favoritos, predições, pontuação local (NSPrivacyCollectedDataTypeProductInteraction)." = "アプリ内操作：お気に入り、予想、ローカルスコア（NSPrivacyCollectedDataTypeProductInteraction）。";
+"Dados que NÃO coletamos" = "収集しないデータ";
+"Identificadores de rastreamento (IDFA, IDFV)." = "トラッキング識別子（IDFA、IDFV）。";
+"Localização precisa ou aproximada." = "正確またはおおよその位置情報。";
+"Contatos, fotos, microfone ou câmera." = "連絡先、写真、マイク、カメラ。";
+"Pagamentos, cartão de crédito ou informações financeiras." = "決済、クレジットカード、金融情報。";
+"Onde os dados ficam" = "データの保存場所";
+"Dados locais ficam no SwiftData, dentro do sandbox do app." = "ローカルデータは、アプリのサンドボックス内の SwiftData に保存されます。";
+"Posts e pontuação sincronizam via iCloud privado/público quando habilitado." = "有効にした場合、投稿とスコアはプライベート/パブリック iCloud 経由で同期されます。";
+"Token APNs vai ao backend que você configurar em Configurações." = "APNs トークンは、設定で指定したバックエンドへ送信されます。";
+"Exportar seus dados a qualquer momento em Configurações." = "設定からいつでもデータを書き出せます。";
+"Excluir todos os seus dados locais com um toque em Configurações." = "設定からワンタップでローカルデータをすべて削除できます。";
+"Pedir esclarecimentos sobre uso dos dados via e-mail de suporte." = "データ利用について、サポートメールで説明を求められます。";
+"Última atualização: %@" = "最終更新日：%@";
+"Seus direitos de privacidade" = "プライバシーに関する権利";
+"Seus direitos (GDPR)" = "あなたの権利（GDPR）";
+"Seus direitos (UK GDPR)" = "あなたの権利（UK GDPR）";
+"Seus direitos (LGPD)" = "あなたの権利（LGPD）";
+"Seu estilo: pressão" = "好み：プレッシャー局面";
+"Seu estilo: grandes nomes" = "好み：スター選手";
+"Seu estilo: zebra possível" = "好み：番狂わせ候補";
+"No horário que você prefere" = "好みの時間帯";
+"contexto geral" = "全体の流れ";
+"%@: %@" = "%@: %@";
+"Momentos de pressão" = "プレッシャー局面";
+"Grandes nomes" = "スター選手";
+"Zebras e viradas" = "番狂わせと逆転";
+"Qualquer horário" = "いつでも";
+"Meu horário usual" = "いつもの時間帯";
+"Manhã" = "朝";
+"Tarde" = "午後";
+"Noite" = "夜";
+"Madrugada" = "深夜";
+"Torneio" = "大会";
+"Partida" = "試合";
+"torneio" = "大会";
+"%@ é a melhor abertura agora: %@." = "今開くなら%@です：%@。";
+"%@ é o alerta mais importante da próxima janela." = "次の時間帯で最優先の通知は%@です。";
+"%@ tem o contexto mais útil para revisar." = "見直す価値が最も高い流れは%@です。";
+"começa em %dh" = "%d時間後に開始";
+"%d%% de sinais úteis" = "有効シグナル %d%%";
+"%d de %d aberturas recomendadas viraram sinal positivo." = "おすすめから開いた%d件中%d件が有効なシグナルになりました。";
+"Aprendendo com suas aberturas" = "開いた試合から学習中";
+"Abra jogos recomendados para o Match Brain medir quais sinais realmente valem seu tempo." = "おすすめ試合を開くと、Match Brain が本当に見る価値のあるシグナルを学習します。";
+"Sem jogo forte no radar agora" = "今は強いおすすめ試合がありません";
+"Melhor jogo ao vivo agora" = "今いちばん見るべきライブ試合";
+"Abra agora" = "今すぐ開く";
+"Prepare o alerta certo" = "最適な通知を設定";
+"Contexto mais útil para revisar" = "確認する価値が最も高い流れ";
+"Ao vivo agora" = "ライブ中";
+"Sem telemetria extra ainda." = "追加テレメトリーはまだありません。";
+"%@: %@ agora." = "%@: %@です。";
+"%@: %@ com jogo em andamento." = "%@: 試合中の%@。";
+"sinal forte" = "強いシグナル";
+"%@: começa em menos de 90 min." = "%@: 90分以内に開始。";
+
+// MARK: - Match Brain availability localization
+"Jogador 1" = "選手1";
+"Jogador 2" = "選手2";
+"modelo baixando" = "モデルをダウンロード中";
+"dispositivo não elegível" = "対象外のデバイス";
+"Apple Intelligence off" = "Apple Intelligenceがオフ";
+"iOS mais antigo" = "古いiOS";

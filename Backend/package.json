@@ -1,0 +1,19 @@
+{
+  "name": "match-point-backend",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "migrate": "node scripts/migrate.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "optionalDependencies": {
+    "pg": "^8.11.0",
+    "ioredis": "^5.4.0",
+    "ws": "^8.18.0"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "A1D61C36-FA5F-4E59-A53D-587B73A75F0A",
+      "name" : "Default",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Match Point.xcodeproj",
+        "identifier" : "E4C1AB122F75F54400649ECA",
+        "name" : "Match PointTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Match Point.xcodeproj",
+        "identifier" : "E4C1AB1C2F75F54400649ECA",
+        "name" : "Match PointUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

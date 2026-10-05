@@ -1,0 +1,637 @@
+// pt-BR is the project's development language. Keys here mirror the
+// English file in en.lproj/Localizable.strings — the key is intentionally the
+// pt-BR sentence so `Text("Partidas")` works identically in both locales.
+//
+// Whenever a new `Text("…")` literal is added in code, mirror the key in
+// BOTH this file and en.lproj/Localizable.strings.
+
+// MARK: - Tab titles
+
+"Partidas" = "Partidas";
+"Ao Vivo" = "Ao Vivo";
+"Para Você" = "Para Você";
+"Match Point" = "Match Point";
+"Perfil" = "Perfil";
+"Meus Jogadores" = "Meus Jogadores";
+"Favoritos" = "Favoritos";
+"Torneios" = "Torneios";
+"Rankings" = "Rankings";
+"Jogadores" = "Jogadores";
+"Alertas" = "Alertas";
+"Provider" = "Provider";
+
+// MARK: - Common filters
+
+"Todas" = "Todas";
+"Ao vivo" = "Ao vivo";
+"Próximas" = "Próximas";
+"Para você" = "Para você";
+"Todos" = "Todos";
+
+// MARK: - Onboarding
+
+"Pular" = "Pular";
+"Entrar no app" = "Entrar no app";
+"Sincronizar agora" = "Sincronizar agora";
+"Adicionar populares" = "Adicionar populares";
+"Permitir" = "Permitir";
+"Verificar" = "Verificar";
+"Notificações" = "Notificações";
+"iCloud" = "iCloud";
+"Permissões" = "Permissões";
+"Dados iniciais" = "Dados iniciais";
+"Favoritos iniciais" = "Favoritos iniciais";
+"Li e aceito a política de privacidade" = "Li e aceito a política de privacidade";
+"Ler política de privacidade" = "Ler política de privacidade";
+"Escolha uma opção acima" = "Escolha uma opção acima";
+
+// MARK: - Settings / general
+
+"Configurações" = "Configurações";
+"Versão" = "Versão";
+"Fechar" = "Fechar";
+"Cancelar" = "Cancelar";
+"Excluir" = "Excluir";
+"OK" = "OK";
+"Salvar" = "Salvar";
+"Atualizar" = "Atualizar";
+"Carregar" = "Carregar";
+"Sincronizar" = "Sincronizar";
+"Recarregar" = "Recarregar";
+
+// MARK: - Sections / labels
+
+"Info" = "Info";
+"Status" = "Status";
+"Saldo" = "Saldo";
+"Ranking" = "Ranking";
+"Histórico" = "Histórico";
+"Estatísticas" = "Estatísticas";
+"Confirmar previsão" = "Confirmar previsão";
+"Saldo insuficiente" = "Saldo insuficiente";
+"Mínimo 4 caracteres" = "Mínimo 4 caracteres";
+"Criar poll" = "Criar poll";
+"Publicar comentário" = "Publicar comentário";
+"Enviar resposta" = "Enviar resposta";
+"Recarregar categorias" = "Recarregar categorias";
+"Iniciar Live Activity" = "Iniciar Live Activity";
+"Carregar mais partidas" = "Carregar mais partidas";
+"Carregar mais WTA" = "Carregar mais WTA";
+"Carregar mais ATP" = "Carregar mais ATP";
+"Quem vence?" = "Quem vence?";
+
+// MARK: - Empty states / errors
+
+"Sem rankings" = "Sem rankings";
+"Nenhum favorito ainda" = "Nenhum favorito ainda";
+"Sem partidas elegíveis" = "Sem partidas elegíveis";
+"Sem jogadores sincronizados" = "Sem jogadores sincronizados";
+"Nenhum jogador encontrado" = "Nenhum jogador encontrado";
+"Falha ao excluir" = "Falha ao excluir";
+
+// MARK: - Live / WebSocket states
+
+"Live On" = "Live On";
+"Iniciar Live" = "Iniciar Live";
+"Parar Live" = "Parar Live";
+"Reconectar" = "Reconectar";
+"Sinal ao vivo" = "Sinal ao vivo";
+"Sem rankings para a categoria selecionada." = "Sem rankings para a categoria selecionada.";
+
+// MARK: - Privacy / consent
+
+"Excluir todos os meus dados?" = "Excluir todos os meus dados?";
+"Resultado" = "Resultado";
+"Em resposta a %@" = "Em resposta a %@";
+"Privacidade" = "Privacidade";
+"Identidade" = "Identidade";
+"Dados" = "Dados";
+"Como o Match Point trata seus dados." = "Como o Match Point trata seus dados.";
+"Direito de portabilidade (LGPD)" = "Direito de portabilidade (LGPD)";
+
+// MARK: - Tours / surfaces
+
+"ATP" = "ATP";
+"WTA" = "WTA";
+"Tour" = "Tour";
+"Hard" = "Hard";
+"Clay" = "Clay";
+"Grass" = "Grass";
+
+// MARK: - Common short labels
+
+"Sim" = "Sim";
+"Não" = "Não";
+"LIVE" = "LIVE";
+"Live" = "Live";
+"Live Center" = "Live Center";
+"Live Tracker" = "Live Tracker";
+"Live Match" = "Live Match";
+"Score" = "Score";
+"Stats" = "Stats";
+"Overview" = "Overview";
+"Timeline" = "Timeline";
+"Odds" = "Odds";
+"Players" = "Players";
+"Head-to-Head" = "Head-to-Head";
+"Previous Matches" = "Previous Matches";
+"Populares" = "Populares";
+"Recentes" = "Recentes";
+"Fixados" = "Fixados";
+"Ocultos" = "Ocultos";
+"Reportados" = "Reportados";
+"Aparência" = "Aparência";
+"Pré-jogo" = "Pré-jogo";
+"Por set" = "Por set";
+
+// MARK: - Empty / status descriptions
+
+"Nada por aqui no momento." = "Nada por aqui no momento.";
+"Nada neste filtro." = "Nada neste filtro.";
+"Nenhuma partida hoje." = "Nenhuma partida hoje.";
+"Nenhum próximo jogo no momento." = "Nenhum próximo jogo no momento.";
+"Nenhuma previsão criada ainda." = "Nenhuma previsão criada ainda.";
+"Sem previsões públicas ainda." = "Sem previsões públicas ainda.";
+"Sem comentários reportados ou fixados." = "Sem comentários reportados ou fixados.";
+"Sem próximos jogos confirmados." = "Sem próximos jogos confirmados.";
+"Sem partidas conectadas aos seus favoritos ainda." = "Sem partidas conectadas aos seus favoritos ainda.";
+"Sem histórico H2H disponível para esses jogadores." = "Sem histórico H2H disponível para esses jogadores.";
+"Sem histórico head-to-head suficiente." = "Sem histórico head-to-head suficiente.";
+"Sem perfil disponível na API para este jogador." = "Sem perfil disponível na API para este jogador.";
+"Ainda não há partidas finalizadas suficientes." = "Ainda não há partidas finalizadas suficientes.";
+"Nenhum favorito público ainda." = "Nenhum favorito público ainda.";
+"Nenhuma odd publicada para essa partida no momento." = "Nenhuma odd publicada para essa partida no momento.";
+
+// MARK: - Diagnostic / sync prompts
+
+"Configuração salva. O próximo Sync já usa esses valores." = "Configuração salva. O próximo Sync já usa esses valores.";
+"A API key é igual ao placeholder. Substitua pela sua chave real." = "A API key é igual ao placeholder. Substitua pela sua chave real.";
+"Complete a API key antes do diagnóstico." = "Complete a API key antes do diagnóstico.";
+"Informe uma API key apenas para testes locais sem backend." = "Informe uma API key apenas para testes locais sem backend.";
+"Toque longo no número da versão para abrir o diagnóstico de provedor (uso interno)." = "Toque longo no número da versão para abrir o diagnóstico de provedor (uso interno).";
+
+// MARK: - Push / notification copy
+
+"Push remoto" = "Push remoto";
+"As notificações estão desativadas no sistema. Reative em Ajustes para receber alertas." = "As notificações estão desativadas no sistema. Reative em Ajustes para receber alertas.";
+
+// MARK: - Persistence recovery copy
+
+"Não foi possível abrir seus dados" = "Não foi possível abrir seus dados";
+"Sessão temporária: dados não serão salvos ao fechar." = "Sessão temporária: dados não serão salvos ao fechar.";
+"Use a sessão temporária apenas para diagnosticar. Dados criados nela não serão persistidos." = "Use a sessão temporária apenas para diagnosticar. Dados criados nela não serão persistidos.";
+"O app não vai trocar para banco em memória sem avisar, porque isso faria os dados sumirem ao fechar." = "O app não vai trocar para banco em memória sem avisar, porque isso faria os dados sumirem ao fechar.";
+
+// MARK: - Account deletion copy
+
+"Apaga seu perfil, predições, posts, votos e desativa todos os favoritos. Ação irreversível." = "Apaga seu perfil, predições, posts, votos e desativa todos os favoritos. Ação irreversível.";
+"Remove perfil, predições, posts, votos e desativa favoritos. Ação irreversível e atende ao Art. 18 da LGPD." = "Remove perfil, predições, posts, votos e desativa favoritos. Ação irreversível e atende ao Art. 18 da LGPD.";
+"Gera um arquivo JSON com perfil, favoritos, predições e posts. Você decide como compartilhar." = "Gera um arquivo JSON com perfil, favoritos, predições e posts. Você decide como compartilhar.";
+
+// MARK: - First-run / onboarding copy
+
+"Necessário para sincronizar dados, registrar push e usar o iCloud." = "Necessário para sincronizar dados, registrar push e usar o iCloud.";
+"Seu nome e avatar aparecem no perfil, posts e rankings. Use a aba Perfil para criar conta, entrar ou recuperar acesso." = "Seu nome e avatar aparecem no perfil, posts e rankings. Use a aba Perfil para criar conta, entrar ou recuperar acesso.";
+"Sincronize a API ou adicione uma lista inicial de jogadores populares para começar agora." = "Sincronize a API ou adicione uma lista inicial de jogadores populares para começar agora.";
+"Siga jogadores, torneios e partidas para acompanhar tudo aqui." = "Siga jogadores, torneios e partidas para acompanhar tudo aqui.";
+"Volta para a tela inicial com o passo a passo de favoritos e permissões." = "Volta para a tela inicial com o passo a passo de favoritos e permissões.";
+
+// MARK: - Auto-catalogued from hardcoded literals (2026-08-13)
+// Strings gathered by grep across Text(...), Label(...), Button(...) and
+// navigationTitle(...) call sites. Keep sorted for easier merges.
+
+"15 min antes" = "15 min antes";
+"30 min antes" = "30 min antes";
+"5 min antes" = "5 min antes";
+"60 min antes" = "60 min antes";
+"A JOGAR" = "A JOGAR";
+"A auto-exclusão bloqueia o wizard de apostas por completo pelo período escolhido. Não é possível reverter antes do término — é essa a proteção do recurso." = "A auto-exclusão bloqueia o wizard de apostas por completo pelo período escolhido. Não é possível reverter antes do término — é essa a proteção do recurso.";
+"A decisão de push inteligente deve rodar no servidor, usando fila de eventos, dedupe e histórico auditável de placares." = "A decisão de push inteligente deve rodar no servidor, usando fila de eventos, dedupe e histórico auditável de placares.";
+"A definir" = "A definir";
+"A lista inicial aparece automaticamente." = "A lista inicial aparece automaticamente.";
+"AO VIVO" = "AO VIVO";
+"ASSISTENTE DA PARTIDA" = "ASSISTENTE DA PARTIDA";
+"Abrir Ajustes do iOS" = "Abrir Ajustes do iOS";
+"Abrir cronograma" = "Abrir cronograma";
+"Abrir leitura completa" = "Abrir leitura completa";
+"Abrir sessão temporária" = "Abrir sessão temporária";
+"Aces, winners, break points e pontos de saque aparecem aqui quando a partida acumular mais lances na timeline ao vivo." = "Aces, winners, break points e pontos de saque aparecem aqui quando a partida acumular mais lances na timeline ao vivo.";
+"Add" = "Add";
+"Add ATP 250 (Hard)" = "Add ATP 250 (Hard)";
+"Add WTA 500 (Clay)" = "Add WTA 500 (Clay)";
+"Agenda" = "Agenda";
+"Agendado" = "Agendado";
+"Aguardando o primeiro lance da partida. Quando o saque sair, os eventos chegam aqui como notificações em tempo real." = "Aguardando o primeiro lance da partida. Quando o saque sair, os eventos chegam aqui como notificações em tempo real.";
+"Ainda sem dados globais. O ranking aparece depois que previsões forem liquidadas pelo servidor." = "Ainda sem dados globais. O ranking aparece depois que previsões forem liquidadas pelo servidor.";
+"Ajuda" = "Ajuda";
+"Ajustar filtros" = "Ajustar filtros";
+"Alertas bloqueados pelo iOS" = "Alertas bloqueados pelo iOS";
+"Alertas e notificações" = "Alertas e notificações";
+"Alertas reagendados" = "Alertas reagendados";
+"Análise" = "Análise";
+"Apaga perfil, previsões, posts, votos e desfavorita todos os jogadores/torneios/partidas. Ação irreversível — atende ao Art. 18 da LGPD (direito de erasure)." = "Apaga perfil, previsões, posts, votos e desfavorita todos os jogadores/torneios/partidas. Ação irreversível — atende ao Art. 18 da LGPD (direito de erasure).";
+"Apostar" = "Apostar";
+"As enquetes aparecem aqui assim que houver partidas no app." = "As enquetes aparecem aqui assim que houver partidas no app.";
+"As previsões usam apenas pontos simbólicos. O app não executa apostas, não envia ordens para bookmakers e não paga prêmios fora do ranking interno." = "As previsões usam apenas pontos simbólicos. O app não executa apostas, não envia ordens para bookmakers e não paga prêmios fora do ranking interno.";
+"As previsões usam somente pontos simbólicos. O Match Point não aceita dinheiro, não realiza apostas reais e não substitui limites pessoais de jogo responsável." = "As previsões usam somente pontos simbólicos. O Match Point não aceita dinheiro, não realiza apostas reais e não substitui limites pessoais de jogo responsável.";
+"Assistente da partida" = "Assistente da partida";
+"Ativar alertas" = "Ativar alertas";
+"Ativar auto-exclusão" = "Ativar auto-exclusão";
+"Banir autor" = "Banir autor";
+"Buscar jogador ou país" = "Buscar jogador ou país";
+"Buscar torneio, cidade ou país" = "Buscar torneio, cidade ou país";
+"Caminho dos favoritos" = "Caminho dos favoritos";
+"Canais de apoio no Brasil" = "Canais de apoio no Brasil";
+"Carregando odds do provider..." = "Carregando odds do provider...";
+"Carregar ranking global" = "Carregar ranking global";
+"Chave do torneio" = "Chave do torneio";
+"Comentar agora" = "Comentar agora";
+"Comentário em destaque" = "Comentário em destaque";
+"Comentários aparecem aqui assim que houver partidas no app." = "Comentários aparecem aqui assim que houver partidas no app.";
+"Comunidade" = "Comunidade";
+"Concluído" = "Concluído";
+"Confiança dos dados" = "Confiança dos dados";
+"Configure limites diários, semanais e cooldowns. As apostas do wizard usam pontos simbólicos, mas os controles ajudam a manter o hábito saudável." = "Configure limites diários, semanais e cooldowns. As apostas do wizard usam pontos simbólicos, mas os controles ajudam a manter o hábito saudável.";
+"Confirmar mesmo assim" = "Confirmar mesmo assim";
+"Conta" = "Conta";
+"Conta e identidade" = "Conta e identidade";
+"Conversas" = "Conversas";
+"Cooldown após perdas" = "Cooldown após perdas";
+"Criar enquete" = "Criar enquete";
+"Crie um perfil em Configurações para começar a prever." = "Crie um perfil em Configurações para começar a prever.";
+"DRAW" = "DRAW";
+"Defina limites em Configurações se perceber aumento de frequência, stake alto ou tentativa de recuperar perdas." = "Defina limites em Configurações se perceber aumento de frequência, stake alto ou tentativa de recuperar perdas.";
+"Deixe em branco para não aplicar limite. Novas apostas que ultrapassem o valor configurado serão bloqueadas até o próximo período." = "Deixe em branco para não aplicar limite. Novas apostas que ultrapassem o valor configurado serão bloqueadas até o próximo período.";
+"Denunciar" = "Denunciar";
+"Desativar" = "Desativar";
+"Detalhes" = "Detalhes";
+"Detalhes da partida" = "Detalhes da partida";
+"Detalhes por ponto" = "Detalhes por ponto";
+"E se?" = "E se?";
+"ESTIMADO" = "ESTIMADO";
+"Editar regras" = "Editar regras";
+"Enquanto o período estiver ativo, nenhuma nova aposta poderá ser criada. Não é possível desfazer antes do término." = "Enquanto o período estiver ativo, nenhuma nova aposta poderá ser criada. Não é possível desfazer antes do término.";
+"Entendi" = "Entendi";
+"Escolha até 3 jogadores" = "Escolha até 3 jogadores";
+"Escolha outro dia para ver a ordem por quadra." = "Escolha outro dia para ver a ordem por quadra.";
+"Escolha se você quer ver partidas do circuito masculino (ATP), feminino (WTA) ou os dois juntos." = "Escolha se você quer ver partidas do circuito masculino (ATP), feminino (WTA) ou os dois juntos.";
+"Estatísticas da partida" = "Estatísticas da partida";
+"Estatísticas expandidas em breve" = "Estatísticas expandidas em breve";
+"Etapas concluídas" = "Etapas concluídas";
+"Excluir todos os meus dados" = "Excluir todos os meus dados";
+"Exportar meus dados (JSON)" = "Exportar meus dados (JSON)";
+"FINAL" = "FINAL";
+"Favorito" = "Favorito";
+"Fechar draw" = "Fechar draw";
+"Feed State" = "Feed State";
+"Feed vazio" = "Feed vazio";
+"Final" = "Final";
+"Fixar" = "Fixar";
+"Funil de onboarding, favoritos, widgets, Live Activities, alertas, push e retenção local D1/D7." = "Funil de onboarding, favoritos, widgets, Live Activities, alertas, push e retenção local D1/D7.";
+"Gerando explicação…" = "Gerando explicação…";
+"Global" = "Global";
+"H2H exige IDs externos de ambos os jogadores. Sincronize jogadores antes." = "H2H exige IDs externos de ambos os jogadores. Sincronize jogadores antes.";
+"HOME DO SEU JOGADOR" = "HOME DO SEU JOGADOR";
+"Head-to-head" = "Head-to-head";
+"Hoje" = "Hoje";
+"Home dos seus jogadores" = "Home dos seus jogadores";
+"Identidade salva" = "Identidade salva";
+"Jogador" = "Jogador";
+"Jogo responsável" = "Jogo responsável";
+"Lance a lance" = "Lance a lance";
+"Limites" = "Limites";
+"Limites e auto-exclusão" = "Limites e auto-exclusão";
+"Limpar filtros" = "Limpar filtros";
+"Match Point não tem vínculo com essas organizações. Os contatos são referência pública. Se apostar deixou de ser lazer, procure ajuda — não é fraqueza pedir suporte." = "Match Point não tem vínculo com essas organizações. Os contatos são referência pública. Se apostar deixou de ser lazer, procure ajuda — não é fraqueza pedir suporte.";
+"Max" = "Max";
+"Mestre dos alertas locais. Quando desligado, nenhum tipo abaixo dispara." = "Mestre dos alertas locais. Quando desligado, nenhum tipo abaixo dispara.";
+"Mestre dos alertas. Quando desligado nenhum tipo abaixo dispara." = "Mestre dos alertas. Quando desligado nenhum tipo abaixo dispara.";
+"Meus favoritos" = "Meus favoritos";
+"Modelo baseado no placar de sets, do set corrente e nos últimos pontos. Oscila conforme a partida evolui." = "Modelo baseado no placar de sets, do set corrente e nos últimos pontos. Oscila conforme a partida evolui.";
+"Moderação" = "Moderação";
+"Modo torneio" = "Modo torneio";
+"Momentum" = "Momentum";
+"Momentum estimado, provedor não confirmou o vencedor dos pontos" = "Momentum estimado, provedor não confirmou o vencedor dos pontos";
+"Nenhum jogo pendente com dois jogadores definidos." = "Nenhum jogo pendente com dois jogadores definidos.";
+"Nenhuma partida disponível agora. Sincronize ou aguarde jogos dos seus favoritos." = "Nenhuma partida disponível agora. Sincronize ou aguarde jogos dos seus favoritos.";
+"Ninguém comentou ainda" = "Ninguém comentou ainda";
+"Nome e avatar" = "Nome e avatar";
+"Notificações bloqueadas pelo iOS. Reative em Ajustes para receber alertas." = "Notificações bloqueadas pelo iOS. Reative em Ajustes para receber alertas.";
+"Nova previsão" = "Nova previsão";
+"NÃO ANTES DE" = "NÃO ANTES DE";
+"Não, obrigado" = "Não, obrigado";
+"Números derivados da timeline ao vivo. Podem se ajustar durante a partida conforme novos lances chegam." = "Números derivados da timeline ao vivo. Podem se ajustar durante a partida conforme novos lances chegam.";
+"O Match Point monta seu feed, tour e alertas a partir desses favoritos. Dá para mudar tudo depois." = "O Match Point monta seu feed, tour e alertas a partir desses favoritos. Dá para mudar tudo depois.";
+"O app sincroniza torneios, jogadores e rankings automaticamente em segundo plano — você não precisa fazer nada. Exportar gera um JSON com perfil, favoritos, previsões e posts (LGPD Art. 18)." = "O app sincroniza torneios, jogadores e rankings automaticamente em segundo plano — você não precisa fazer nada. Exportar gera um JSON com perfil, favoritos, previsões e posts (LGPD Art. 18).";
+"O backend deve armazenar o token com retenção limitada, remover tokens inválidos e respeitar opt-in/opt-out." = "O backend deve armazenar o token com retenção limitada, remover tokens inválidos e respeitar opt-in/opt-out.";
+"O login social usa a conta iCloud ativa neste aparelho. Para trocar usuário, altere a conta iCloud nos Ajustes do iOS e volte para verificar." = "O login social usa a conta iCloud ativa neste aparelho. Para trocar usuário, altere a conta iCloud nos Ajustes do iOS e volte para verificar.";
+"O token APNs identifica este aparelho para entrega de notificações, mas não deve ser exibido publicamente nem vendido." = "O token APNs identifica este aparelho para entrega de notificações, mas não deve ser exibido publicamente nem vendido.";
+"O wizard usa pontos simbólicos que não valem dinheiro real. Mesmo assim, você pode configurar limites pessoais aqui — o app respeita a decisão e bloqueia novas apostas fora do que você estabeleceu." = "O wizard usa pontos simbólicos que não valem dinheiro real. Mesmo assim, você pode configurar limites pessoais aqui — o app respeita a decisão e bloqueia novas apostas fora do que você estabeleceu.";
+"ORDEM DE JOGOS" = "ORDEM DE JOGOS";
+"Observabilidade" = "Observabilidade";
+"Observabilidade do produto" = "Observabilidade do produto";
+"Odds exigem ID externo da partida. Sincronize antes." = "Odds exigem ID externo da partida. Sincronize antes.";
+"Os pontos são apenas simbólicos — não valem dinheiro real, prêmios físicos ou qualquer recompensa fora do app. Servem só pra alimentar seu ranking de tipster contra outros usuários." = "Os pontos são apenas simbólicos — não valem dinheiro real, prêmios físicos ou qualquer recompensa fora do app. Servem só pra alimentar seu ranking de tipster contra outros usuários.";
+"PARTIDAS" = "PARTIDAS";
+"POR SUPERFÍCIE" = "POR SUPERFÍCIE";
+"PRESSÃO" = "PRESSÃO";
+"PRÓXIMO FAVORITO" = "PRÓXIMO FAVORITO";
+"Partida ao vivo" = "Partida ao vivo";
+"Partidas dos seus favoritos, jogos ao vivo e momentos-chave — curados pra você." = "Partidas dos seus favoritos, jogos ao vivo e momentos-chave — curados pra você.";
+"Partidas em aberto" = "Partidas em aberto";
+"Partidas favoritadas" = "Partidas favoritadas";
+"Pausa temporária" = "Pausa temporária";
+"Perfil API exige o ID externo do jogador. Sincronize antes." = "Perfil API exige o ID externo do jogador. Sincronize antes.";
+"Perfil público" = "Perfil público";
+"Permissão do sistema, tipos de evento, antecedência e push remoto — tudo numa tela." = "Permissão do sistema, tipos de evento, antecedência e push remoto — tudo numa tela.";
+"Permitir notificações" = "Permitir notificações";
+"Personalizar feed" = "Personalizar feed";
+"Personalização do perfil" = "Personalização do perfil";
+"Personalize o que aparece no seu feed." = "Personalize o que aparece no seu feed.";
+"Placar" = "Placar";
+"Política de Privacidade" = "Política de Privacidade";
+"Pontos simbólicos" = "Pontos simbólicos";
+"Por que estamos destacando isso" = "Por que estamos destacando isso";
+"Por que está aqui" = "Por que está aqui";
+"Por que está em destaque" = "Por que está em destaque";
+"Preciso de ajuda" = "Preciso de ajuda";
+"Previsão" = "Previsão";
+"Previsão criada!" = "Previsão criada!";
+"Prioridade agora" = "Prioridade agora";
+"Probabilidade ao vivo" = "Probabilidade ao vivo";
+"Produto" = "Produto";
+"Projeção" = "Projeção";
+"Prévia da partida" = "Prévia da partida";
+"Próximo jogo, ranking, forma, rivalidade, calendário e alertas em um só lugar." = "Próximo jogo, ranking, forma, rivalidade, calendário e alertas em um só lugar.";
+"Pts" = "Pts";
+"QUADRA AO VIVO" = "QUADRA AO VIVO";
+"Qual tour mostrar" = "Qual tour mostrar";
+"Quando a partida começar, esta aba destaca pressão, momentum e contexto da quadra em tempo real." = "Quando a partida começar, esta aba destaca pressão, momentum e contexto da quadra em tempo real.";
+"Quando ligado, o app envia token APNs, favoritos, regras e contrato de data plane ao backend. Ao desligar, envia uma revogação para parar pushes remotos." = "Quando ligado, o app envia token APNs, favoritos, regras e contrato de data plane ao backend. Ao desligar, envia uma revogação para parar pushes remotos.";
+"Quando ligado, partidas com seus favoritos pulam pro topo do feed mesmo se outros jogos estiverem ao vivo." = "Quando ligado, partidas com seus favoritos pulam pro topo do feed mesmo se outros jogos estiverem ao vivo.";
+"Quer ser avisado quando jogadores, partidas ou torneios favoritos estiverem acontecendo?" = "Quer ser avisado quando jogadores, partidas ou torneios favoritos estiverem acontecendo?";
+"Radar dos favoritos" = "Radar dos favoritos";
+"Ranking de simples" = "Ranking de simples";
+"Recap do jogo" = "Recap do jogo";
+"Recriar alertas agendados" = "Recriar alertas agendados";
+"Reenviar token ao backend" = "Reenviar token ao backend";
+"Refazer onboarding" = "Refazer onboarding";
+"Registrar no APNs" = "Registrar no APNs";
+"Regras" = "Regras";
+"Remover suposição" = "Remover suposição";
+"Salvar backend de push" = "Salvar backend de push";
+"Salvar regras" = "Salvar regras";
+"Se ambos os campos estiverem preenchidos, o app pausa apostas novas quando você acumular a sequência de derrotas escolhida." = "Se ambos os campos estiverem preenchidos, o app pausa apostas novas quando você acumular a sequência de derrotas escolhida.";
+"Se só puder ver 3 hoje" = "Se só puder ver 3 hoje";
+"Selecione uma partida acima para criar uma enquete." = "Selecione uma partida acima para criar uma enquete.";
+"Sem dinheiro real" = "Sem dinheiro real";
+"Sem enquetes ainda" = "Sem enquetes ainda";
+"Sem histórico contra o próximo adversário." = "Sem histórico contra o próximo adversário.";
+"Sem partidas finalizadas com superfície registrada." = "Sem partidas finalizadas com superfície registrada.";
+"Sem próximo jogo sincronizado ainda." = "Sem próximo jogo sincronizado ainda.";
+"Sem regras carregadas do backend." = "Sem regras carregadas do backend.";
+"Sets" = "Sets";
+"Siga jogadores na aba Jogadores ou no perfil do atleta." = "Siga jogadores na aba Jogadores ou no perfil do atleta.";
+"Simulador de cenários" = "Simulador de cenários";
+"Simular cenários de ranking" = "Simular cenários de ranking";
+"Sinais avançados" = "Sinais avançados";
+"Sincronizando partidas" = "Sincronizando partidas";
+"Sincronizando ranking global…" = "Sincronizando ranking global…";
+"Sincronize partidas do torneio para montar a chave." = "Sincronize partidas do torneio para montar a chave.";
+"Sincronize partidas para abrir enquetes por jogo." = "Sincronize partidas para abrir enquetes por jogo.";
+"Sincronize partidas para abrir salas por jogo." = "Sincronize partidas para abrir salas por jogo.";
+"Sincronize partidas para conectar comentários a um jogo." = "Sincronize partidas para conectar comentários a um jogo.";
+"Sincronize rankings para mostrar a tabela do torneio." = "Sincronize rankings para mostrar a tabela do torneio.";
+"Stats-chave" = "Stats-chave";
+"Status & Permissões" = "Status & Permissões";
+"Status admin" = "Status admin";
+"Status da conexão ao vivo" = "Status da conexão ao vivo";
+"Storylines" = "Storylines";
+"TIE-BREAK" = "TIE-BREAK";
+"Tema Grand Slam" = "Tema Grand Slam";
+"Tema do app" = "Tema do app";
+"Tentar abrir novamente" = "Tentar abrir novamente";
+"Tipos de alerta" = "Tipos de alerta";
+"Torneios disputados" = "Torneios disputados";
+"Torneios favoritos" = "Torneios favoritos";
+"Total" = "Total";
+"Tours" = "Tours";
+"URL deve ser https:// e ter host" = "URL deve ser https:// e ter host";
+"Uma regra por linha. O backend mantém auditoria da alteração e aplica o conjunto salvo como referência de comunidade." = "Uma regra por linha. O backend mantém auditoria da alteração e aplica o conjunto salvo como referência de comunidade.";
+"Use a faixa de datas para navegar por todos os dias do torneio." = "Use a faixa de datas para navegar por todos os dias do torneio.";
+"Uso recente" = "Uso recente";
+"Uso simbólico" = "Uso simbólico";
+"Ver perfil público" = "Ver perfil público";
+"Verificar iCloud e perfil" = "Verificar iCloud e perfil";
+"Você ativou alertas locais aqui no app, mas a permissão de notificação está negada nas Ajustes do iOS. Nenhuma notificação está sendo entregue até reativar." = "Você ativou alertas locais aqui no app, mas a permissão de notificação está negada nas Ajustes do iOS. Nenhuma notificação está sendo entregue até reativar.";
+"Você não receberá lembretes antes da partida, walk-on, começo nem fim. Pode reativar a qualquer momento aqui." = "Você não receberá lembretes antes da partida, walk-on, começo nem fim. Pode reativar a qualquer momento aqui.";
+"Você não receberá lembretes antes da partida, walk-on, começo nem fim. Pode reativar a qualquer momento." = "Você não receberá lembretes antes da partida, walk-on, começo nem fim. Pode reativar a qualquer momento.";
+"Voltar" = "Voltar";
+"WebSocket disponível apenas com API Tennis. Scores chegam via REST." = "WebSocket disponível apenas com API Tennis. Scores chegam via REST.";
+"WebSocket disponível apenas com API Tennis. Use Sync para atualizar via REST." = "WebSocket disponível apenas com API Tennis. Use Sync para atualizar via REST.";
+"Zerar" = "Zerar";
+"Zona de perigo" = "Zona de perigo";
+"ao vivo" = "ao vivo";
+"jogos" = "jogos";
+"mais recente →" = "mais recente →";
+"quadras" = "quadras";
+"vs" = "vs";
+"×" = "×";
+"ÚLTIMO ENCONTRO" = "ÚLTIMO ENCONTRO";
+"ÚLTIMOS ENCONTROS" = "ÚLTIMOS ENCONTROS";
+"Última sincronização" = "Última sincronização";
+"Útil após mudar favoritos ou tipos — reagenda os pushs locais imediatamente." = "Útil após mudar favoritos ou tipos — reagenda os pushs locais imediatamente.";
+"Útil se você acabou de mudar tipos de alerta ou favoritos e quer reagendar os pushs locais imediatamente." = "Útil se você acabou de mudar tipos de alerta ou favoritos e quer reagendar os pushs locais imediatamente.";
+"–" = "–";
+"—" = "—";
+"•" = "•";
+
+// MARK: - Ranking scenario templates
+
+"Escolha um vencedor por partida restante — projetamos como isso muda o ranking %@." = "Escolha um vencedor por partida restante — projetamos como isso muda o ranking %@.";
+"%d suposições" = "%d suposições";
+"Escolha um vencedor abaixo para ver o impacto no ranking." = "Escolha um vencedor abaixo para ver o impacto no ranking.";
+"Nenhuma mudança projetada nas posições atuais." = "Nenhuma mudança projetada nas posições atuais.";
+"%@%d pts" = "%@%d pts";
+"%d jogos" = "%d jogos";
+
+// MARK: - Match intelligence
+
+"Está ao vivo agora" = "Está ao vivo agora";
+"Partida favoritada" = "Partida favoritada";
+"Jogador favorito: %@" = "Jogador favorito: %@";
+" e " = " e ";
+"Torneio favorito: %@" = "Torneio favorito: %@";
+"em menos de 1h" = "em menos de 1h";
+"em ~%dh" = "em ~%dh";
+"Começa %@" = "Começa %@";
+"Top 10: %@ (#%d)" = "Top 10: %@ (#%d)";
+"Break point ativo" = "Break point ativo";
+"Ajuste personalizado (IA)" = "Ajuste personalizado (IA)";
+"Must Watch" = "Must Watch";
+"High Relevance" = "High Relevance";
+"Worth Checking" = "Worth Checking";
+"Background" = "Background";
+"Sem previsão" = "Sem previsão";
+"Equilibrado" = "Equilibrado";
+"%@ está ao vivo. %@" = "%@ está ao vivo. %@";
+"%@ começa %@ em %@." = "%@ começa %@ em %@.";
+"%@ terminou com %@." = "%@ terminou com %@.";
+"%@ segue em %@." = "%@ segue em %@.";
+"Abrir agora" = "Abrir agora";
+"Vale ativar alerta" = "Vale ativar alerta";
+"Bom para revisar histórico" = "Bom para revisar histórico";
+"Acompanhar se sobrar tempo" = "Acompanhar se sobrar tempo";
+"game %@" = "game %@";
+"pontos %@" = "pontos %@";
+"saque %@" = "saque %@";
+"Sem telemetria adicional." = "Sem telemetria adicional.";
+
+// MARK: - Remaining direct SwiftUI literals
+
+"\"Sistema\" segue o tema do iOS. Mudanças são aplicadas imediatamente." = "\"Sistema\" segue o tema do iOS. Mudanças são aplicadas imediatamente.";
+"Em \"Automático\", o app usa as cores do Slam em andamento (AO, Roland Garros, Wimbledon, US Open). Fora de temporada mantém o tema clássico." = "Em \"Automático\", o app usa as cores do Slam em andamento (AO, Roland Garros, Wimbledon, US Open). Fora de temporada mantém o tema clássico.";
+"Toque longo no número da versão para abrir o diagnóstico de provedor (uso interno). \"Refazer onboarding\" volta pra tela inicial de boas-vindas — seus dados (favoritos, previsões, posts) ficam intactos." = "Toque longo no número da versão para abrir o diagnóstico de provedor (uso interno). \"Refazer onboarding\" volta pra tela inicial de boas-vindas — seus dados (favoritos, previsões, posts) ficam intactos.";
+"Em \"Automático\", o app usa as cores do Slam em andamento. Escolher um Slam específico congela as cores deste Slam o ano todo." = "Em \"Automático\", o app usa as cores do Slam em andamento. Escolher um Slam específico congela as cores deste Slam o ano todo.";
+"Ao desativar \"Enviar token ao backend\", o app envia uma revogação para parar pushes remotos." = "Ao desativar \"Enviar token ao backend\", o app envia uma revogação para parar pushes remotos.";
+"Esconde partidas sem ninguém famoso, fora dos seus favoritos. O Match Brain decide o que é \"importante\" baseado em ranking, favorito e momento ao vivo." = "Esconde partidas sem ninguém famoso, fora dos seus favoritos. O Match Brain decide o que é \"importante\" baseado em ranking, favorito e momento ao vivo.";
+"F" = "F";
+
+// MARK: - Match Brain narrative
+
+"saque indefinido" = "saque indefinido";
+"%@ sacando" = "%@ sacando";
+"%@. %@ que pode mudar o set." = "%@. %@ que pode mudar o set.";
+"%@. Match point: a partida pode acabar neste game." = "%@. Match point: a partida pode acabar neste game.";
+"Tie-break em andamento. Cada mini-break pesa dobrado agora." = "Tie-break em andamento. Cada mini-break pesa dobrado agora.";
+"Game em construção." = "Game em construção.";
+"Ponto %@." = "Ponto %@.";
+"%@. %@" = "%@. %@";
+"Jogo chegando: %@ vs %@." = "Jogo chegando: %@ vs %@.";
+"Resultado consolidado: %@." = "Resultado consolidado: %@.";
+"%@ a um ponto de quebrar o saque de %@." = "%@ a um ponto de quebrar o saque de %@.";
+"Match point" = "Match point";
+"%@ pode fechar a partida neste ponto." = "%@ pode fechar a partida neste ponto.";
+"Set point" = "Set point";
+"Este ponto pode fechar o set atual." = "Este ponto pode fechar o set atual.";
+"Tie-break em andamento" = "Tie-break em andamento";
+"Cada mini-break pesa dobrado. Quem abrir 2 pontos vira o set." = "Cada mini-break pesa dobrado. Quem abrir 2 pontos vira o set.";
+"Virada em curso" = "Virada em curso";
+"%@ x %@ num momento decisivo." = "%@ x %@ num momento decisivo.";
+"O game virou zona de pressão porque quem recebe está a um ponto de quebrar." = "O game virou zona de pressão porque quem recebe está a um ponto de quebrar.";
+"O último set foi decidido no detalhe, então qualquer oscilação de saque importa." = "O último set foi decidido no detalhe, então qualquer oscilação de saque importa.";
+"O game travou no iguais; quem ganhar dois pontos seguidos ganha controle emocional." = "O game travou no iguais; quem ganhar dois pontos seguidos ganha controle emocional.";
+"Ainda não há ruptura clara, mas o saque atual define o ritmo do próximo game." = "Ainda não há ruptura clara, mas o saque atual define o ritmo do próximo game.";
+"A leitura principal vem do placar final e da sequência recente dos jogadores." = "A leitura principal vem do placar final e da sequência recente dos jogadores.";
+"Importa agora porque envolve favorito, placar vivo e chance real de mudar o roteiro da partida." = "Importa agora porque envolve favorito, placar vivo e chance real de mudar o roteiro da partida.";
+"Importa para você porque um dos seus jogadores favoritos está diretamente envolvido." = "Importa para você porque um dos seus jogadores favoritos está diretamente envolvido.";
+"Importa antes do início porque é a melhor janela para previsão e alerta." = "Importa antes do início porque é a melhor janela para previsão e alerta.";
+"%@ e %@ ainda têm contexto útil para ranking, forma e retrospecto." = "%@ e %@ ainda têm contexto útil para ranking, forma e retrospecto.";
+"placar pressionado" = "placar pressionado";
+"games %@" = "games %@";
+"Este é o game mais importante agora: break point com %@." = "Este é o game mais importante agora: break point com %@.";
+"Este game pode decidir o set." = "Este game pode decidir o set.";
+"Este game pode decidir a partida." = "Este game pode decidir a partida.";
+"Se vencer, %@ protege posição de elite e pressiona a briga pelo topo." = "Se vencer, %@ protege posição de elite e pressiona a briga pelo topo.";
+"Vitória pode aproximar %@ de cabeça de chave maior nas próximas semanas." = "Vitória pode aproximar %@ de cabeça de chave maior nas próximas semanas.";
+"Resultado ajuda %@ a ganhar fôlego no ranking e no calendário." = "Resultado ajuda %@ a ganhar fôlego no ranking e no calendário.";
+"Saque atual: %@" = "Saque atual: %@";
+"Game atual: %@" = "Game atual: %@";
+"%d set(s) no placar" = "%d set(s) no placar";
+"H2H registrado no app: %d jogo(s)" = "H2H registrado no app: %d jogo(s)";
+"%@ ganhou %d dos últimos %d pontos confirmados no saque." = "%@ ganhou %d dos últimos %d pontos confirmados no saque.";
+"Este foi o game mais carregado até aqui: %d eventos de pressão nos últimos %d registros." = "Este foi o game mais carregado até aqui: %d eventos de pressão nos últimos %d registros.";
+"O jogo virou porque %@ passou a dominar os registros recentes depois de uma sequência de %@." = "O jogo virou porque %@ passou a dominar os registros recentes depois de uma sequência de %@.";
+
+// MARK: - Native sharing
+
+"Compartilhar partida" = "Compartilhar partida";
+"Compartilhar previsão" = "Compartilhar previsão";
+"Estou acompanhando %@ no Match Point.\n%@ • %@ • %@%@" = "Estou acompanhando %@ no Match Point.\n%@ • %@ • %@%@";
+"Minha previsão no Match Point\n%@\n%@\n%@\nStatus: %@" = "Minha previsão no Match Point\n%@\n%@\n%@\nStatus: %@";
+"%d pts simbólicos • retorno possível %d pts" = "%d pts simbólicos • retorno possível %d pts";
+"Próxima" = "Próxima";
+"Finalizada" = "Finalizada";
+"Status pendente" = "Status pendente";
+"MATCH POINT PICK" = "MATCH POINT PICK";
+"matchpoint.app" = "matchpoint.app";
+"Crie previsões para abrir sua temporada social." = "Crie previsões para abrir sua temporada social.";
+"Compartilhar card da previsão" = "Compartilhar card da previsão";
+"Publicar comentário do pick" = "Publicar comentário do pick";
+"Resumo social" = "Resumo social";
+"Esta semana (local)" = "Esta semana (local)";
+"Temporada" = "Temporada";
+"Previsões" = "Previsões";
+"Comentar este pick" = "Comentar este pick";
+"Conquistas" = "Conquistas";
+"Histórico recente" = "Histórico recente";
+
+// MARK: - Match Brain and privacy localization
+"Resumo" = "Resumo";
+"Match Point coleta apenas o necessário para funcionar (posts sociais, favoritos, token de notificação push) e não usa esses dados para rastreamento entre apps ou empresas." = "Match Point coleta apenas o necessário para funcionar (posts sociais, favoritos, token de notificação push) e não usa esses dados para rastreamento entre apps ou empresas.";
+"Dados que coletamos" = "Dados que coletamos";
+"Posts sociais e enquetes criadas por você (NSPrivacyCollectedDataTypeOtherUserContent)." = "Posts sociais e enquetes criadas por você (NSPrivacyCollectedDataTypeOtherUserContent).";
+"Token de notificação remota (APNs) — enviado ao backend configurado por você, sempre via HTTPS." = "Token de notificação remota (APNs) — enviado ao backend configurado por você, sempre via HTTPS.";
+"Interações com o app: favoritos, predições, pontuação local (NSPrivacyCollectedDataTypeProductInteraction)." = "Interações com o app: favoritos, predições, pontuação local (NSPrivacyCollectedDataTypeProductInteraction).";
+"Dados que NÃO coletamos" = "Dados que NÃO coletamos";
+"Identificadores de rastreamento (IDFA, IDFV)." = "Identificadores de rastreamento (IDFA, IDFV).";
+"Localização precisa ou aproximada." = "Localização precisa ou aproximada.";
+"Contatos, fotos, microfone ou câmera." = "Contatos, fotos, microfone ou câmera.";
+"Pagamentos, cartão de crédito ou informações financeiras." = "Pagamentos, cartão de crédito ou informações financeiras.";
+"Onde os dados ficam" = "Onde os dados ficam";
+"Dados locais ficam no SwiftData, dentro do sandbox do app." = "Dados locais ficam no SwiftData, dentro do sandbox do app.";
+"Posts e pontuação sincronizam via iCloud privado/público quando habilitado." = "Posts e pontuação sincronizam via iCloud privado/público quando habilitado.";
+"Token APNs vai ao backend que você configurar em Configurações." = "Token APNs vai ao backend que você configurar em Configurações.";
+"Exportar seus dados a qualquer momento em Configurações." = "Exportar seus dados a qualquer momento em Configurações.";
+"Excluir todos os seus dados locais com um toque em Configurações." = "Excluir todos os seus dados locais com um toque em Configurações.";
+"Pedir esclarecimentos sobre uso dos dados via e-mail de suporte." = "Pedir esclarecimentos sobre uso dos dados via e-mail de suporte.";
+"Última atualização: %@" = "Última atualização: %@";
+"Seus direitos de privacidade" = "Seus direitos de privacidade";
+"Seus direitos (GDPR)" = "Seus direitos (GDPR)";
+"Seus direitos (UK GDPR)" = "Seus direitos (UK GDPR)";
+"Seus direitos (LGPD)" = "Seus direitos (LGPD)";
+"Seu estilo: pressão" = "Seu estilo: pressão";
+"Seu estilo: grandes nomes" = "Seu estilo: grandes nomes";
+"Seu estilo: zebra possível" = "Seu estilo: zebra possível";
+"No horário que você prefere" = "No horário que você prefere";
+"contexto geral" = "contexto geral";
+"%@: %@" = "%@: %@";
+"Momentos de pressão" = "Momentos de pressão";
+"Grandes nomes" = "Grandes nomes";
+"Zebras e viradas" = "Zebras e viradas";
+"Qualquer horário" = "Qualquer horário";
+"Meu horário usual" = "Meu horário usual";
+"Manhã" = "Manhã";
+"Tarde" = "Tarde";
+"Noite" = "Noite";
+"Madrugada" = "Madrugada";
+"Torneio" = "Torneio";
+"Partida" = "Partida";
+"torneio" = "torneio";
+"%@ é a melhor abertura agora: %@." = "%@ é a melhor abertura agora: %@.";
+"%@ é o alerta mais importante da próxima janela." = "%@ é o alerta mais importante da próxima janela.";
+"%@ tem o contexto mais útil para revisar." = "%@ tem o contexto mais útil para revisar.";
+"começa em %dh" = "começa em %dh";
+"%d%% de sinais úteis" = "%d%% de sinais úteis";
+"%d de %d aberturas recomendadas viraram sinal positivo." = "%d de %d aberturas recomendadas viraram sinal positivo.";
+"Aprendendo com suas aberturas" = "Aprendendo com suas aberturas";
+"Abra jogos recomendados para o Match Brain medir quais sinais realmente valem seu tempo." = "Abra jogos recomendados para o Match Brain medir quais sinais realmente valem seu tempo.";
+"Sem jogo forte no radar agora" = "Sem jogo forte no radar agora";
+"Melhor jogo ao vivo agora" = "Melhor jogo ao vivo agora";
+"Abra agora" = "Abra agora";
+"Prepare o alerta certo" = "Prepare o alerta certo";
+"Contexto mais útil para revisar" = "Contexto mais útil para revisar";
+"Ao vivo agora" = "Ao vivo agora";
+"Sem telemetria extra ainda." = "Sem telemetria extra ainda.";
+"%@: %@ agora." = "%@: %@ agora.";
+"%@: %@ com jogo em andamento." = "%@: %@ com jogo em andamento.";
+"sinal forte" = "sinal forte";
+"%@: começa em menos de 90 min." = "%@: começa em menos de 90 min.";
+
+// MARK: - Match Brain availability localization
+"Jogador 1" = "Jogador 1";
+"Jogador 2" = "Jogador 2";
+"modelo baixando" = "modelo baixando";
+"dispositivo não elegível" = "dispositivo não elegível";
+"Apple Intelligence off" = "Apple Intelligence desligada";
+"iOS mais antigo" = "iOS mais antigo";
