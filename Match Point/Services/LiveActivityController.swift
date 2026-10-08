@@ -19,6 +19,7 @@ final class LiveActivityController {
     static let shared = LiveActivityController()
 
     private var activeActivities: [String: Activity<MatchActivityAttributes>] = [:]
+    private let maximumTrackedLiveActivities = 1
 
     private init() {
         reattachExistingActivities()
@@ -33,6 +34,7 @@ final class LiveActivityController {
 
     func handle(match: TennisMatch, rankings: [RankingEntry]) {
         guard #available(iOS 16.2, *) else { return }
+        reattachExistingActivities()
         MatchWidgetSnapshotStore.shared.update(match: match, rankings: rankings)
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
 
@@ -54,6 +56,11 @@ final class LiveActivityController {
                     await existing.update(ActivityContent(state: state, staleDate: nil))
                 }
             } else {
+                guard activeActivities.count < maximumTrackedLiveActivities else {
+                    endActivities(excluding: [key], dismissalPolicy: .immediate)
+                    return
+                }
+
                 do {
                     let activity = try Activity<MatchActivityAttributes>.request(
                         attributes: attributes,
@@ -83,11 +90,7 @@ final class LiveActivityController {
 
     func endAll() {
         guard #available(iOS 16.2, *) else { return }
-        for activity in activeActivities.values {
-            let content = ActivityContent(state: activity.content.state, staleDate: nil)
-            Task { await activity.end(content, dismissalPolicy: .immediate) }
-        }
-        activeActivities.removeAll()
+        endActivities(excluding: [], dismissalPolicy: .immediate)
     }
 
     /// Ends any tracked activity whose key is not present in `liveMatchKeys`.
@@ -107,6 +110,19 @@ final class LiveActivityController {
                     )
                 }
             }
+        }
+    }
+
+    private func endActivities(
+        excluding retainedKeys: Set<String>,
+        dismissalPolicy: ActivityUIDismissalPolicy
+    ) {
+        guard #available(iOS 16.2, *) else { return }
+        let activitiesToEnd = activeActivities.filter { key, _ in !retainedKeys.contains(key) }
+        for (key, activity) in activitiesToEnd {
+            let content = ActivityContent(state: activity.content.state, staleDate: nil)
+            Task { await activity.end(content, dismissalPolicy: dismissalPolicy) }
+            activeActivities.removeValue(forKey: key)
         }
     }
 
