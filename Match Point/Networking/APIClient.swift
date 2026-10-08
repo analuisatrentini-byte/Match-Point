@@ -19,7 +19,7 @@ struct APIError: Error, LocalizedError, UserPresentableError {
             return UserFacingSyncFeedback(
                 kind: .configuration,
                 title: "Sincronização indisponível",
-                message: "O serviço de dados do Match Point não está disponível no momento.",
+                message: "Não foi possível conectar ao serviço de dados do Match Point agora.",
                 recoverySuggestion: "Tente novamente em instantes."
             )
         }

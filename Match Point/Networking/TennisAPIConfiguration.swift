@@ -47,6 +47,8 @@ enum TennisAPIConfiguration {
     // until a backend proxy is configured.
     static let backendRequiredRestBaseURL = staticURL("https://backend-required.invalid/tennis")
     static let backendRequiredWebSocketBaseURL = staticURL("wss://backend-required.invalid/live")
+    static let bundledBackendProxyBaseURL = staticURL("https://match-point-rr8b.onrender.com/tennis")
+    static let bundledBackendWebSocketBaseURL = staticURL("wss://match-point-rr8b.onrender.com/live")
 
     private static func staticURL(_ string: StaticString) -> URL {
         guard let url = URL(string: "\(string)") else {
@@ -129,7 +131,7 @@ enum TennisAPIConfiguration {
             environmentKey: "MATCH_POINT_BACKEND_PROXY_URL",
             allowedSchemes: ["https"],
             debugLocalhostSchemes: ["http"]
-        )
+        ) ?? bundledBackendProxyBaseURL
     }
 
     static var backendWebSocketBaseURL: URL? {
@@ -138,7 +140,7 @@ enum TennisAPIConfiguration {
             environmentKey: "MATCH_POINT_BACKEND_WEBSOCKET_URL",
             allowedSchemes: ["wss"],
             debugLocalhostSchemes: ["ws"]
-        )
+        ) ?? bundledBackendWebSocketBaseURL
     }
 
     static func setBackendProxyURL(_ value: String) {
