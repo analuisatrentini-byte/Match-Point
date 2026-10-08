@@ -216,6 +216,17 @@ enum TennisAPIConfiguration {
         allowedSchemes: Set<String>,
         debugLocalhostSchemes: Set<String>
     ) -> URL? {
+        let environment = ProcessInfo.processInfo.environment
+        let value = environment[environmentKey]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if !value.isEmpty {
+            guard let url = validatedBackendURL(value, allowedSchemes: allowedSchemes, debugLocalhostSchemes: debugLocalhostSchemes) else {
+                return nil
+            }
+            keychain.write(value, account: account)
+            providerDefaults.removeObject(forKey: account)
+            return url
+        }
+
         if let secret = keychain.read(account: account)?
             .trimmingCharacters(in: .whitespacesAndNewlines), !secret.isEmpty {
             return validatedBackendURL(secret, allowedSchemes: allowedSchemes, debugLocalhostSchemes: debugLocalhostSchemes)
@@ -231,9 +242,7 @@ enum TennisAPIConfiguration {
             return validatedBackendURL(legacy, allowedSchemes: allowedSchemes, debugLocalhostSchemes: debugLocalhostSchemes)
         }
 
-        let environment = ProcessInfo.processInfo.environment
-        let value = environment[environmentKey]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        return value.isEmpty ? nil : validatedBackendURL(value, allowedSchemes: allowedSchemes, debugLocalhostSchemes: debugLocalhostSchemes)
+        return nil
     }
 
     private nonisolated static func validatedBackendURL(
