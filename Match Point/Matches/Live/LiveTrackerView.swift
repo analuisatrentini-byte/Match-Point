@@ -679,21 +679,26 @@ struct LiveTrackerView: View {
     }
 
     private func syncNow() async {
-        await syncMatches(presentsErrors: true)
+        await syncMatches(presentsErrors: true, showsLoading: true)
     }
 
-    private func syncMatches(presentsErrors: Bool) async {
+    private func syncMatches(presentsErrors: Bool, showsLoading: Bool) async {
         guard !isSyncing else { return }
-        isSyncing = true
-        defer { isSyncing = false }
+        if showsLoading {
+            isSyncing = true
+        }
+        defer {
+            if showsLoading {
+                isSyncing = false
+            }
+        }
         let service = DataSyncService(context: context)
         do {
-            try await service.syncMatches()
+            try await service.syncLiveMatches()
             if presentsErrors {
                 syncFeedback = nil
             }
             AutoSyncTracker.markSynced(.liveMatches)
-            AutoSyncTracker.markSynced(.matches)
         } catch {
             if presentsErrors {
                 syncFeedback = service.userFacingFeedback(for: error)
@@ -703,7 +708,7 @@ struct LiveTrackerView: View {
 
     @MainActor
     private func runAutoSync() async {
-        await syncMatches(presentsErrors: false)
+        await syncMatches(presentsErrors: false, showsLoading: false)
     }
 
     private func shortLabel(for match: TennisMatch) -> String {

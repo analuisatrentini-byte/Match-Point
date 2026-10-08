@@ -22,11 +22,11 @@ enum AutoSyncTracker {
     private static func minInterval(for scope: Scope) -> TimeInterval {
         switch scope {
         case .liveMatches:
-            return 10   // antes 15s — partidas live são o caso mais crítico
+            return 30   // live é leve, mas ainda evita reescrever SwiftData sem parar
         case .matches:
-            return 30   // antes 60s
+            return 300  // sync completo é pesado; deixar para primeira carga/refresh
         case .fixtures:
-            return 60   // antes 120s
+            return 300
         case .tournaments:
             return 180  // antes 300s
         case .playersAndRankings:

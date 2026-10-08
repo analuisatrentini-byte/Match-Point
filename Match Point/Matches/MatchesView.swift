@@ -843,8 +843,6 @@ struct MatchesView: View {
 
     @MainActor
     private func runAutoSync() async {
-        isSyncing = true
-        defer { isSyncing = false }
         #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("MATCH_POINT_UI_FORCE_SYNC_ERROR") {
             syncFeedback = DataSyncService(context: context).userFacingFeedback(for: APIError(message: "UI test forced sync failure"))
@@ -853,8 +851,15 @@ struct MatchesView: View {
         #endif
         let service = DataSyncService(context: context)
         do {
-            try await service.syncMatches()
-            AutoSyncTracker.markSynced(.matches)
+            if matches.isEmpty {
+                try await service.syncMatches(
+                    from: Date().addingTimeInterval(-6 * 60 * 60),
+                    to: Date().addingTimeInterval(2 * 24 * 60 * 60)
+                )
+                AutoSyncTracker.markSynced(.matches)
+            } else {
+                try await service.syncLiveMatches()
+            }
             AutoSyncTracker.markSynced(.liveMatches)
         } catch {
             // Silent failure on auto-sync; manual button still surfaces errors.
@@ -869,7 +874,10 @@ struct MatchesView: View {
 
         let service = DataSyncService(context: context)
         do {
-            try await service.syncMatches()
+            try await service.syncMatches(
+                from: Date().addingTimeInterval(-12 * 60 * 60),
+                to: Date().addingTimeInterval(3 * 24 * 60 * 60)
+            )
             syncFeedback = nil
             AutoSyncTracker.markSynced(.matches)
             AutoSyncTracker.markSynced(.liveMatches)

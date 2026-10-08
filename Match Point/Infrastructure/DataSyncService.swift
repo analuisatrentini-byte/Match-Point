@@ -269,7 +269,7 @@ final class DataSyncService {
             services.liveActivity.handle(match: match, rankings: rankings)
         }
 
-        await services.alerts.refreshScheduledNotifications(in: context)
+        saveContext("syncLiveMatches")
     }
 
     func syncMatches(
