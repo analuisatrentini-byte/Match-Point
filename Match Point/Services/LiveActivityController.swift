@@ -39,6 +39,7 @@ final class LiveActivityController {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
 
         let key = activityKey(for: match)
+        let shouldTrackActivity = isFavoriteContext(match)
         // Build a rank lookup map once so makeAttributes doesn't do two O(N)
         // linear searches over the rankings array per match.
         let rankByPlayerID: [UUID: Int] = Dictionary(
@@ -49,6 +50,11 @@ final class LiveActivityController {
         )
 
         if match.isLive {
+            guard shouldTrackActivity else {
+                endActivity(forKey: key, dismissalPolicy: .immediate)
+                return
+            }
+
             let attributes = makeAttributes(for: match, key: key, rankByPlayerID: rankByPlayerID)
             let state = makeState(for: match)
             if let existing = activeActivities[key] {
@@ -101,14 +107,25 @@ final class LiveActivityController {
         guard #available(iOS 16.2, *) else { return }
         let stale = activeActivities.keys.filter { !liveMatchKeys.contains($0) }
         for key in stale {
-            if let activity = activeActivities.removeValue(forKey: key) {
-                Task {
-                    await activity.end(
-                        ActivityContent(state: activity.content.state, staleDate: nil),
-                        dismissalPolicy: .after(.now + 60 * 2)
-                    )
-                }
-            }
+            endActivity(forKey: key, dismissalPolicy: .after(.now + 60 * 2))
+        }
+    }
+
+    private func isFavoriteContext(_ match: TennisMatch) -> Bool {
+        match.isFavorite ||
+        match.player1?.isFavorite == true ||
+        match.player2?.isFavorite == true ||
+        match.tournament?.isFavorite == true
+    }
+
+    private func endActivity(forKey key: String, dismissalPolicy: ActivityUIDismissalPolicy) {
+        guard #available(iOS 16.2, *) else { return }
+        guard let activity = activeActivities.removeValue(forKey: key) else { return }
+        Task {
+            await activity.end(
+                ActivityContent(state: activity.content.state, staleDate: nil),
+                dismissalPolicy: dismissalPolicy
+            )
         }
     }
 
