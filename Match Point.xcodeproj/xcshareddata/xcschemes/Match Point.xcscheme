@@ -81,13 +81,13 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = ""
-            value = ""
-            isEnabled = "NO">
+            key = "MATCH_POINT_BACKEND_PROXY_URL"
+            value = "https://match-point-rr8b.onrender.com/tennis"
+            isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
-            key = "MATCH_POINT_API_TENNIS_KEY"
-            value = "7fb9a0d6b6ff61c0259edbf106e10dfdf4d24c74cd71ad0d6e0b5e2e7c656a82"
+            key = "MATCH_POINT_BACKEND_WEBSOCKET_URL"
+            value = "wss://match-point-rr8b.onrender.com/live"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

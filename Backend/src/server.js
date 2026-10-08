@@ -21,6 +21,7 @@ import {
   apiTennisProxyStats,
   apiTennisWebSocketURL,
   handleAPITennisProxy,
+  handleAPITennisWebSocketUpgrade,
   productionReadiness
 } from "./apiTennisProxy.js";
 import { handleOfficialRankingProjection, officialRankingReadiness } from "./officialRankingProjection.js";
@@ -297,6 +298,32 @@ const server = http.createServer(async (request, response) => {
       ok: false,
       error: statusCode >= 500 ? "Internal server error" : error.message
     });
+  }
+});
+
+server.on("upgrade", (request, socket, head) => {
+  try {
+    const pathname = new URL(request.url, "http://localhost").pathname;
+    if (pathname !== "/live") {
+      socket.destroy();
+      return;
+    }
+
+    if (!rateLimiter.allow(clientIP(request))) {
+      socket.write([
+        "HTTP/1.1 429 Too Many Requests",
+        `retry-after: ${Math.ceil(rateLimiter.windowMs / 1000)}`,
+        "connection: close",
+        "",
+        ""
+      ].join("\r\n"));
+      socket.destroy();
+      return;
+    }
+
+    handleAPITennisWebSocketUpgrade(request, socket, head);
+  } catch {
+    socket.destroy();
   }
 });
 

@@ -1,14 +1,20 @@
+import { WebSocket, WebSocketServer } from "ws";
+
 const defaultRestBaseURL = "https://api.api-tennis.com/tennis/";
 const defaultWebSocketURL = "wss://wss.api-tennis.com/live";
+
 const proxyCache = new Map();
 const proxyHits = new Map();
+const webSocketServer = new WebSocketServer({ noServer: true });
 const proxyMetrics = {
   requests: 0,
   upstreamRequests: 0,
   cacheHits: 0,
   staleFallbacks: 0,
   rateLimited: 0,
-  failures: 0
+  failures: 0,
+  websocketConnections: 0,
+  websocketFailures: 0
 };
 
 const allowedMethods = new Set([
@@ -216,6 +222,104 @@ export function apiTennisProxyStats() {
 export function apiTennisWebSocketURL(env = process.env) {
   const target = validURL(env.API_TENNIS_WS_URL ?? defaultWebSocketURL, ["wss"]);
   return target?.toString();
+}
+
+export function buildAPITennisWebSocketURL(incomingURL, env = process.env) {
+  const source = new URL(incomingURL, "http://match-point.local");
+  const key = apiKey(env);
+  if (!key) {
+    throw httpError(503, "API_TENNIS_KEY is not configured");
+  }
+
+  const target = validURL(env.API_TENNIS_WS_URL ?? defaultWebSocketURL, ["wss"]);
+  if (!target) {
+    throw httpError(503, "API_TENNIS_WS_URL must be a wss URL");
+  }
+
+  source.searchParams.forEach((value, name) => {
+    if (name.toLowerCase() !== "apikey") {
+      target.searchParams.append(name, value);
+    }
+  });
+  target.searchParams.set("APIkey", key);
+  return target;
+}
+
+export function handleAPITennisWebSocketUpgrade(request, socket, head, { env = process.env } = {}) {
+  let target;
+  try {
+    target = buildAPITennisWebSocketURL(request.url, env);
+  } catch (error) {
+    proxyMetrics.websocketFailures += 1;
+    writeUpgradeError(socket, error.statusCode ?? 500, error.message);
+    return;
+  }
+
+  webSocketServer.handleUpgrade(request, socket, head, (client) => {
+    proxyMetrics.websocketConnections += 1;
+    const upstream = new WebSocket(target, {
+      headers: {
+        "user-agent": "MatchPointBackend/api-tennis-websocket-proxy"
+      }
+    });
+    const pendingClientMessages = [];
+
+    const closeBoth = (code = 1000, reason = "") => {
+      const reasonBuffer = Buffer.from(String(reason).slice(0, 120));
+      if (client.readyState === WebSocket.OPEN || client.readyState === WebSocket.CONNECTING) {
+        client.close(code, reasonBuffer);
+      }
+      if (upstream.readyState === WebSocket.OPEN || upstream.readyState === WebSocket.CONNECTING) {
+        upstream.close(code, reasonBuffer);
+      }
+    };
+
+    upstream.on("open", () => {
+      for (const message of pendingClientMessages.splice(0)) {
+        upstream.send(message.data, { binary: message.isBinary });
+      }
+    });
+
+    client.on("message", (data, isBinary) => {
+      if (upstream.readyState === WebSocket.OPEN) {
+        upstream.send(data, { binary: isBinary });
+      } else if (upstream.readyState === WebSocket.CONNECTING) {
+        pendingClientMessages.push({ data, isBinary });
+      }
+    });
+
+    upstream.on("message", (data, isBinary) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(data, { binary: isBinary });
+      }
+    });
+
+    client.on("close", (code, reason) => closeBoth(code, reason));
+    upstream.on("close", (code, reason) => closeBoth(code, reason));
+
+    client.on("error", () => {
+      proxyMetrics.websocketFailures += 1;
+      closeBoth(1011, "client-error");
+    });
+    upstream.on("error", () => {
+      proxyMetrics.websocketFailures += 1;
+      closeBoth(1011, "upstream-error");
+    });
+  });
+}
+
+function writeUpgradeError(socket, statusCode, message) {
+  const statusText = statusCode === 503 ? "Service Unavailable" : "Bad Request";
+  const body = JSON.stringify({ ok: false, error: message });
+  socket.write([
+    `HTTP/1.1 ${statusCode} ${statusText}`,
+    "content-type: application/json; charset=utf-8",
+    `content-length: ${Buffer.byteLength(body)}`,
+    "connection: close",
+    "",
+    body
+  ].join("\r\n"));
+  socket.destroy();
 }
 
 function cacheEnabled(env) {
