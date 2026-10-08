@@ -438,7 +438,7 @@ final class DataSyncService {
         relations.tournamentsById[tournamentId] = Tournament.upsert(
             from: TournamentDTO(
                 id: tournamentId,
-                name: "Torneio \(tournamentId)",
+                name: normalizedTournamentName(match.tournamentName, fallbackId: tournamentId),
                 city: "TBD",
                 country: "TBD",
                 surface: "Unknown",
@@ -448,6 +448,11 @@ final class DataSyncService {
             ),
             in: context
         )
+    }
+
+    private func normalizedTournamentName(_ value: String?, fallbackId: String) -> String {
+        let trimmed = (value ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? "Torneio \(fallbackId)" : trimmed
     }
 
     func userFacingMessage(for error: Error) -> String {

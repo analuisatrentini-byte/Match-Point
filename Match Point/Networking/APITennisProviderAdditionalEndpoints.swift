@@ -174,6 +174,7 @@ private func mapFixture(_ fixture: APIFixture) -> MatchDTO {
         id: eventKey,
         date: parseDate(dateString: fixture.eventDate, timeString: fixture.eventTime) ?? .distantPast,
         tournamentId: fixture.tournamentKey?.value,
+        tournamentName: fixture.tournamentName,
         player1Id: firstPlayerID,
         player2Id: secondPlayerID,
         player1Name: firstPlayerName,

@@ -105,6 +105,7 @@ struct MatchDTO: Identifiable {
     let id: String
     let date: Date
     let tournamentId: String?
+    let tournamentName: String?
     let player1Id: String
     let player2Id: String
     let player1Name: String
@@ -126,6 +127,7 @@ struct MatchDTO: Identifiable {
         id: String,
         date: Date,
         tournamentId: String?,
+        tournamentName: String? = nil,
         player1Id: String,
         player2Id: String,
         player1Name: String,
@@ -146,6 +148,7 @@ struct MatchDTO: Identifiable {
         self.id = id
         self.date = date
         self.tournamentId = tournamentId
+        self.tournamentName = tournamentName
         self.player1Id = player1Id
         self.player2Id = player2Id
         self.player1Name = player1Name

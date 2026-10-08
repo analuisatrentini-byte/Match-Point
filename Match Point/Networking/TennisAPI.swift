@@ -323,6 +323,7 @@ struct APITennisProvider {
             id: eventKey,
             date: parseDate(dateString: match.eventDate, timeString: match.eventTime) ?? .distantPast,
             tournamentId: match.tournamentKey?.value,
+            tournamentName: match.tournamentName,
             player1Id: firstPlayerID,
             player2Id: secondPlayerID,
             player1Name: match.eventFirstPlayer,

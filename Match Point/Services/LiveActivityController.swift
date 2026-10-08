@@ -57,7 +57,6 @@ final class LiveActivityController {
                 }
             } else {
                 guard activeActivities.count < maximumTrackedLiveActivities else {
-                    endActivities(excluding: [key], dismissalPolicy: .immediate)
                     return
                 }
 
