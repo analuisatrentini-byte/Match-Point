@@ -116,7 +116,6 @@ extension TennisAPI: TennisAPIProviding {}
 struct APITennisProvider {
     private let client: APIClient
     private let usesBackendProxy: Bool
-    private let hasBackendProxy: Bool
 
     init(
         baseURL: URL,
@@ -126,7 +125,6 @@ struct APITennisProvider {
     ) {
         self.client = APIClient(baseURL: baseURL, session: session)
         self.usesBackendProxy = usesBackendProxy
-        self.hasBackendProxy = hasBackendProxy
     }
 
     /// Dynamic-URL variant — the closure is re-evaluated per request so a
@@ -139,7 +137,6 @@ struct APITennisProvider {
     ) {
         self.client = APIClient(baseURLProvider: baseURLProvider, session: session)
         self.usesBackendProxy = usesBackendProxy
-        self.hasBackendProxy = hasBackendProxy
     }
 
     func tournaments() async throws -> [TournamentDTO] {
@@ -271,7 +268,7 @@ struct APITennisProvider {
         method: String,
         extraQuery: [String: String] = [:]
     ) async throws -> Response {
-        guard usesBackendProxy, hasBackendProxy else {
+        guard usesBackendProxy else {
             throw APIError(message: "Serviço de dados indisponível no momento.")
         }
 
