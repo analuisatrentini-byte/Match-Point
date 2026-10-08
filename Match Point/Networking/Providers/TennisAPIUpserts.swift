@@ -97,15 +97,6 @@ extension Player {
             return existing
         }
 
-        if let existing = existingSeedPlayer(named: dto.name, in: context) {
-            existing.externalKey = dto.id
-            existing.name = dto.name
-            existing.nationality = dto.nationality
-            existing.isWTA = dto.tour.caseInsensitiveCompare("WTA") == .orderedSame
-            existing.birthDate = dto.birthDate
-            return existing
-        }
-
         let model = Player(
             externalKey: dto.id,
             name: dto.name,
@@ -115,28 +106,6 @@ extension Player {
         )
         context.insert(model)
         return model
-    }
-
-    @MainActor
-    private static func existingSeedPlayer(named name: String, in context: ModelContext) -> Player? {
-        let normalizedName = normalizedPlayerName(name)
-        let descriptor = FetchDescriptor<Player>()
-        do {
-            return try context.fetch(descriptor).first { player in
-                guard player.externalKey?.hasPrefix("seed-") == true else { return false }
-                return normalizedPlayerName(player.name) == normalizedName
-            }
-        } catch {
-            AppLogger.persistence.error("Seed player merge fetch failed: \(AppLogger.message(for: error), privacy: .private)")
-            AppLogger.recordFailure(category: "persistence", operation: "Player.upsert.seedMerge", error: error)
-            return nil
-        }
-    }
-
-    nonisolated private static func normalizedPlayerName(_ value: String) -> String {
-        value
-            .folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
-            .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     @MainActor

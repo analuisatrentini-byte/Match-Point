@@ -170,8 +170,12 @@ final class DataSyncService {
         }
         try validate(players, context: "jogadores")
         var playersById: [String: Player] = [:]
+        let favoriteSeedNames = favoriteSeedPlayerNames()
         for p in players {
             let model = Player.upsert(from: p, in: context)
+            if favoriteSeedNames.contains(normalizedPlayerName(p.name)) {
+                model.isFavorite = true
+            }
             playersById[p.id] = model
         }
         if let rankings = await optionalAPICall("rankings \(tour ?? "default")", operation: { try await api.rankings(tour: tour) }), !rankings.isEmpty {
@@ -453,6 +457,21 @@ final class DataSyncService {
     private func normalizedTournamentName(_ value: String?, fallbackId: String) -> String {
         let trimmed = (value ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmed.isEmpty ? "Torneio \(fallbackId)" : trimmed
+    }
+
+    private func favoriteSeedPlayerNames() -> Set<String> {
+        Set(fetch(FetchDescriptor<Player>(), context: "favorite seed players").compactMap { player in
+            guard player.isFavorite, player.externalKey?.hasPrefix("seed-") == true else {
+                return nil
+            }
+            return normalizedPlayerName(player.name)
+        })
+    }
+
+    private func normalizedPlayerName(_ value: String) -> String {
+        value
+            .folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     func userFacingMessage(for error: Error) -> String {
