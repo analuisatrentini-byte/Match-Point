@@ -219,12 +219,7 @@ enum TennisAPIConfiguration {
         let environment = ProcessInfo.processInfo.environment
         let value = environment[environmentKey]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if !value.isEmpty {
-            guard let url = validatedBackendURL(value, allowedSchemes: allowedSchemes, debugLocalhostSchemes: debugLocalhostSchemes) else {
-                return nil
-            }
-            keychain.write(value, account: account)
-            providerDefaults.removeObject(forKey: account)
-            return url
+            return validatedBackendURL(value, allowedSchemes: allowedSchemes, debugLocalhostSchemes: debugLocalhostSchemes)
         }
 
         if let secret = keychain.read(account: account)?
