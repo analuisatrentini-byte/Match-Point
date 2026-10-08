@@ -135,7 +135,7 @@ struct MatchesView: View {
                             message: emptyMatchesMessage,
                             systemImage: "calendar.badge.exclamationmark",
                             primaryAction: EmptyStateAction(
-                                label: "Sincronizar agora",
+                                label: "Atualizar",
                                 systemImage: "arrow.clockwise",
                                 tint: .green,
                                 accessibilityIdentifier: "matches-empty-sync"
@@ -165,6 +165,8 @@ struct MatchesView: View {
                         .favoriteSwipeAction(isFavorite: m.isFavorite) {
                             let willFavorite = !m.isFavorite
                             m.isFavorite.toggle()
+                            AutoSyncTracker.reset(.matches)
+                            AutoSyncTracker.reset(.liveMatches)
                             if willFavorite {
                                 analyticsStore.record(
                                     ProductAnalyticsEventName.favoriteMatchChosen,

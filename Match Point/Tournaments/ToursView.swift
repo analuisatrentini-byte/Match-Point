@@ -108,6 +108,8 @@ struct ToursView: View {
                 .favoriteSwipeAction(isFavorite: t.isFavorite) {
                     let willFavorite = !t.isFavorite
                     t.isFavorite.toggle()
+                    AutoSyncTracker.reset(.matches)
+                    AutoSyncTracker.reset(.liveMatches)
                     if willFavorite {
                         analyticsStore.record(
                             ProductAnalyticsEventName.favoriteTournamentChosen,

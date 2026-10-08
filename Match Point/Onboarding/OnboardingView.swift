@@ -202,6 +202,9 @@ struct OnboardingView: View {
 
         do {
             try context.save()
+            AutoSyncTracker.reset(.matches)
+            AutoSyncTracker.reset(.liveMatches)
+            AutoSyncTracker.reset(.playersAndRankings)
         } catch {
             AppLogger.persistence.error("Failed to save onboarding favorites: \(AppLogger.message(for: error), privacy: .private)")
             AppLogger.recordFailure(category: "persistence", operation: "onboarding.saveFavorites", error: error)

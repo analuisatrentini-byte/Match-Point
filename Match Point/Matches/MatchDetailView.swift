@@ -132,6 +132,8 @@ struct MatchDetailView: View {
         .favoriteToolbar(isFavorite: match.isFavorite) {
             let willFavorite = !match.isFavorite
             match.isFavorite.toggle()
+            AutoSyncTracker.reset(.matches)
+            AutoSyncTracker.reset(.liveMatches)
             if willFavorite {
                 analyticsStore.record(
                     ProductAnalyticsEventName.favoriteMatchChosen,

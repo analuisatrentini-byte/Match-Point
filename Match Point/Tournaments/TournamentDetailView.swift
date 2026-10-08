@@ -83,6 +83,8 @@ struct TournamentDetailView: View {
         .favoriteToolbar(isFavorite: tournament.isFavorite) {
             let willFavorite = !tournament.isFavorite
             tournament.isFavorite.toggle()
+            AutoSyncTracker.reset(.matches)
+            AutoSyncTracker.reset(.liveMatches)
             if willFavorite {
                 analyticsStore.record(
                     ProductAnalyticsEventName.favoriteTournamentChosen,
