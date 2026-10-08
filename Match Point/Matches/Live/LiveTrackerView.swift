@@ -174,21 +174,24 @@ struct LiveTrackerView: View {
         }
     }
 
+    @ViewBuilder
     private var scoreboardCarousel: some View {
 #if os(iOS)
-        TabView(selection: Binding(
-            get: { selectedMatchID ?? liveFavoriteMatches.first?.id ?? UUID() },
-            set: { selectedMatchID = $0 }
-        )) {
-            ForEach(liveFavoriteMatches) { match in
-                scoreboard(for: match)
-                .padding(.horizontal, 2)
-                .padding(.bottom, liveFavoriteMatches.count > 1 ? 28 : 0)
-                .tag(match.id)
+        if let fallbackID = liveFavoriteMatches.first?.id {
+            TabView(selection: Binding(
+                get: { selectedMatchID ?? fallbackID },
+                set: { selectedMatchID = $0 }
+            )) {
+                ForEach(liveFavoriteMatches) { match in
+                    scoreboard(for: match)
+                    .padding(.horizontal, 2)
+                    .padding(.bottom, liveFavoriteMatches.count > 1 ? 28 : 0)
+                    .tag(match.id)
+                }
             }
+            .tabViewStyle(.page(indexDisplayMode: liveFavoriteMatches.count > 1 ? .always : .never))
+            .frame(minHeight: 380)
         }
-        .tabViewStyle(.page(indexDisplayMode: liveFavoriteMatches.count > 1 ? .always : .never))
-        .frame(minHeight: 380)
 #else
         VStack(spacing: 16) {
             if let selectedMatch = liveFavoriteMatches.first(where: { $0.id == selectedMatchID }) ?? liveFavoriteMatches.first {

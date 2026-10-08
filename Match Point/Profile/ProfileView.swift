@@ -978,15 +978,17 @@ struct ProfileView: View {
 
             if selectedBetNeedsPlayer {
                 Section("Jogador") {
-                    Picker("Jogador", selection: Binding(
-                        get: { selectedPlayer?.id ?? selectablePlayers.first?.id ?? UUID() },
-                        set: { selectedPlayerID = $0 }
-                    )) {
-                        ForEach(selectablePlayers) { p in
-                            Text(p.name).tag(p.id)
+                    if let fallbackPlayerID = selectablePlayers.first?.id {
+                        Picker("Jogador", selection: Binding(
+                            get: { selectedPlayer?.id ?? fallbackPlayerID },
+                            set: { selectedPlayerID = $0 }
+                        )) {
+                            ForEach(selectablePlayers) { p in
+                                Text(p.name).tag(p.id)
+                            }
                         }
+                        .pickerStyle(.segmented)
                     }
-                    .pickerStyle(.segmented)
                 }
             }
 

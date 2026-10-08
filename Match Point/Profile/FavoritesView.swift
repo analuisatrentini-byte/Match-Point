@@ -1250,6 +1250,9 @@ private struct FavoriteMatchCalendarView: View {
                         }
                     }
                 }
+                .onAppear(perform: normalizeSelections)
+                .onChange(of: players.map(\.id)) { _, _ in normalizeSelections() }
+                .onChange(of: tournaments.map(\.id)) { _, _ in normalizeSelections() }
                 .appListCardRow()
             } header: {
                 Text("Filtros")
@@ -1307,6 +1310,15 @@ private struct FavoriteMatchCalendarView: View {
 #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
 #endif
+    }
+
+    private func normalizeSelections() {
+        if !selectedPlayerID.isEmpty, !players.contains(where: { $0.id.uuidString == selectedPlayerID }) {
+            selectedPlayerID = ""
+        }
+        if !selectedTournamentID.isEmpty, !tournaments.contains(where: { $0.id.uuidString == selectedTournamentID }) {
+            selectedTournamentID = ""
+        }
     }
 
     private var groupedDays: [(day: Date, matches: [TennisMatch])] {
