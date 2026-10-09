@@ -10,6 +10,8 @@ struct OnboardingView: View {
 
     @State private var selectedPlayerIDs = Set<UUID>()
     @State private var suggestedPlayers: [Player] = []
+    @State private var searchText = ""
+    @State private var searchResults: [Player] = []
 
     var onFinish: () -> Void
     private let minimumFavoritePlayers = 1
@@ -19,7 +21,11 @@ struct OnboardingView: View {
     }
 
     private var selectedPlayers: [Player] {
-        suggestedPlayers.filter { selectedPlayerIDs.contains($0.id) }
+        selectablePlayers.filter { selectedPlayerIDs.contains($0.id) }
+    }
+
+    private var selectablePlayers: [Player] {
+        uniquePlayers(suggestedPlayers + searchResults)
     }
 
     private var selectionText: String {
@@ -42,6 +48,7 @@ struct OnboardingView: View {
                     VStack(alignment: .leading, spacing: 20) {
                         header
                         radarPreview
+                        searchSection
                         playerGrid
                     }
                     .padding(22)
@@ -124,6 +131,41 @@ struct OnboardingView: View {
     }
 
     @ViewBuilder
+    private var searchSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Buscar outro jogador")
+                .font(.headline.weight(.heavy))
+
+            HStack(spacing: 10) {
+                Image(systemName: "magnifyingglass")
+                    .foregroundStyle(Color.readableSecondary)
+                TextField("Digite pelo menos 2 letras", text: $searchText)
+                    .textInputAutocapitalization(.words)
+                    .autocorrectionDisabled()
+                    .submitLabel(.search)
+                    .accessibilityIdentifier("onboarding-player-search")
+            }
+            .padding(12)
+            .background(Color.white.opacity(0.10), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .onChange(of: searchText) { _, _ in
+                refreshSearchResults()
+            }
+
+            if !searchResults.isEmpty {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 148), spacing: 10)], spacing: 10) {
+                    ForEach(searchResults) { player in
+                        playerButton(player)
+                    }
+                }
+            } else if searchText.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2 {
+                Text("Nenhum jogador encontrado no banco local ainda. Sincronize rankings para ampliar a busca.")
+                    .font(.caption)
+                    .foregroundStyle(Color.readableSecondary)
+            }
+        }
+    }
+
+    @ViewBuilder
     private var playerGrid: some View {
         if suggestedPlayers.isEmpty {
             ContentUnavailableView(
@@ -132,9 +174,13 @@ struct OnboardingView: View {
                 description: Text("A lista inicial aparece automaticamente.")
             )
         } else {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 148), spacing: 10)], spacing: 10) {
-                ForEach(suggestedPlayers) { player in
-                    playerButton(player)
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Sugestões rápidas")
+                    .font(.headline.weight(.heavy))
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 148), spacing: 10)], spacing: 10) {
+                    ForEach(suggestedPlayers) { player in
+                        playerButton(player)
+                    }
                 }
             }
         }
@@ -190,7 +236,7 @@ struct OnboardingView: View {
             loadSuggestedPlayers()
         }
 
-        for player in suggestedPlayers {
+        for player in selectablePlayers {
             player.isFavorite = selectedPlayerIDs.contains(player.id)
         }
 
@@ -273,6 +319,44 @@ struct OnboardingView: View {
         }
         suggestedPlayers = Self.popularPlayerSeeds.compactMap { seed in
             fetchSeedPlayer(slug: seed.slug)
+        }
+        refreshSearchResults()
+    }
+
+    private func refreshSearchResults() {
+        let needle = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard needle.count >= 2 else {
+            searchResults = []
+            return
+        }
+
+        var descriptor = FetchDescriptor<Player>(
+            predicate: #Predicate { player in
+                player.name.localizedStandardContains(needle)
+            },
+            sortBy: [SortDescriptor(\.name)]
+        )
+        descriptor.fetchLimit = 24
+
+        do {
+            let suggestedIDs = Set(suggestedPlayers.map(\.id))
+            searchResults = try context.fetch(descriptor)
+                .filter { player in
+                    !suggestedIDs.contains(player.id)
+                }
+                .prefix(12)
+                .map { $0 }
+        } catch {
+            AppLogger.persistence.error("Failed to search onboarding players: \(AppLogger.message(for: error), privacy: .private)")
+            AppLogger.recordFailure(category: "persistence", operation: "onboarding.searchPlayers", error: error)
+            searchResults = []
+        }
+    }
+
+    private func uniquePlayers(_ players: [Player]) -> [Player] {
+        var seenIDs = Set<UUID>()
+        return players.filter { player in
+            seenIDs.insert(player.id).inserted
         }
     }
 
