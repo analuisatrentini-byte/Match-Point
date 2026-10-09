@@ -332,7 +332,7 @@ struct OnboardingView: View {
 
         let normalizedNeedle = normalizedSearchText(needle)
         var descriptor = FetchDescriptor<Player>(sortBy: [SortDescriptor(\.name)])
-        descriptor.fetchLimit = 800
+        descriptor.fetchLimit = 5_000
 
         do {
             let matchingSuggestions = suggestedPlayers.filter { player in
@@ -343,6 +343,9 @@ struct OnboardingView: View {
             }
 
             searchResults = uniquePlayers(matchingSuggestions + matchingSyncedPlayers)
+                .sorted { first, second in
+                    searchRank(for: first, needle: normalizedNeedle) < searchRank(for: second, needle: normalizedNeedle)
+                }
                 .prefix(12)
                 .map { $0 }
         } catch {
@@ -355,6 +358,14 @@ struct OnboardingView: View {
     private func normalizedSearchText(_ text: String) -> String {
         text.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
             .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func searchRank(for player: Player, needle: String) -> Int {
+        let name = normalizedSearchText(player.name)
+        if name == needle { return 0 }
+        if name.hasPrefix(needle) { return 1 }
+        if name.split(separator: " ").contains(where: { $0.hasPrefix(needle) }) { return 2 }
+        return 3
     }
 
     private func uniquePlayers(_ players: [Player]) -> [Player] {
