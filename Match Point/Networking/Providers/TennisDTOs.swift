@@ -54,9 +54,13 @@ nonisolated struct TournamentDTO: Decodable, Identifiable {
         city = apiModel.tournamentLocation ?? "TBD"
         country = apiModel.countryName ?? "TBD"
         surface = apiModel.tournamentSurface ?? "Unknown"
-        tour = apiModel.tournamentType ?? "ATP"
-        startDate = Self.parseDate(apiModel.tournamentDateStart)
-        endDate = Self.parseDate(apiModel.tournamentDateEnd)
+        tour = Self.tour(from: apiModel.eventTypeType ?? apiModel.tournamentType)
+        let fallbackStart = Date()
+        startDate = Self.parseDate(apiModel.tournamentDateStart, fallback: fallbackStart)
+        endDate = Self.parseDate(
+            apiModel.tournamentDateEnd,
+            fallback: Calendar.current.date(byAdding: .day, value: 7, to: startDate) ?? startDate
+        )
     }
 
     init(
@@ -79,7 +83,7 @@ nonisolated struct TournamentDTO: Decodable, Identifiable {
         self.endDate = endDate
     }
 
-    static func parseDate(_ string: String?) -> Date {
+    static func parseDate(_ string: String?, fallback: Date = .distantPast) -> Date {
         TennisAPIConfiguration.parseAPIDate(string, formats: [
             "yyyy-MM-dd",
             "yyyy/MM/dd",
@@ -89,7 +93,18 @@ nonisolated struct TournamentDTO: Decodable, Identifiable {
             "MM/dd/yyyy",
             "yyyy-MM-dd'T'HH:mm:ssZ",
             "yyyy-MM-dd'T'HH:mm:ss"
-        ]) ?? .distantPast
+        ]) ?? fallback
+    }
+
+    private static func tour(from eventType: String?) -> String {
+        let normalized = (eventType ?? "").lowercased()
+        if normalized.contains("wta") || normalized.contains("women") {
+            return "WTA"
+        }
+        if normalized.contains("atp") || normalized.contains("men") {
+            return "ATP"
+        }
+        return "OTHER"
     }
 }
 
@@ -255,8 +270,21 @@ nonisolated struct APITournament: Decodable {
     let countryName: String?
     let tournamentSurface: String?
     let tournamentType: String?
+    let eventTypeType: String?
     let tournamentDateStart: String?
     let tournamentDateEnd: String?
+
+    enum CodingKeys: String, CodingKey {
+        case tournamentKey
+        case tournamentName
+        case tournamentLocation
+        case countryName
+        case tournamentSurface = "tournament_sourface"
+        case tournamentType
+        case eventTypeType
+        case tournamentDateStart
+        case tournamentDateEnd
+    }
 }
 
 nonisolated struct APIStanding: Decodable {
@@ -265,6 +293,14 @@ nonisolated struct APIStanding: Decodable {
     let countryName: String?
     let place: APIString
     let points: APIString
+
+    enum CodingKeys: String, CodingKey {
+        case playerKey
+        case playerName = "player"
+        case countryName = "country"
+        case place
+        case points
+    }
 }
 
 nonisolated struct APILiveMatch: Decodable {

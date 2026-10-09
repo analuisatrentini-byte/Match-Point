@@ -144,14 +144,39 @@ final class DataSyncService {
             try await syncTournamentFallback(originalError: DataSyncError.emptyResponse("torneios"))
             return
         }
-        try validate(dtos, context: "torneios")
-        for dto in dtos {
+        let mainCircuitTournaments = dtos.filter { dto in
+            Tournament.isMainCircuitEventName(dto.name, tour: dto.tour)
+        }
+        guard !mainCircuitTournaments.isEmpty else {
+            guard allowFallback else { throw DataSyncError.emptyResponse("torneios do circuito principal") }
+            try await syncTournamentFallback(originalError: DataSyncError.emptyResponse("torneios do circuito principal"))
+            return
+        }
+        try validate(mainCircuitTournaments, context: "torneios")
+        for dto in mainCircuitTournaments {
             _ = Tournament.upsert(from: dto, in: context)
         }
         saveContext("syncTournaments")
     }
 
     func syncPlayersAndRankings(tour: String? = nil) async throws {
+        if tour == nil {
+            var failures: [Error] = []
+            var successCount = 0
+            for requestedTour in ["ATP", "WTA"] {
+                do {
+                    try await syncPlayersAndRankings(tour: requestedTour)
+                    successCount += 1
+                } catch {
+                    failures.append(error)
+                }
+            }
+            if successCount == 0 {
+                throw failures.first ?? DataSyncError.emptyResponse("rankings")
+            }
+            return
+        }
+
         var players: [PlayerDTO]
         do {
             players = try await api.players(tour: tour)
@@ -188,6 +213,7 @@ final class DataSyncService {
             let storedRankings = fetch(FetchDescriptor<RankingEntry>(), context: "widget ranking snapshots")
             services.widgetSnapshots.replaceTopRankingPlayers(storedRankings)
         }
+        saveContext("syncPlayersAndRankings")
     }
 
     func syncFixtures(

@@ -249,6 +249,7 @@ struct ToursView: View {
 
     private var filteredTournaments: [Tournament] {
         tournaments.filter { t in
+            guard t.isMainCircuitEvent else { return false }
             let matchesSearch = searchText.isEmpty || t.name.localizedCaseInsensitiveContains(searchText) || t.city.localizedCaseInsensitiveContains(searchText) || t.country.localizedCaseInsensitiveContains(searchText)
             let matchesTour = selectedTour == nil || t.tour == selectedTour!
             let matchesSurface = selectedSurface.isEmpty || t.surface.localizedCaseInsensitiveContains(selectedSurface)

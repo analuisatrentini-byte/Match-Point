@@ -138,6 +138,70 @@ final class Tournament {
         "australian-open", "roland-garros", "us-open"
     ]
 
+    var isMainCircuitEvent: Bool {
+        Self.isMainCircuitEventName(name, tour: tourRaw)
+    }
+
+    static func isMainCircuitEventName(_ name: String, tour: String) -> Bool {
+        let normalized = name
+            .folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
+            .lowercased()
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !normalized.isEmpty else { return false }
+
+        let rejectedTerms = [
+            "challenger",
+            "itf",
+            "utr",
+            "exhibition",
+            "qualification",
+            "qualifying",
+            "doubles",
+            "juniors",
+            "j junior",
+            "boys",
+            "girls"
+        ]
+        if rejectedTerms.contains(where: { normalized.contains($0) }) {
+            return false
+        }
+
+        let explicitTierTerms = [
+            "grand slam",
+            "australian open",
+            "roland garros",
+            "french open",
+            "wimbledon",
+            "us open",
+            "masters 1000",
+            "atp 1000",
+            "wta 1000",
+            "atp 500",
+            "wta 500",
+            "atp 250",
+            "wta 250"
+        ]
+        if explicitTierTerms.contains(where: { normalized.contains($0) }) {
+            return true
+        }
+
+        let mainTourNames = [
+            "acapulco", "adelaide", "antwerp", "auckland", "basel", "bastad",
+            "beijing", "berlin", "brisbane", "buenos aires", "charleston",
+            "chengdu", "cincinnati", "dallas", "delray beach", "doha", "dubai",
+            "eastbourne", "estoril", "geneva", "gstaad", "halle", "hamburg",
+            "hangzhou", "hong kong", "houston", "indian wells", "kitzbuhel",
+            "los cabos", "madrid", "mallorca", "marrakech", "marseille",
+            "melbourne", "metz", "miami", "monte carlo", "montreal", "munich",
+            "ningbo", "nottingham", "osaka", "palermo", "paris", "prague",
+            "queen", "rio de janeiro", "rome", "rotterdam", "san diego",
+            "santiago", "seoul", "shanghai", "stockholm", "stuttgart",
+            "tokyo", "toronto", "umag", "vienna", "washington", "wuhan",
+            "zhengzhou"
+        ]
+        return mainTourNames.contains { normalized.contains($0) }
+    }
+
     init(
         id: UUID = UUID(),
         externalKey: String? = nil,
