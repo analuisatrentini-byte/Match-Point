@@ -158,7 +158,7 @@ struct OnboardingView: View {
                     }
                 }
             } else if searchText.trimmingCharacters(in: .whitespacesAndNewlines).count >= 2 {
-                Text("Nenhum jogador encontrado no banco local ainda. Sincronize rankings para ampliar a busca.")
+                Text("Nenhum jogador encontrado nos dados já sincronizados. Faça uma sincronização de rankings para ampliar a busca.")
                     .font(.caption)
                     .foregroundStyle(Color.readableSecondary)
             }
@@ -330,20 +330,19 @@ struct OnboardingView: View {
             return
         }
 
-        var descriptor = FetchDescriptor<Player>(
-            predicate: #Predicate { player in
-                player.name.localizedStandardContains(needle)
-            },
-            sortBy: [SortDescriptor(\.name)]
-        )
-        descriptor.fetchLimit = 24
+        let normalizedNeedle = normalizedSearchText(needle)
+        var descriptor = FetchDescriptor<Player>(sortBy: [SortDescriptor(\.name)])
+        descriptor.fetchLimit = 800
 
         do {
-            let suggestedIDs = Set(suggestedPlayers.map(\.id))
-            searchResults = try context.fetch(descriptor)
-                .filter { player in
-                    !suggestedIDs.contains(player.id)
-                }
+            let matchingSuggestions = suggestedPlayers.filter { player in
+                normalizedSearchText(player.name).contains(normalizedNeedle)
+            }
+            let matchingSyncedPlayers = try context.fetch(descriptor).filter { player in
+                normalizedSearchText(player.name).contains(normalizedNeedle)
+            }
+
+            searchResults = uniquePlayers(matchingSuggestions + matchingSyncedPlayers)
                 .prefix(12)
                 .map { $0 }
         } catch {
@@ -351,6 +350,11 @@ struct OnboardingView: View {
             AppLogger.recordFailure(category: "persistence", operation: "onboarding.searchPlayers", error: error)
             searchResults = []
         }
+    }
+
+    private func normalizedSearchText(_ text: String) -> String {
+        text.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func uniquePlayers(_ players: [Player]) -> [Player] {
