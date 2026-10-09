@@ -77,7 +77,7 @@ nonisolated private struct PlayerRankingWidgetSnapshot: Codable, Identifiable {
 @MainActor
 final class MatchWidgetSnapshotStore {
     static let shared = MatchWidgetSnapshotStore()
-    private static let topRankingLimitPerTour = 50
+    private static let topRankingLimitPerTour = 100
 
     private init() {}
 

@@ -7,9 +7,9 @@ struct OnboardingView: View {
     @EnvironmentObject private var alertStore: AlertPreferencesStore
     @EnvironmentObject private var experienceStore: ExperiencePreferencesStore
     @EnvironmentObject private var analyticsStore: ProductAnalyticsStore
-    @Query(sort: \Player.name) private var players: [Player]
 
     @State private var selectedPlayerIDs = Set<UUID>()
+    @State private var suggestedPlayers: [Player] = []
 
     var onFinish: () -> Void
     private let minimumFavoritePlayers = 1
@@ -18,12 +18,8 @@ struct OnboardingView: View {
         self.onFinish = onFinish
     }
 
-    private var suggestedPlayers: [Player] {
-        Array(players.prefix(18))
-    }
-
     private var selectedPlayers: [Player] {
-        players.filter { selectedPlayerIDs.contains($0.id) }
+        suggestedPlayers.filter { selectedPlayerIDs.contains($0.id) }
     }
 
     private var selectionText: String {
@@ -65,9 +61,7 @@ struct OnboardingView: View {
             }
             .appleSportsBackground(.royal)
             .task {
-                if players.isEmpty {
-                    seedPopularPlayers()
-                }
+                loadSuggestedPlayers()
             }
         }
     }
@@ -192,11 +186,11 @@ struct OnboardingView: View {
     }
 
     private func saveFavorites() {
-        if players.isEmpty {
-            seedPopularPlayers()
+        if suggestedPlayers.isEmpty {
+            loadSuggestedPlayers()
         }
 
-        for player in players {
+        for player in suggestedPlayers {
             player.isFavorite = selectedPlayerIDs.contains(player.id)
         }
 
@@ -261,17 +255,8 @@ struct OnboardingView: View {
     }
 
     private func seedPopularPlayers() {
-        guard players.isEmpty else { return }
-
         for seed in Self.popularPlayerSeeds {
-            context.insert(
-                Player(
-                    externalKey: "seed-\(seed.slug)",
-                    name: seed.name,
-                    nationality: seed.nationality,
-                    isWTA: seed.isWTA
-                )
-            )
+            _ = fetchOrCreateSeedPlayer(seed)
         }
 
         do {
@@ -279,6 +264,44 @@ struct OnboardingView: View {
         } catch {
             AppLogger.persistence.error("Failed to seed onboarding players: \(AppLogger.message(for: error), privacy: .private)")
             AppLogger.recordFailure(category: "persistence", operation: "onboarding.seedPopularPlayers", error: error)
+        }
+    }
+
+    private func loadSuggestedPlayers() {
+        if suggestedPlayers.isEmpty {
+            seedPopularPlayers()
+        }
+        suggestedPlayers = Self.popularPlayerSeeds.compactMap { seed in
+            fetchSeedPlayer(slug: seed.slug)
+        }
+    }
+
+    private func fetchOrCreateSeedPlayer(_ seed: (slug: String, name: String, nationality: String, isWTA: Bool)) -> Player {
+        if let existing = fetchSeedPlayer(slug: seed.slug) {
+            return existing
+        }
+
+        let player = Player(
+            externalKey: "seed-\(seed.slug)",
+            name: seed.name,
+            nationality: seed.nationality,
+            isWTA: seed.isWTA
+        )
+        context.insert(player)
+        return player
+    }
+
+    private func fetchSeedPlayer(slug: String) -> Player? {
+        let key = "seed-\(slug)"
+        let descriptor = FetchDescriptor<Player>(predicate: #Predicate { player in
+            player.externalKey == key
+        })
+        do {
+            return try context.fetch(descriptor).first
+        } catch {
+            AppLogger.persistence.error("Failed to fetch onboarding seed player: \(AppLogger.message(for: error), privacy: .private)")
+            AppLogger.recordFailure(category: "persistence", operation: "onboarding.fetchSeedPlayer", error: error)
+            return nil
         }
     }
 

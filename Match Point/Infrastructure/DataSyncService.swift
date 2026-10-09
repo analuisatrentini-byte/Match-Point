@@ -282,7 +282,7 @@ final class DataSyncService {
 
         do {
             let fixtures = try await api.fixtures(from: startDate, to: endDate, tournamentKey: nil)
-            upsertedMatches.append(contentsOf: upsert(matches: fixtures, relations: &relations))
+            upsertedMatches.append(contentsOf: upsert(matches: prioritizedFixtures(fixtures), relations: &relations))
         } catch {
             capturedErrors.append(error)
         }
@@ -325,6 +325,83 @@ final class DataSyncService {
     private struct RelationMaps {
         var playersById: [String: Player]
         var tournamentsById: [String: Tournament]
+    }
+
+    private struct SyncPriorityScope {
+        var playerKeys: Set<String>
+        var playerNames: Set<String>
+    }
+
+    private func prioritizedFixtures(_ matches: [MatchDTO]) -> [MatchDTO] {
+        let scope = syncPriorityScope()
+        guard !scope.playerKeys.isEmpty || !scope.playerNames.isEmpty else {
+            return matches.filter { isPremiumTournament($0.tournamentName) }
+        }
+
+        return matches.filter { match in
+            isPriorityMatch(match, scope: scope) || isPremiumTournament(match.tournamentName)
+        }
+    }
+
+    private func syncPriorityScope() -> SyncPriorityScope {
+        let players = fetch(FetchDescriptor<Player>(), context: "sync priority players")
+        let rankings = fetch(FetchDescriptor<RankingEntry>(), context: "sync priority rankings")
+
+        var playerKeys = Set<String>()
+        var playerNames = Set<String>()
+
+        for player in players where player.isFavorite {
+            if let key = player.externalKey, !key.isEmpty {
+                playerKeys.insert(key)
+            }
+            playerNames.insert(normalizedPlayerName(player.name))
+        }
+
+        for ranking in rankings where ranking.rank > 0 && ranking.rank <= 100 {
+            guard let player = ranking.player else { continue }
+            if let key = player.externalKey, !key.isEmpty {
+                playerKeys.insert(key)
+            }
+            playerNames.insert(normalizedPlayerName(player.name))
+        }
+
+        return SyncPriorityScope(playerKeys: playerKeys, playerNames: playerNames)
+    }
+
+    private func isPriorityMatch(_ match: MatchDTO, scope: SyncPriorityScope) -> Bool {
+        scope.playerKeys.contains(match.player1Id) ||
+        scope.playerKeys.contains(match.player2Id) ||
+        scope.playerNames.contains(normalizedPlayerName(match.player1Name)) ||
+        scope.playerNames.contains(normalizedPlayerName(match.player2Name))
+    }
+
+    private func isPremiumTournament(_ name: String?) -> Bool {
+        let normalized = normalizedTournamentNameForMatching(name)
+        guard !normalized.isEmpty else { return false }
+
+        let premiumTerms = [
+            "grand slam",
+            "australian open",
+            "roland garros",
+            "french open",
+            "wimbledon",
+            "us open",
+            "masters 1000",
+            "atp 1000",
+            "wta 1000",
+            "atp 500",
+            "wta 500",
+            "atp 250",
+            "wta 250"
+        ]
+        return premiumTerms.contains { normalized.contains($0) }
+    }
+
+    private func normalizedTournamentNameForMatching(_ value: String?) -> String {
+        (value ?? "")
+            .folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased()
     }
 
     private func loadLocalRelationMaps() -> RelationMaps {
