@@ -1,9 +1,10 @@
 import Foundation
 
 // Lightweight debounce store for automatic syncs. Each `Scope` records the
-// last successful sync in UserDefaults; views call `shouldSync(_:)` before
-// kicking off an automatic refresh so we don't hammer the API on every
-// navigation. Manual "Sync" buttons bypass this and force a refresh.
+// last successful sync and recent attempts in UserDefaults; views call
+// `shouldSync(_:)` before kicking off an automatic refresh so we don't hammer
+// the API on every navigation. Manual "Sync" buttons bypass this and force a
+// refresh.
 enum AutoSyncTracker {
     enum Scope: String {
         case tournaments
@@ -39,22 +40,31 @@ enum AutoSyncTracker {
 
     @MainActor
     static func shouldSync(_ scope: Scope) -> Bool {
-        let key = prefix + scope.rawValue
-        let last = defaults.double(forKey: key)
+        let now = Date().timeIntervalSince1970
+        let lastSuccess = defaults.double(forKey: successKey(for: scope))
+        let lastAttempt = defaults.double(forKey: attemptKey(for: scope))
+        let last = max(lastSuccess, lastAttempt)
         guard last > 0 else { return true }
-        let elapsed = Date().timeIntervalSince1970 - last
+        let elapsed = now - last
         return elapsed >= minInterval(for: scope)
     }
 
     @MainActor
     static func markSynced(_ scope: Scope) {
-        let key = prefix + scope.rawValue
-        defaults.set(Date().timeIntervalSince1970, forKey: key)
+        let now = Date().timeIntervalSince1970
+        defaults.set(now, forKey: successKey(for: scope))
+        defaults.set(now, forKey: attemptKey(for: scope))
+    }
+
+    @MainActor
+    static func markAttempted(_ scope: Scope) {
+        defaults.set(Date().timeIntervalSince1970, forKey: attemptKey(for: scope))
     }
 
     @MainActor
     static func reset(_ scope: Scope) {
-        defaults.removeObject(forKey: prefix + scope.rawValue)
+        defaults.removeObject(forKey: successKey(for: scope))
+        defaults.removeObject(forKey: attemptKey(for: scope))
     }
 
     /// Timestamp do último `markSynced(scope)` bem-sucedido. Usado pelo
@@ -62,8 +72,7 @@ enum AutoSyncTracker {
     /// truth, em vez de cada view manter seu próprio @State de last-sync.
     @MainActor
     static func lastSync(_ scope: Scope) -> Date? {
-        let key = prefix + scope.rawValue
-        let epoch = defaults.double(forKey: key)
+        let epoch = defaults.double(forKey: successKey(for: scope))
         guard epoch > 0 else { return nil }
         return Date(timeIntervalSince1970: epoch)
     }
@@ -73,5 +82,13 @@ enum AutoSyncTracker {
     static func timeSinceLastSync(_ scope: Scope, now: Date = .now) -> TimeInterval? {
         guard let last = lastSync(scope) else { return nil }
         return now.timeIntervalSince(last)
+    }
+
+    private static func successKey(for scope: Scope) -> String {
+        prefix + scope.rawValue
+    }
+
+    private static func attemptKey(for scope: Scope) -> String {
+        prefix + scope.rawValue + ".attempt"
     }
 }

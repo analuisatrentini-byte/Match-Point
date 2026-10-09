@@ -130,15 +130,17 @@ final class DataSyncService {
         self.services = services ?? .live
     }
 
-    func syncTournaments() async throws {
+    func syncTournaments(allowFallback: Bool = true) async throws {
         let dtos: [TournamentDTO]
         do {
             dtos = try await api.tournaments()
         } catch {
+            guard allowFallback else { throw error }
             try await syncTournamentFallback(originalError: error)
             return
         }
         if dtos.isEmpty {
+            guard allowFallback else { throw DataSyncError.emptyResponse("torneios") }
             try await syncTournamentFallback(originalError: DataSyncError.emptyResponse("torneios"))
             return
         }
@@ -146,6 +148,7 @@ final class DataSyncService {
         for dto in dtos {
             _ = Tournament.upsert(from: dto, in: context)
         }
+        saveContext("syncTournaments")
     }
 
     func syncPlayersAndRankings(tour: String? = nil) async throws {

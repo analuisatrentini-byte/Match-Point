@@ -138,7 +138,7 @@ struct ToursView: View {
             prompt: Text("Buscar torneio, cidade ou país")
         )
         .task {
-            guard AutoSyncTracker.shouldSync(.tournaments), !isSyncing else { return }
+            guard tournaments.isEmpty, AutoSyncTracker.shouldSync(.tournaments), !isSyncing else { return }
             await runAutoSync()
         }
         .appleSportsBackground(.royal)
@@ -279,9 +279,10 @@ struct ToursView: View {
     private func runAutoSync() async {
         isSyncing = true
         defer { isSyncing = false }
+        AutoSyncTracker.markAttempted(.tournaments)
         let service = DataSyncService(context: context)
         do {
-            try await service.syncTournaments()
+            try await service.syncTournaments(allowFallback: false)
             AutoSyncTracker.markSynced(.tournaments)
         } catch {
             // Torneios should not surface backend configuration banners in the
