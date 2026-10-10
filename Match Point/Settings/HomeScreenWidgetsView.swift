@@ -42,13 +42,19 @@ struct HomeScreenWidgetsView: View {
         .navigationBarTitleDisplayMode(.inline)
 #endif
         .onAppear {
-            syncWidgetPreferencesToAppGroup()
+            normalizePreferredSelections()
         }
         .onChange(of: preferredPlayerID) { _, _ in
             syncWidgetPreferencesToAppGroup()
         }
         .onChange(of: preferredTournamentID) { _, _ in
             syncWidgetPreferencesToAppGroup()
+        }
+        .onChange(of: favoritePlayers.map(\.id)) { _, _ in
+            normalizePreferredSelections()
+        }
+        .onChange(of: favoriteTournaments.map(\.id)) { _, _ in
+            normalizePreferredSelections()
         }
         .onChange(of: showResultSpoilers) { _, newValue in
             UserDefaults(suiteName: "group.ALTB.Match-Point")?.set(newValue, forKey: "match-point.widgets.show-result-spoilers")
@@ -202,6 +208,16 @@ struct HomeScreenWidgetsView: View {
         }
         selectedWidgetSize = fallback
     }
+
+    private func normalizePreferredSelections() {
+        if !preferredPlayerID.isEmpty, !favoritePlayers.contains(where: { $0.id.uuidString == preferredPlayerID }) {
+            preferredPlayerID = ""
+        }
+        if !preferredTournamentID.isEmpty, !favoriteTournaments.contains(where: { $0.id.uuidString == preferredTournamentID }) {
+            preferredTournamentID = ""
+        }
+        syncWidgetPreferencesToAppGroup()
+    }
 }
 
 struct HomeScreenWidgetInlinePanel: View {
@@ -312,13 +328,19 @@ struct HomeScreenWidgetInlinePanel: View {
         .padding(.top, 28)
         .accessibilityIdentifier("favorites-inline-widget-settings")
         .onAppear {
-            syncWidgetPreferencesToAppGroup()
+            normalizePreferredSelections()
         }
         .onChange(of: preferredPlayerID) { _, _ in
             syncWidgetPreferencesToAppGroup()
         }
         .onChange(of: preferredTournamentID) { _, _ in
             syncWidgetPreferencesToAppGroup()
+        }
+        .onChange(of: favoritePlayers.map(\.id)) { _, _ in
+            normalizePreferredSelections()
+        }
+        .onChange(of: favoriteTournaments.map(\.id)) { _, _ in
+            normalizePreferredSelections()
         }
         .onChange(of: showResultSpoilers) { _, newValue in
             UserDefaults(suiteName: "group.ALTB.Match-Point")?.set(newValue, forKey: "match-point.widgets.show-result-spoilers")
@@ -399,6 +421,16 @@ struct HomeScreenWidgetInlinePanel: View {
             return
         }
         selectedWidgetSize = fallback
+    }
+
+    private func normalizePreferredSelections() {
+        if !preferredPlayerID.isEmpty, !favoritePlayers.contains(where: { $0.id.uuidString == preferredPlayerID }) {
+            preferredPlayerID = ""
+        }
+        if !preferredTournamentID.isEmpty, !favoriteTournaments.contains(where: { $0.id.uuidString == preferredTournamentID }) {
+            preferredTournamentID = ""
+        }
+        syncWidgetPreferencesToAppGroup()
     }
 }
 

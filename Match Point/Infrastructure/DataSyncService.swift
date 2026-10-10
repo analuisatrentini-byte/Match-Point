@@ -198,10 +198,10 @@ final class DataSyncService {
         }
         try validate(players, context: "jogadores")
         var playersById: [String: Player] = [:]
-        let favoriteSeedNames = favoriteSeedPlayerNames()
+        let favoriteSnapshot = favoritePlayerIdentitySnapshot()
         for p in players {
             let model = Player.upsert(from: p, in: context)
-            if favoriteSeedNames.contains(normalizedPlayerName(p.name)) {
+            if isFavoritePlayer(p, in: favoriteSnapshot) {
                 model.isFavorite = true
             }
             playersById[p.id] = model
@@ -565,13 +565,25 @@ final class DataSyncService {
         return trimmed.isEmpty ? "Torneio \(fallbackId)" : trimmed
     }
 
-    private func favoriteSeedPlayerNames() -> Set<String> {
-        Set(fetch(FetchDescriptor<Player>(), context: "favorite seed players").compactMap { player in
-            guard player.isFavorite, player.externalKey?.hasPrefix("seed-") == true else {
-                return nil
-            }
-            return normalizedPlayerName(player.name)
-        })
+    private struct FavoritePlayerIdentitySnapshot {
+        var externalKeys: Set<String>
+        var normalizedNames: Set<String>
+    }
+
+    private func favoritePlayerIdentitySnapshot() -> FavoritePlayerIdentitySnapshot {
+        let favoritePlayers = fetch(
+            FetchDescriptor<Player>(predicate: #Predicate { $0.isFavorite }),
+            context: "favorite players"
+        )
+
+        return FavoritePlayerIdentitySnapshot(
+            externalKeys: Set(favoritePlayers.compactMap(\.externalKey)),
+            normalizedNames: Set(favoritePlayers.map { normalizedPlayerName($0.name) }.filter { !$0.isEmpty })
+        )
+    }
+
+    private func isFavoritePlayer(_ dto: PlayerDTO, in snapshot: FavoritePlayerIdentitySnapshot) -> Bool {
+        snapshot.externalKeys.contains(dto.id) || snapshot.normalizedNames.contains(normalizedPlayerName(dto.name))
     }
 
     private func normalizedPlayerName(_ value: String) -> String {

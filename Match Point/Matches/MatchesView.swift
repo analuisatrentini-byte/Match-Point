@@ -753,6 +753,9 @@ struct MatchesView: View {
             liveService.disconnect()
         } else {
             liveService.connect()
+            Task {
+                await runManualSync()
+            }
         }
     }
 
@@ -873,16 +876,52 @@ struct MatchesView: View {
         defer { isSyncing = false }
 
         let service = DataSyncService(context: context)
+        var firstError: Error?
+        var didSyncAnything = false
+
+        do {
+            try await service.syncPlayersAndRankings()
+            AutoSyncTracker.markSynced(.playersAndRankings)
+            didSyncAnything = true
+        } catch {
+            AutoSyncTracker.markAttempted(.playersAndRankings)
+            firstError = firstError ?? error
+        }
+
+        do {
+            try await service.syncTournaments(allowFallback: false)
+            AutoSyncTracker.markSynced(.tournaments)
+            didSyncAnything = true
+        } catch {
+            AutoSyncTracker.markAttempted(.tournaments)
+            firstError = firstError ?? error
+        }
+
+        do {
+            try await service.syncLiveMatches()
+            AutoSyncTracker.markSynced(.liveMatches)
+            didSyncAnything = true
+        } catch {
+            AutoSyncTracker.markAttempted(.liveMatches)
+            firstError = firstError ?? error
+        }
+
         do {
             try await service.syncMatches(
                 from: Date().addingTimeInterval(-12 * 60 * 60),
                 to: Date().addingTimeInterval(3 * 24 * 60 * 60)
             )
-            syncFeedback = nil
             AutoSyncTracker.markSynced(.matches)
-            AutoSyncTracker.markSynced(.liveMatches)
+            didSyncAnything = true
         } catch {
-            syncFeedback = service.userFacingFeedback(for: error)
+            AutoSyncTracker.markAttempted(.matches)
+            firstError = firstError ?? error
+        }
+
+        if didSyncAnything {
+            syncFeedback = nil
+        } else if let firstError {
+            syncFeedback = service.userFacingFeedback(for: firstError)
         }
     }
 }

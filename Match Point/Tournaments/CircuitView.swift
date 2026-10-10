@@ -17,7 +17,20 @@ struct CircuitView: View {
         var id: String { rawValue }
     }
 
-    @State private var section: Section = .tours
+    static let selectedSectionStorageKey = "match-point.circuit-selected-section"
+
+    @AppStorage(Self.selectedSectionStorageKey) private var storedSection = Section.tours.rawValue
+
+    private var section: Section {
+        Section(rawValue: storedSection) ?? .tours
+    }
+
+    private var sectionBinding: Binding<Section> {
+        Binding(
+            get: { section },
+            set: { storedSection = $0.rawValue }
+        )
+    }
 
     var body: some View {
         Group {
@@ -34,7 +47,7 @@ struct CircuitView: View {
             // removida em `AppleSportsAppearance` — esta era a segunda
             // camada de blur). Agora deixamos transparente: o picker fica
             // direto sobre o gradient royal/clay, sem corte visual.
-            Picker("Seção", selection: $section) {
+            Picker("Seção", selection: sectionBinding) {
                 ForEach(Section.allCases) { item in
                     Text(item.rawValue).tag(item)
                 }

@@ -186,7 +186,11 @@ struct ContentView: View {
                 selectedTab = .profile
             }
             .onReceive(NotificationCenter.default.publisher(for: .navigateToPlayersDirectory)) { _ in
-                selectedTab = .forYou
+                UserDefaults.standard.set(
+                    CircuitView.Section.players.rawValue,
+                    forKey: CircuitView.selectedSectionStorageKey
+                )
+                selectedTab = .circuit
             }
             .onReceive(NotificationCenter.default.publisher(for: .didToggleFavorite)) { _ in
                 refreshPlayerRankingWidget()
