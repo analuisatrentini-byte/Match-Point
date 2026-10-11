@@ -4,6 +4,8 @@ const defaultRestBaseURL = "https://api.api-tennis.com/tennis/";
 const defaultWebSocketURL = "wss://wss.api-tennis.com/live";
 
 const proxyCache = new Map();
+const inFlight = new Map();
+const maxCacheEntries = 1000;
 const proxyHits = new Map();
 const webSocketServer = new WebSocketServer({ noServer: true });
 const proxyMetrics = {
@@ -146,22 +148,9 @@ export async function handleAPITennisProxy(request, response, { env = process.en
     return;
   }
 
-  const timeoutMs = Number(env.API_TENNIS_PROXY_TIMEOUT_MS ?? 12_000);
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), Math.max(timeoutMs, 1_000));
-
   try {
-    proxyMetrics.upstreamRequests += 1;
-    const upstream = await fetchImpl(target, {
-      method: "GET",
-      headers: {
-        "accept": "application/json",
-        "user-agent": "MatchPointBackend/api-tennis-proxy"
-      },
-      signal: controller.signal
-    });
-    const body = await upstream.text();
-    const contentType = upstream.headers.get("content-type") ?? "application/json; charset=utf-8";
+    const upstream = await fetchSharedUpstream(target, cacheKey, env, fetchImpl);
+    const { body, contentType } = upstream;
 
     if (upstream.ok && cacheEnabled(env)) {
       saveCached(cacheKey, {
@@ -206,9 +195,34 @@ export async function handleAPITennisProxy(request, response, { env = process.en
       throw httpError(504, "API Tennis request timed out");
     }
     throw error;
-  } finally {
-    clearTimeout(timer);
   }
+}
+
+// Share the response bytes, not a consumable Response stream. A rejected
+// request is always removed so reconnect/retry can start a fresh request.
+async function fetchSharedUpstream(target, key, env, fetchImpl) {
+  if (inFlight.has(key)) return inFlight.get(key);
+  const work = (async () => {
+    const controller = new AbortController();
+    const timeoutMs = Number(env.API_TENNIS_PROXY_TIMEOUT_MS ?? 12_000);
+    const timer = setTimeout(() => controller.abort(), Math.max(timeoutMs, 1_000));
+    try {
+      proxyMetrics.upstreamRequests += 1;
+      const response = await fetchImpl(target, {
+        method: "GET",
+        headers: { accept: "application/json", "user-agent": "MatchTimeBackend/api-tennis-proxy" },
+        signal: controller.signal
+      });
+      return { status: response.status, ok: response.ok,
+        contentType: response.headers.get("content-type") ?? "application/json; charset=utf-8",
+        body: await response.text() };
+    } finally {
+      clearTimeout(timer);
+    }
+  })();
+  inFlight.set(key, work);
+  try { return await work; }
+  finally { if (inFlight.get(key) === work) inFlight.delete(key); }
 }
 
 export function apiTennisProxyStats() {
@@ -259,7 +273,7 @@ export function handleAPITennisWebSocketUpgrade(request, socket, head, { env = p
     proxyMetrics.websocketConnections += 1;
     const upstream = new WebSocket(target, {
       headers: {
-        "user-agent": "MatchPointBackend/api-tennis-websocket-proxy"
+        "user-agent": "MatchTimeBackend/api-tennis-websocket-proxy"
       }
     });
     const pendingClientMessages = [];
@@ -364,6 +378,9 @@ function getCached(cacheKey, env, options = {}) {
 }
 
 function saveCached(cacheKey, entry) {
+  if (!proxyCache.has(cacheKey) && proxyCache.size >= maxCacheEntries) {
+    proxyCache.delete(proxyCache.keys().next().value);
+  }
   const url = new URL(cacheKey);
   proxyCache.set(cacheKey, {
     ...entry,

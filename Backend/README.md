@@ -1,8 +1,8 @@
-# Match Point Backend
+# Match Time Backend
 
 Guia de deploy gerenciado: [`DEPLOY.md`](DEPLOY.md). Container: `Dockerfile`.
 
-Backend de dados e push do Match Point: recebe tokens APNs, ingere placares
+Backend de dados e push do Match Time: recebe tokens APNs, ingere placares
 continuamente, deduplica snapshots, guarda historico auditavel, enfileira
 eventos e dispara push remoto server-side quando APNs esta configurado.
 
@@ -91,7 +91,7 @@ Para envio real de e-mail de recuperacao, configure Resend:
 
 ```bash
 RESEND_API_KEY="re_xxxxxxxxx"
-AUTH_EMAIL_FROM="Match Point <no-reply@seudominio.com>"
+AUTH_EMAIL_FROM="Match Time <no-reply@seudominio.com>"
 ```
 
 Sem essas variaveis, o backend usa `console mailer`: o codigo e gerado e

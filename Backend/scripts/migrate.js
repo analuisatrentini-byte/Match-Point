@@ -14,7 +14,7 @@ async function main() {
     }
     try {
         await pool.query(sql);
-        console.log("Match Point schema applied.");
+        console.log("Match Time schema applied.");
     } finally {
         await pool.end();
     }

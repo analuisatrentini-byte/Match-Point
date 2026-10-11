@@ -176,3 +176,26 @@ function makeResponse() {
     }
   };
 }
+
+
+test("concurrent identical requests share one upstream response and recover after failure", async () => {
+  const env = { API_TENNIS_KEY: "test-key", API_TENNIS_PROXY_RATE_LIMIT_DISABLED: "true", API_TENNIS_PROXY_CACHE_DISABLED: "true" };
+  const request = makeRequest("/tennis?method=get_livescore&test_cache=concurrent");
+  let calls = 0;
+  let fail = false;
+  const fetchImpl = async () => {
+    calls++;
+    await new Promise(resolve => setTimeout(resolve, 15));
+    if (fail) throw new Error("offline");
+    return new Response(JSON.stringify({ result: [1] }), { status: 200 });
+  };
+  const responses = Array.from({ length: 10 }, () => makeResponse());
+  await Promise.all(responses.map(response => handleAPITennisProxy(request, response, { env, fetchImpl })));
+  assert.equal(calls, 1);
+  assert.ok(responses.every(response => response.statusCode === 200));
+  fail = true;
+  await assert.rejects(handleAPITennisProxy(request, makeResponse(), { env, fetchImpl }), /offline/);
+  fail = false;
+  await handleAPITennisProxy(request, makeResponse(), { env, fetchImpl });
+  assert.equal(calls, 3);
+});

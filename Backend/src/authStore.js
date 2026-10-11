@@ -56,7 +56,7 @@ export class AuthStore {
     const appleIdentity = await this.appleAuth.identityFromAuthorizationCode(authorizationCode);
     const appleUserID = appleIdentity.appleUserID;
     const email = optionalString(payload.email)?.toLowerCase() || appleIdentity.email;
-    const displayName = optionalString(payload.displayName) || "Match Point Fan";
+    const displayName = optionalString(payload.displayName) || "Match Time Fan";
     const appleRevokeToken = appleIdentity.refreshToken;
     const existing = await this.findUserByAppleID(appleUserID);
     if (existing) {
@@ -313,7 +313,7 @@ export class AuthStore {
 export function createConsoleMailer() {
   return {
     async sendRecoveryCode({ email, username, code }) {
-      console.info(`Match Point recovery code for ${username} <${email}>: ${code}`);
+      console.info(`Match Time recovery code for ${username} <${email}>: ${code}`);
     }
   };
 }
@@ -444,7 +444,7 @@ export function createResendMailer({ apiKey, from, fetchImpl = fetch }) {
         body: JSON.stringify({
           from,
           to: [email],
-          subject: "Seu código de recuperação do Match Point",
+          subject: "Seu código de recuperação do Match Time",
           text: recoveryText({ username, code, expiresAt }),
           html: recoveryHTML({ username, code, expiresAt })
         })
@@ -461,7 +461,7 @@ function recoveryText({ username, code, expiresAt }) {
   return [
     `Olá, ${username}.`,
     "",
-    `Seu código de recuperação do Match Point é: ${code}`,
+    `Seu código de recuperação do Match Time é: ${code}`,
     `Ele expira em ${expiresAt.toISOString()}.`,
     "",
     "Se você não pediu esse código, ignore este e-mail."
@@ -471,7 +471,7 @@ function recoveryText({ username, code, expiresAt }) {
 function recoveryHTML({ username, code, expiresAt }) {
   return `
     <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5;color:#160a2e">
-      <h1>Recuperação do Match Point</h1>
+      <h1>Recuperação do Match Time</h1>
       <p>Olá, ${escapeHTML(username)}.</p>
       <p>Use este código para redefinir sua senha:</p>
       <p style="font-size:28px;font-weight:800;letter-spacing:3px;color:#2fd35f">${escapeHTML(code)}</p>

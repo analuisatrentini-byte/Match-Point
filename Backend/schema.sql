@@ -1,4 +1,4 @@
--- Match Point backend schema.
+-- Match Time backend schema.
 --
 -- Applied by `npm run migrate` (see scripts/migrate.js). Idempotent: every
 -- statement uses IF NOT EXISTS so re-running is safe.
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS device_registry (
 CREATE INDEX IF NOT EXISTS device_registry_active_idx ON device_registry (active) WHERE active;
 CREATE INDEX IF NOT EXISTS device_registry_subscriptions_gin ON device_registry USING GIN (subscriptions jsonb_path_ops);
 
--- User auth. Email/password users are first-party Match Point accounts; Apple
+-- User auth. Email/password users are first-party Match Time accounts; Apple
 -- users store only Apple's stable subject identifier. Passwords and recovery
 -- codes are scrypt hashes, never plaintext.
 CREATE TABLE IF NOT EXISTS auth_users (

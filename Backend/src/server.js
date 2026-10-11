@@ -328,7 +328,7 @@ server.on("upgrade", (request, socket, head) => {
 });
 
 server.listen(port, () => {
-  console.log(`Match Point backend listening on http://localhost:${port}`);
+  console.log(`Match Time backend listening on http://localhost:${port}`);
 });
 
 function parseAllowedOrigins(raw) {

@@ -42,7 +42,7 @@ export async function handleOfficialRankingProjection(request, response, { env =
       headers: {
         "accept": "application/json",
         "authorization": `Bearer ${key}`,
-        "user-agent": "MatchPointBackend/official-ranking-projection"
+        "user-agent": "MatchTimeBackend/official-ranking-projection"
       },
       signal: controller.signal
     });

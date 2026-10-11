@@ -190,7 +190,7 @@ function buildNotification(event) {
     return {
         aps: {
             alert: {
-                title: event.payload?.headline ?? "Match Point",
+                title: event.payload?.headline ?? "Match Time",
                 body: event.payload?.body ?? ""
             },
             sound: event.priority === "high" ? "default" : undefined,
