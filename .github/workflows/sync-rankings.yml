@@ -1,0 +1,24 @@
+name: Update tennis rankings
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+permissions: {}
+concurrency:
+  group: rankings-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Request ranking sync
+        env:
+          RANKING_SYNC_URL: ${{ secrets.RANKING_SYNC_URL }}
+          RANKING_SYNC_TOKEN: ${{ secrets.RANKING_SYNC_TOKEN }}
+        run: |
+          test -n "$RANKING_SYNC_URL" && test -n "$RANKING_SYNC_TOKEN"
+          case "$RANKING_SYNC_URL" in https://*) ;; *) echo 'HTTPS endpoint required' >&2; exit 1 ;; esac
+          curl --fail-with-body --silent --show-error --max-time 150 \
+            --request POST --header "Authorization: Bearer $RANKING_SYNC_TOKEN" \
+            "$RANKING_SYNC_URL"

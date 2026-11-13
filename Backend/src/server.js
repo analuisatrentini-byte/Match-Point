@@ -1,4 +1,5 @@
 import http from "node:http";
+import { handleRankingSyncRequest } from "./rankingSyncEndpoint.js";
 import { DeviceTokenStore } from "./deviceTokenStore.js";
 import { DeviceRegistry } from "./subscriptions/deviceRegistry.js";
 import { SocialModerationStore } from "./socialModerationStore.js";
@@ -118,7 +119,29 @@ const server = http.createServer(async (request, response) => {
       return sendJSON(response, 429, { ok: false, error: "Too many requests" });
     }
 
-    if (request.method === "GET" && new URL(request.url, "http://localhost").pathname === "/tennis") {
+    const requestURL = new URL(request.url, "http://localhost");
+    if (request.method === "POST" && requestURL.pathname === "/rankings/sync") {
+      const result = await handleRankingSyncRequest({ authorization: request.headers.authorization, pool: postgresPool });
+      return sendJSON(response, result.status, result.body);
+    }
+    if (request.method === "GET" && requestURL.pathname === "/rankings/status" && process.env.RANKING_SNAPSHOTS_ENABLED === "true") {
+      if (!postgresPool) return sendJSON(response, 503, { ok: false, error: "Ranking database unavailable" });
+      const result = await postgresPool.query(`SELECT tour, row_count, version, last_attempt_at, last_provider_success_at, last_success_at, last_changed_at, last_error FROM ranking_snapshots ORDER BY tour`);
+      response.setHeader("cache-control", "no-store");
+      return sendJSON(response, 200, { ok: true, rankings: result.rows, officialPublicationDateAvailable: false });
+    }
+    if (request.method === "GET" && requestURL.pathname === "/tennis") {
+      if (process.env.RANKING_SNAPSHOTS_ENABLED === "true" && requestURL.searchParams.get("method") === "get_standings") {
+        const tour = (requestURL.searchParams.get("event_type") ?? "ATP").toUpperCase();
+        if (!postgresPool || !["ATP", "WTA"].includes(tour)) return sendJSON(response, 503, { ok: false, error: "Ranking snapshot unavailable" });
+        const result = await postgresPool.query('SELECT snapshot, version, last_success_at FROM ranking_snapshots WHERE tour=$1 AND snapshot IS NOT NULL', [tour]);
+        const row = result.rows[0];
+        if (!row) return sendJSON(response, 503, { ok: false, error: "Ranking snapshot unavailable" });
+        response.setHeader("cache-control", "no-store");
+        response.setHeader("x-ranking-version", row.version);
+        response.setHeader("x-ranking-last-success", new Date(row.last_success_at).toISOString());
+        return sendJSON(response, 200, row.snapshot);
+      }
       return handleAPITennisProxy(request, response);
     }
 
