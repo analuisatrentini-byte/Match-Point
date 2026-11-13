@@ -1,6 +1,14 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { buildAPITennisURL } from './apiTennisProxy.js';
 
+// An hourly schedule can be delayed by the scheduler. After three hours
+// without an accepted provider response, or a failed latest attempt, clients
+// must not record the retained snapshot as a successful fresh sync.
+export function rankingSnapshotIsStale(row, now = Date.now()) {
+  const lastSuccess = row?.last_success_at == null ? NaN : new Date(row.last_success_at).getTime();
+  return Boolean(row?.last_error) || !Number.isFinite(lastSuccess) || now - lastSuccess > 3 * 60 * 60 * 1000;
+}
+
 // API Tennis does not currently provide an official publication date in the
 // standings payload. The hash identifies content, not official freshness.
 export function validateStandings(payload, tour, previousCount = 0) {

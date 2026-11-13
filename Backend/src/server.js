@@ -1,5 +1,6 @@
 import http from "node:http";
 import { handleRankingSyncRequest } from "./rankingSyncEndpoint.js";
+import { rankingSnapshotIsStale } from "./rankingSync.js";
 import { DeviceTokenStore } from "./deviceTokenStore.js";
 import { DeviceRegistry } from "./subscriptions/deviceRegistry.js";
 import { SocialModerationStore } from "./socialModerationStore.js";
@@ -134,10 +135,11 @@ const server = http.createServer(async (request, response) => {
       if (process.env.RANKING_SNAPSHOTS_ENABLED === "true" && requestURL.searchParams.get("method") === "get_standings") {
         const tour = (requestURL.searchParams.get("event_type") ?? "ATP").toUpperCase();
         if (!postgresPool || !["ATP", "WTA"].includes(tour)) return sendJSON(response, 503, { ok: false, error: "Ranking snapshot unavailable" });
-        const result = await postgresPool.query('SELECT snapshot, version, last_success_at FROM ranking_snapshots WHERE tour=$1 AND snapshot IS NOT NULL', [tour]);
+        const result = await postgresPool.query('SELECT snapshot, version, last_success_at, last_error FROM ranking_snapshots WHERE tour=$1 AND snapshot IS NOT NULL', [tour]);
         const row = result.rows[0];
         if (!row) return sendJSON(response, 503, { ok: false, error: "Ranking snapshot unavailable" });
         response.setHeader("cache-control", "no-store");
+        if (rankingSnapshotIsStale(row)) response.setHeader("x-match-point-cache", "STALE");
         response.setHeader("x-ranking-version", row.version);
         response.setHeader("x-ranking-last-success", new Date(row.last_success_at).toISOString());
         return sendJSON(response, 200, row.snapshot);

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validateStandings, syncRankingTour, syncAllRankings } from '../src/rankingSync.js';
+import { rankingSnapshotIsStale, validateStandings, syncRankingTour, syncAllRankings } from '../src/rankingSync.js';
 const row = (id, rank, points, league = 'ATP') => ({ player_key: id, player: `Player ${id}`, place: rank, points, league });
 const payload = rows => ({ success: 1, result: rows });
 function store() {
@@ -16,6 +16,14 @@ function store() {
 }
 const env = { API_TENNIS_KEY: 'test-key' };
 const fetchRows = rows => async () => ({ ok: true, json: async () => payload(rows) });
+test('retained rankings are stale after failed attempts or missed scheduled updates', () => {
+  const now = Date.parse('2026-11-13T12:00:00Z');
+  assert.equal(rankingSnapshotIsStale({last_success_at: new Date(now - 60 * 60 * 1000), last_error: null}, now), false);
+  assert.equal(rankingSnapshotIsStale({last_success_at: new Date(now - 60 * 60 * 1000), last_error: 'provider unavailable'}, now), true);
+  assert.equal(rankingSnapshotIsStale({last_success_at: new Date(now - 3 * 60 * 60 * 1000 - 1), last_error: null}, now), true);
+  assert.equal(rankingSnapshotIsStale({last_success_at: null, last_error: null}, now), true);
+  assert.equal(rankingSnapshotIsStale({last_success_at: 'invalid', last_error: null}, now), true);
+});
 test('hash is stable across order and changes with ranking values', () => {
   const a = row('a',1,100), b = row('b',2,90);
   assert.equal(validateStandings(payload([a,b]), 'ATP').hash, validateStandings(payload([b,a]), 'ATP').hash);
