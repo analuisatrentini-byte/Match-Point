@@ -1,7 +1,7 @@
 name: Update tennis rankings
 on:
   schedule:
-    - cron: '17 * * * *'
+    - cron: '50 * * * *'
   workflow_dispatch:
 permissions: {}
 concurrency:
