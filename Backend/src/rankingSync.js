@@ -88,6 +88,10 @@ export async function syncAllRankings(options) {
 // publishing query fences expired/replaced tokens, so a late process cannot
 // overwrite a newer sync. Every entry point must use this wrapper.
 export async function syncAllRankingsWithLock({ pool, ...options }) {
+  return withRankingSyncLease(pool, token => syncAllRankings({ ...options, pool, leaseToken: token }));
+}
+
+async function withRankingSyncLease(pool, operation) {
   if (!pool) throw new Error('Database required');
   const token = randomUUID();
   const lease = await pool.query(`INSERT INTO ranking_sync_lease (name, token, expires_at)
@@ -97,11 +101,50 @@ export async function syncAllRankingsWithLock({ pool, ...options }) {
     RETURNING token`, [token]);
   if (lease.rowCount !== 1) return { locked: true };
   try {
-    const results = await syncAllRankings({ ...options, pool, leaseToken: token });
+    const results = await operation(token);
     return { locked: false, results };
   } finally {
     await pool.query("DELETE FROM ranking_sync_lease WHERE name = 'rankings' AND token = $1", [token]).catch(error => {
       console.error(JSON.stringify({ event: 'ranking_sync_lease_release_failed', error: error.message }));
     });
   }
+}
+
+// Recheck after acquiring the shared lease: another process may already have
+// refreshed the data since the HTTP request read the stale snapshot. A failed
+// request is retried at most once every 15 minutes per tour, even after restart.
+// This is a fallback for active users, not a replacement for a scheduler.
+export async function syncDueRankingsWithLock({ pool, ...options }) {
+  return withRankingSyncLease(pool, async token => {
+    const due = await pool.query(`SELECT tours.tour FROM (VALUES ('ATP'), ('WTA')) AS tours(tour)
+      LEFT JOIN ranking_snapshots AS s ON s.tour = tours.tour
+      WHERE (s.last_success_at IS NULL OR s.last_success_at < clock_timestamp() - interval '3 hours' OR s.last_error IS NOT NULL)
+        AND (s.last_attempt_at IS NULL OR s.last_attempt_at < clock_timestamp() - interval '15 minutes')`);
+    const tours = due.rows.map(row => row.tour).filter(tour => tour === 'ATP' || tour === 'WTA');
+    const results = await Promise.allSettled(tours.map(tour => syncRankingTour({ ...options, pool, tour, leaseToken: token })));
+    if (results.some(result => result.status === 'rejected')) {
+      throw new AggregateError(results.filter(result => result.status === 'rejected').map(result => result.reason), 'Demand ranking sync failed');
+    }
+    return results.map(result => result.value);
+  });
+}
+
+// Multiple simultaneous page requests share one background task. The database
+// lease and persisted cooldown protect across instances and restarts.
+export function createDemandRankingRefresh({ pool, sync = syncDueRankingsWithLock, log = console.error, now = Date.now }) {
+  let inFlight = null;
+  let lastStartedAt = null;
+  return () => {
+    if (!pool || inFlight) return inFlight;
+    const currentTime = now();
+    // Avoid repeated lease writes for public requests while the persisted
+    // provider cooldown prevents a new sync. Database protection remains
+    // authoritative across instances and after a restart.
+    if (lastStartedAt !== null && currentTime >= lastStartedAt && currentTime - lastStartedAt < 30_000) return null;
+    lastStartedAt = currentTime;
+    inFlight = Promise.resolve().then(() => sync({ pool }))
+      .catch(error => { log(JSON.stringify({ event: 'ranking_demand_sync_failure', error: error.message })); })
+      .finally(() => { inFlight = null; });
+    return inFlight;
+  };
 }

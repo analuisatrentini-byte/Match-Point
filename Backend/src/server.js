@@ -1,6 +1,6 @@
 import http from "node:http";
 import { handleRankingSyncRequest } from "./rankingSyncEndpoint.js";
-import { rankingSnapshotIsStale } from "./rankingSync.js";
+import { rankingSnapshotIsStale, createDemandRankingRefresh } from "./rankingSync.js";
 import { DeviceTokenStore } from "./deviceTokenStore.js";
 import { DeviceRegistry } from "./subscriptions/deviceRegistry.js";
 import { SocialModerationStore } from "./socialModerationStore.js";
@@ -30,6 +30,7 @@ import { handleOfficialRankingProjection, officialRankingReadiness } from "./off
 
 const port = Number(process.env.PORT ?? 8787);
 const postgresPool = getPostgresPool();
+const refreshRankingsOnDemand = createDemandRankingRefresh({ pool: postgresPool });
 const redisClient = getRedisClient();
 const store = postgresPool ? new DeviceRegistry({ pool: postgresPool }) : new DeviceTokenStore();
 const socialModerationStore = new SocialModerationStore();
@@ -137,9 +138,15 @@ const server = http.createServer(async (request, response) => {
         if (!postgresPool || !["ATP", "WTA"].includes(tour)) return sendJSON(response, 503, { ok: false, error: "Ranking snapshot unavailable" });
         const result = await postgresPool.query('SELECT snapshot, version, last_success_at, last_error FROM ranking_snapshots WHERE tour=$1 AND snapshot IS NOT NULL', [tour]);
         const row = result.rows[0];
-        if (!row) return sendJSON(response, 503, { ok: false, error: "Ranking snapshot unavailable" });
+        if (!row) {
+          refreshRankingsOnDemand();
+          return sendJSON(response, 503, { ok: false, error: "Ranking snapshot unavailable" });
+        }
         response.setHeader("cache-control", "no-store");
-        if (rankingSnapshotIsStale(row)) response.setHeader("x-match-point-cache", "STALE");
+        if (rankingSnapshotIsStale(row)) {
+          refreshRankingsOnDemand();
+          response.setHeader("x-match-point-cache", "STALE");
+        }
         response.setHeader("x-ranking-version", row.version);
         response.setHeader("x-ranking-last-success", new Date(row.last_success_at).toISOString());
         return sendJSON(response, 200, row.snapshot);
