@@ -259,6 +259,30 @@ export function buildAPITennisWebSocketURL(incomingURL, env = process.env) {
   return target;
 }
 
+const validWebSocketCloseCodes = new Set([
+  1000, 1001, 1002, 1003,
+  1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014
+]);
+
+export function normalizeAPITennisWebSocketClose(code, reason = "") {
+  // Codes such as 1005 and 1006 describe a peer event; they cannot be sent in a close frame.
+  const closeCode = Number.isInteger(code) &&
+    (validWebSocketCloseCodes.has(code) || (code >= 3000 && code <= 4999))
+    ? code
+    : 1000;
+
+  let byteLength = 0;
+  const reasonCharacters = [];
+  for (const character of String(reason)) {
+    const characterLength = Buffer.byteLength(character);
+    if (byteLength + characterLength > 123) break;
+    reasonCharacters.push(character);
+    byteLength += characterLength;
+  }
+
+  return { code: closeCode, reason: Buffer.from(reasonCharacters.join("")) };
+}
+
 export function handleAPITennisWebSocketUpgrade(request, socket, head, { env = process.env } = {}) {
   let target;
   try {
@@ -279,12 +303,12 @@ export function handleAPITennisWebSocketUpgrade(request, socket, head, { env = p
     const pendingClientMessages = [];
 
     const closeBoth = (code = 1000, reason = "") => {
-      const reasonBuffer = Buffer.from(String(reason).slice(0, 120));
+      const close = normalizeAPITennisWebSocketClose(code, reason);
       if (client.readyState === WebSocket.OPEN || client.readyState === WebSocket.CONNECTING) {
-        client.close(code, reasonBuffer);
+        client.close(close.code, close.reason);
       }
       if (upstream.readyState === WebSocket.OPEN || upstream.readyState === WebSocket.CONNECTING) {
-        upstream.close(code, reasonBuffer);
+        upstream.close(close.code, close.reason);
       }
     };
 

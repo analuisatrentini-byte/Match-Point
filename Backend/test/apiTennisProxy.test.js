@@ -5,6 +5,7 @@ import {
   apiTennisDataPlaneContract,
   buildAPITennisURL,
   handleAPITennisProxy,
+  normalizeAPITennisWebSocketClose,
   productionReadiness
 } from "../src/apiTennisProxy.js";
 
@@ -57,6 +58,22 @@ test("production contract documents the REST data plane", () => {
   assert.equal(apiTennisDataPlaneContract.restProxy.path, "/tennis");
   assert.ok(apiTennisDataPlaneContract.restProxy.allowedMethods.includes("get_livescore"));
   assert.equal(apiTennisDataPlaneContract.restProxy.secretPolicy, "server-side-api-key-only");
+});
+
+test("WebSocket proxy replaces reserved peer close codes with a valid close code", () => {
+  assert.deepEqual(normalizeAPITennisWebSocketClose(1006, "socket ended"), {
+    code: 1000,
+    reason: Buffer.from("socket ended")
+  });
+  assert.equal(normalizeAPITennisWebSocketClose(1011, "upstream-error").code, 1011);
+  assert.equal(normalizeAPITennisWebSocketClose(4001, "custom").code, 4001);
+});
+
+test("WebSocket proxy truncates close reasons to the protocol byte limit", () => {
+  const close = normalizeAPITennisWebSocketClose(1000, "é".repeat(100));
+  assert.equal(close.code, 1000);
+  assert.ok(close.reason.byteLength <= 123);
+  assert.equal(close.reason.toString("utf8"), "é".repeat(61));
 });
 
 test("API Tennis proxy caches successful upstream responses", async () => {
