@@ -82,7 +82,8 @@ export class ApnsDispatcher {
         const session = this.getSession(host);
         const token = await this.getProviderToken();
 
-        const notification = buildNotification(event);
+        const isLiveActivity = event.kind === "live-activity";
+        const notification = isLiveActivity ? event.notification : buildNotification(event);
         const payload = Buffer.from(JSON.stringify(notification));
 
         return new Promise((resolve) => {
@@ -90,9 +91,9 @@ export class ApnsDispatcher {
                 ":method": "POST",
                 ":path": `/3/device/${recipient.deviceToken}`,
                 "authorization": `bearer ${token}`,
-                "apns-topic": bundleId,
-                "apns-push-type": "alert",
-                "apns-priority": event.priority === "high" ? "10" : "5",
+                "apns-topic": isLiveActivity ? `${bundleId}.push-type.liveactivity` : bundleId,
+                "apns-push-type": isLiveActivity ? "liveactivity" : "alert",
+                "apns-priority": isLiveActivity ? "5" : (event.priority === "high" ? "10" : "5"),
                 "content-type": "application/json"
             });
             request.setEncoding("utf8");

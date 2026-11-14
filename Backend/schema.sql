@@ -134,3 +134,17 @@ CREATE TABLE IF NOT EXISTS ranking_sync_lease (
     token TEXT NOT NULL,
     expires_at TIMESTAMPTZ NOT NULL
 );
+
+-- Update tokens are scoped to one ActivityKit activity, never APNs device tokens.
+CREATE TABLE IF NOT EXISTS live_activity_subscriptions (
+    activity_id TEXT PRIMARY KEY,
+    secret_hash TEXT NOT NULL,
+    match_key TEXT NOT NULL,
+    token TEXT NOT NULL,
+    bundle_identifier TEXT NOT NULL,
+    environment TEXT NOT NULL,
+    content_state JSONB NOT NULL,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    expires_at TIMESTAMPTZ NOT NULL DEFAULT NOW() + INTERVAL '8 hours'
+);
+CREATE INDEX IF NOT EXISTS live_activity_match_idx ON live_activity_subscriptions (match_key, expires_at);

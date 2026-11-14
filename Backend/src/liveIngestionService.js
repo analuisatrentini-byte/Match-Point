@@ -16,11 +16,12 @@ import { decide } from "./pushDecisionEngine.js";
 /// that pulls the queue and hands each event to the configured dispatcher
 /// (APNs sender in production, no-op logger in dev).
 export class LiveIngestionService {
-    constructor({ snapshots, scoreHistory, queue, dispatcher, drainIntervalMs = 5_000 }) {
+    constructor({ snapshots, scoreHistory, queue, dispatcher, liveActivities = null, drainIntervalMs = 5_000 }) {
         this.snapshots = snapshots;
         this.scoreHistory = scoreHistory;
         this.queue = queue;
         this.dispatcher = dispatcher ?? noopDispatcher;
+        this.liveActivities = liveActivities;
         this.drainIntervalMs = drainIntervalMs;
         this.stats = {
             framesReceived: 0,
@@ -39,6 +40,10 @@ export class LiveIngestionService {
     /// caller can echo back to the ingest client for debugging: which events
     /// were produced, whether the frame was deduped, and the current revision.
     async ingestFrame(frame, { source = "ingest" } = {}) {
+        // Use the provider frame before snapshot normalization discards partial fields.
+        if (this.liveActivities) {
+            this.liveActivities.update(frame).catch(error => console.error("live activity update failed", error.message));
+        }
         this.stats.framesReceived += 1;
         this.stats.lastFrameAt = new Date().toISOString();
 

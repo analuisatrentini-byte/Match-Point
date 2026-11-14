@@ -8,6 +8,8 @@ import { BetSettlementStore } from "./betSettlementStore.js";
 import { MatchSnapshotStore } from "./matchSnapshotStore.js";
 import { ScoreHistoryStore } from "./scoreHistoryStore.js";
 import { PushEventQueue } from "./pushEventQueue.js";
+import { startLiveActivityReconciliation } from "./liveActivityReconciler.js";
+import { LiveActivityService } from "./liveActivityService.js";
 import { LiveIngestionService } from "./liveIngestionService.js";
 import { noopDispatcher } from "./liveIngestionService.js";
 import { ApnsDispatcher } from "./dispatchers/apnsDispatcher.js";
@@ -39,6 +41,9 @@ const matchSnapshotStore = postgresPool ? new PostgresMatchSnapshotStore(postgre
 const scoreHistoryStore = postgresPool ? new PostgresScoreHistoryStore(postgresPool) : new ScoreHistoryStore();
 const pushEventQueue = redisClient ? new RedisStreamsPushQueue(redisClient) : new PushEventQueue();
 const pushDispatcher = createPushDispatcher(store);
+const activityDispatcher = process.env.APNS_KEY_PATH && process.env.APNS_KEY_ID && process.env.APNS_TEAM_ID ? new ApnsDispatcher() : null;
+const liveActivities = new LiveActivityService({ pool: postgresPool, dispatcher: activityDispatcher });
+if (postgresPool && activityDispatcher) startLiveActivityReconciliation({pool: postgresPool, service: liveActivities});
 const authStore = new AuthStore({ pool: postgresPool });
 
 // The dispatcher is intentionally pluggable — production installs replace
@@ -50,6 +55,7 @@ const liveIngestionService = new LiveIngestionService({
   scoreHistory: scoreHistoryStore,
   queue: pushEventQueue,
   dispatcher: pushDispatcher,
+  liveActivities,
   drainIntervalMs: Number(process.env.PUSH_DRAIN_INTERVAL_MS ?? 5_000)
 });
 liveIngestionService.startDrainLoop();
@@ -192,6 +198,12 @@ const server = http.createServer(async (request, response) => {
     if (request.method === "POST" && request.url === "/auth/delete") {
       const result = await authStore.deleteAccountForSession(authorizationBearer(request));
       return sendJSON(response, 200, { ok: true, result });
+    }
+
+    if (request.method === "POST" && request.url === "/live-activities/token") {
+      const payload = await readJSON(request);
+      await liveActivities.register(payload);
+      return sendJSON(response, 200, { ok: true });
     }
 
     if (request.method === "POST" && request.url === "/apns/device-token") {
