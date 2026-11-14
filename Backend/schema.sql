@@ -111,3 +111,40 @@ CREATE TABLE IF NOT EXISTS auth_recovery_codes (
     created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     expires_at  TIMESTAMPTZ NOT NULL
 );
+
+-- One atomic, independently replaceable provider snapshot per tour.
+CREATE TABLE IF NOT EXISTS ranking_snapshots (
+    tour TEXT PRIMARY KEY CHECK (tour IN ('ATP', 'WTA')),
+    snapshot JSONB,
+    row_count INTEGER NOT NULL DEFAULT 0,
+    version TEXT,
+    last_attempt_at TIMESTAMPTZ,
+    accepted_attempt_at TIMESTAMPTZ,
+    last_success_at TIMESTAMPTZ,
+    last_changed_at TIMESTAMPTZ,
+    last_error TEXT
+);
+
+ALTER TABLE ranking_snapshots ADD COLUMN IF NOT EXISTS last_provider_success_at TIMESTAMPTZ;
+
+-- Cross-instance lease for ranking synchronization. The token fences writes
+-- from an old process after a crash or after its lease expires.
+CREATE TABLE IF NOT EXISTS ranking_sync_lease (
+    name TEXT PRIMARY KEY,
+    token TEXT NOT NULL,
+    expires_at TIMESTAMPTZ NOT NULL
+);
+
+-- Update tokens are scoped to one ActivityKit activity, never APNs device tokens.
+CREATE TABLE IF NOT EXISTS live_activity_subscriptions (
+    activity_id TEXT PRIMARY KEY,
+    secret_hash TEXT NOT NULL,
+    match_key TEXT NOT NULL,
+    token TEXT NOT NULL,
+    bundle_identifier TEXT NOT NULL,
+    environment TEXT NOT NULL,
+    content_state JSONB NOT NULL,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    expires_at TIMESTAMPTZ NOT NULL DEFAULT NOW() + INTERVAL '8 hours'
+);
+CREATE INDEX IF NOT EXISTS live_activity_match_idx ON live_activity_subscriptions (match_key, expires_at);

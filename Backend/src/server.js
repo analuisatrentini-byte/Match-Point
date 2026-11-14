@@ -1,4 +1,6 @@
 import http from "node:http";
+import { handleRankingSyncRequest } from "./rankingSyncEndpoint.js";
+import { rankingSnapshotIsStale, createDemandRankingRefresh } from "./rankingSync.js";
 import { DeviceTokenStore } from "./deviceTokenStore.js";
 import { DeviceRegistry } from "./subscriptions/deviceRegistry.js";
 import { SocialModerationStore } from "./socialModerationStore.js";
@@ -6,6 +8,8 @@ import { BetSettlementStore } from "./betSettlementStore.js";
 import { MatchSnapshotStore } from "./matchSnapshotStore.js";
 import { ScoreHistoryStore } from "./scoreHistoryStore.js";
 import { PushEventQueue } from "./pushEventQueue.js";
+import { startLiveActivityReconciliation } from "./liveActivityReconciler.js";
+import { LiveActivityService } from "./liveActivityService.js";
 import { LiveIngestionService } from "./liveIngestionService.js";
 import { noopDispatcher } from "./liveIngestionService.js";
 import { ApnsDispatcher } from "./dispatchers/apnsDispatcher.js";
@@ -28,6 +32,7 @@ import { handleOfficialRankingProjection, officialRankingReadiness } from "./off
 
 const port = Number(process.env.PORT ?? 8787);
 const postgresPool = getPostgresPool();
+const refreshRankingsOnDemand = createDemandRankingRefresh({ pool: postgresPool });
 const redisClient = getRedisClient();
 const store = postgresPool ? new DeviceRegistry({ pool: postgresPool }) : new DeviceTokenStore();
 const socialModerationStore = new SocialModerationStore();
@@ -36,6 +41,9 @@ const matchSnapshotStore = postgresPool ? new PostgresMatchSnapshotStore(postgre
 const scoreHistoryStore = postgresPool ? new PostgresScoreHistoryStore(postgresPool) : new ScoreHistoryStore();
 const pushEventQueue = redisClient ? new RedisStreamsPushQueue(redisClient) : new PushEventQueue();
 const pushDispatcher = createPushDispatcher(store);
+const activityDispatcher = process.env.APNS_KEY_PATH && process.env.APNS_KEY_ID && process.env.APNS_TEAM_ID ? new ApnsDispatcher() : null;
+const liveActivities = new LiveActivityService({ pool: postgresPool, dispatcher: activityDispatcher });
+if (postgresPool && activityDispatcher) startLiveActivityReconciliation({pool: postgresPool, service: liveActivities});
 const authStore = new AuthStore({ pool: postgresPool });
 
 // The dispatcher is intentionally pluggable — production installs replace
@@ -47,6 +55,7 @@ const liveIngestionService = new LiveIngestionService({
   scoreHistory: scoreHistoryStore,
   queue: pushEventQueue,
   dispatcher: pushDispatcher,
+  liveActivities,
   drainIntervalMs: Number(process.env.PUSH_DRAIN_INTERVAL_MS ?? 5_000)
 });
 liveIngestionService.startDrainLoop();
@@ -118,7 +127,36 @@ const server = http.createServer(async (request, response) => {
       return sendJSON(response, 429, { ok: false, error: "Too many requests" });
     }
 
-    if (request.method === "GET" && new URL(request.url, "http://localhost").pathname === "/tennis") {
+    const requestURL = new URL(request.url, "http://localhost");
+    if (request.method === "POST" && requestURL.pathname === "/rankings/sync") {
+      const result = await handleRankingSyncRequest({ authorization: request.headers.authorization, pool: postgresPool });
+      return sendJSON(response, result.status, result.body);
+    }
+    if (request.method === "GET" && requestURL.pathname === "/rankings/status" && process.env.RANKING_SNAPSHOTS_ENABLED === "true") {
+      if (!postgresPool) return sendJSON(response, 503, { ok: false, error: "Ranking database unavailable" });
+      const result = await postgresPool.query(`SELECT tour, row_count, version, last_attempt_at, last_provider_success_at, last_success_at, last_changed_at, last_error FROM ranking_snapshots ORDER BY tour`);
+      response.setHeader("cache-control", "no-store");
+      return sendJSON(response, 200, { ok: true, rankings: result.rows, officialPublicationDateAvailable: false });
+    }
+    if (request.method === "GET" && requestURL.pathname === "/tennis") {
+      if (process.env.RANKING_SNAPSHOTS_ENABLED === "true" && requestURL.searchParams.get("method") === "get_standings") {
+        const tour = (requestURL.searchParams.get("event_type") ?? "ATP").toUpperCase();
+        if (!postgresPool || !["ATP", "WTA"].includes(tour)) return sendJSON(response, 503, { ok: false, error: "Ranking snapshot unavailable" });
+        const result = await postgresPool.query('SELECT snapshot, version, last_success_at, last_error FROM ranking_snapshots WHERE tour=$1 AND snapshot IS NOT NULL', [tour]);
+        const row = result.rows[0];
+        if (!row) {
+          refreshRankingsOnDemand();
+          return sendJSON(response, 503, { ok: false, error: "Ranking snapshot unavailable" });
+        }
+        response.setHeader("cache-control", "no-store");
+        if (rankingSnapshotIsStale(row)) {
+          refreshRankingsOnDemand();
+          response.setHeader("x-match-point-cache", "STALE");
+        }
+        response.setHeader("x-ranking-version", row.version);
+        response.setHeader("x-ranking-last-success", new Date(row.last_success_at).toISOString());
+        return sendJSON(response, 200, row.snapshot);
+      }
       return handleAPITennisProxy(request, response);
     }
 
@@ -160,6 +198,12 @@ const server = http.createServer(async (request, response) => {
     if (request.method === "POST" && request.url === "/auth/delete") {
       const result = await authStore.deleteAccountForSession(authorizationBearer(request));
       return sendJSON(response, 200, { ok: true, result });
+    }
+
+    if (request.method === "POST" && request.url === "/live-activities/token") {
+      const payload = await readJSON(request);
+      await liveActivities.register(payload);
+      return sendJSON(response, 200, { ok: true });
     }
 
     if (request.method === "POST" && request.url === "/apns/device-token") {

@@ -23,7 +23,7 @@ export class RedisStreamsPushQueue {
         this.group = group;
         this.consumer = consumer;
         this.maxLen = maxLen;
-        this.stats = { enqueued: 0, sent: 0, dead: 0 };
+        this.counters = { enqueued: 0, sent: 0, dead: 0 };
         this.groupReady = false;
     }
 
@@ -47,7 +47,7 @@ export class RedisStreamsPushQueue {
             const id = await this.client.xadd(this.stream, "MAXLEN", "~", String(this.maxLen), "*", "event", payload);
             enqueued.push({ ...event, id, attempts: 0, state: "pending" });
         }
-        this.stats.enqueued += enqueued.length;
+        this.counters.enqueued += enqueued.length;
         return enqueued;
     }
 
@@ -74,13 +74,13 @@ export class RedisStreamsPushQueue {
                     if (result?.ok) {
                         await this.client.xack(this.stream, this.group, id);
                         sent.push({ ...event, id, state: "sent", sentAt: new Date().toISOString(), deliveryReceipt: result.receipt ?? null });
-                        this.stats.sent += 1;
+                        this.counters.sent += 1;
                     } else {
                         const attempts = (event.attempts ?? 0) + 1;
                         if (attempts >= maxAttempts) {
                             await this.client.xadd(this.deadStream, "MAXLEN", "~", String(this.maxLen), "*", "event", JSON.stringify({ ...event, attempts, state: "dead", lastFailureReason: result?.reason ?? "unknown", failedAt: new Date().toISOString() }));
                             await this.client.xack(this.stream, this.group, id);
-                            this.stats.dead += 1;
+                            this.counters.dead += 1;
                             failed.push({ ...event, state: "dead" });
                         } else {
                             await this.client.xadd(this.stream, "MAXLEN", "~", String(this.maxLen), "*", "event", JSON.stringify({ ...event, attempts, state: "pending", lastFailureReason: result?.reason ?? "unknown" }));
@@ -90,7 +90,7 @@ export class RedisStreamsPushQueue {
                 } catch (error) {
                     await this.client.xadd(this.deadStream, "MAXLEN", "~", String(this.maxLen), "*", "event", JSON.stringify({ ...event, state: "dead", lastFailureReason: error.message ?? "throw", failedAt: new Date().toISOString() }));
                     await this.client.xack(this.stream, this.group, id);
-                    this.stats.dead += 1;
+                    this.counters.dead += 1;
                     failed.push({ ...event, state: "dead" });
                 }
             }
@@ -105,9 +105,9 @@ export class RedisStreamsPushQueue {
     async snapshot() {
         return {
             pending: await this.pendingCount(),
-            sent: this.stats.sent,
-            dead: this.stats.dead,
-            stats: { ...this.stats }
+            sent: this.counters.sent,
+            dead: this.counters.dead,
+            stats: { ...this.counters }
         };
     }
 
@@ -120,7 +120,7 @@ export class RedisStreamsPushQueue {
     }
 
     async stats() {
-        return { ...this.stats, pending: await this.pendingCount() };
+        return { ...this.counters, pending: await this.pendingCount() };
     }
 }
 

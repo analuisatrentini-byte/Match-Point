@@ -226,12 +226,16 @@ function extractFrames(payload) {
 /// Field names use API Tennis conventions (`event_key`, `event_status`, etc).
 /// Unknown / empty fields fall back to safe defaults so a partial frame still
 /// produces a usable snapshot instead of being dropped.
-function frameToSnapshot(frame) {
+export function frameToSnapshot(frame) {
     if (!frame || typeof frame !== "object") return null;
     const matchKey = String(frame.event_key ?? frame.matchKey ?? frame.match_key ?? "").trim();
     if (matchKey === "") return null;
     const status = String(frame.event_status ?? frame.status ?? "").trim().toLowerCase();
 
+    const sets = Array.isArray(frame.scores) ? frame.scores
+        .filter(s => s.score_first != null && s.score_second != null && Number(s.score_set) > 0)
+        .sort((a, b) => Number(a.score_set) - Number(b.score_set)) : [];
+    const completeScores = sets.every((s, index) => Number(s.score_set) === index + 1);
     return {
         matchKey,
         tournamentKey: String(frame.tournament_key ?? frame.tournamentKey ?? "").trim(),
@@ -241,9 +245,10 @@ function frameToSnapshot(frame) {
         player2Key: String(frame.second_player_key ?? frame.event_second_player_key ?? frame.player2Key ?? "").trim(),
         status: mapStatus(status, frame.event_live === "1" || frame.event_live === 1),
         serverName: frame.event_serve ?? frame.serverName ?? "",
-        score: frame.event_final_result ?? frame.event_game_result ?? frame.score ?? "",
-        gameScore: frame.event_game_result ?? frame.gameScore ?? "",
-        pointScore: frame.event_serve_point ?? frame.pointScore ?? "",
+        score: completeScores ? sets.map(s => `${s.score_first}-${s.score_second}`).join(" ") : "",
+        setScores: sets.map(s => ({ number: Number(s.score_set), player1Games: String(s.score_first), player2Games: String(s.score_second) })),
+        gameScore: sets.length ? `${sets.at(-1).score_first}-${sets.at(-1).score_second}` : (frame.gameScore ?? ""),
+        pointScore: frame.point_score ?? frame.event_point_result ?? frame.event_game_result ?? frame.pointScore ?? "",
         setNumber: parseIntOrNull(frame.event_set_number ?? frame.setNumber),
         breakPoint: Boolean(frame.event_break_point) || String(frame.event_break_point ?? "").toLowerCase() === "true",
         favoritePlayerKeys: Array.isArray(frame.favoritePlayerKeys) ? frame.favoritePlayerKeys : [],
@@ -252,6 +257,7 @@ function frameToSnapshot(frame) {
 }
 
 function mapStatus(raw, liveFlag) {
+    if (raw.includes("final") || raw.includes("finished") || raw.includes("ended") || raw.includes("retired") || raw.includes("walkover")) return "completed";
     if (liveFlag) return "live";
     if (!raw) return "unknown";
     if (raw.includes("live") || raw === "set 1" || raw === "set 2" || raw === "set 3") return "live";
