@@ -42,7 +42,7 @@ export class LiveIngestionService {
     async ingestFrame(frame, { source = "ingest" } = {}) {
         // Use the provider frame before snapshot normalization discards partial fields.
         if (this.liveActivities) {
-            this.liveActivities.update(frame).catch(error => console.error("live activity update failed", error.message));
+            this.liveActivities.update({...frame, source}).catch(error => console.error("live activity update failed", error.message));
         }
         this.stats.framesReceived += 1;
         this.stats.lastFrameAt = new Date().toISOString();

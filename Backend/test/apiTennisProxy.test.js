@@ -2,12 +2,41 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  apiTennisCacheTTL,
   apiTennisDataPlaneContract,
   buildAPITennisURL,
   handleAPITennisProxy,
   normalizeAPITennisWebSocketClose,
   productionReadiness
 } from "../src/apiTennisProxy.js";
+
+test("recent fixtures use a short cache in the provider timezone, including midnight and DST", () => {
+  const url = (start, stop = start) => new URL(`https://example.test/tennis?method=get_fixtures&date_start=${start}&date_stop=${stop}`);
+  const now = new Date("2026-11-23T02:00:00Z"); // Still November 22 in New York.
+  assert.equal(apiTennisCacheTTL(url("2026-11-22"), {}, now), 15_000);
+  assert.equal(apiTennisCacheTTL(url("2026-11-21"), {}, now), 15_000);
+  assert.equal(apiTennisCacheTTL(url("2026-11-23"), {}, now), 300_000);
+  assert.equal(apiTennisCacheTTL(url("2026-10-01"), {}, now), 300_000);
+  assert.equal(apiTennisCacheTTL(url("2026-11-20", "2026-11-25"), {}, now), 15_000);
+  const afterDST = new Date("2026-03-09T04:30:00Z");
+  assert.equal(apiTennisCacheTTL(url("2026-03-08"), {}, afterDST), 15_000);
+  assert.equal(apiTennisCacheTTL(url("2026-03-07"), {}, afterDST), 300_000);
+  assert.equal(apiTennisCacheTTL(url("2026-11-22"), { API_TENNIS_FIXTURE_CACHE_TTL_MS: "1000" }, now), 1000);
+});
+
+test("expired recent fixture cache fetches the completed result instead of replaying live data", async () => {
+  const request = makeRequest("/tennis?method=get_fixtures&test_cache=finish");
+  const env = { API_TENNIS_KEY: "test", API_TENNIS_CURRENT_FIXTURE_CACHE_TTL_MS: "1", API_TENNIS_PROXY_RATE_LIMIT_DISABLED: "true" };
+  let calls = 0;
+  const fetchImpl = async () => new Response(JSON.stringify({ success: 1, result: [{event_status: ++calls === 1 ? "Set 2" : "Finished"}] }), { status: 200 });
+  await handleAPITennisProxy(request, makeResponse(), { env, fetchImpl });
+  await new Promise(resolve => setTimeout(resolve, 10));
+  const response = makeResponse();
+  await handleAPITennisProxy(request, response, { env, fetchImpl });
+  assert.equal(calls, 2);
+  assert.equal(JSON.parse(response.body).result[0].event_status, "Finished");
+  assert.equal(response.headers["x-match-point-cache"], "MISS");
+});
 
 test("API Tennis proxy builds upstream URL with server-side key only", () => {
   const url = buildAPITennisURL(
@@ -167,6 +196,16 @@ test("API Tennis proxy applies dedicated provider rate limit", async () => {
 
   assert.equal(first.statusCode, 200);
   assert.equal(second.statusCode, 429);
+});
+
+test("API Tennis proxy forwards the upstream retry-after on a rate limit", async () => {
+  const response = makeResponse();
+  await handleAPITennisProxy(makeRequest("/tennis?method=get_standings&event_type=ATP&test_retry=forward"), response, {
+    env: { API_TENNIS_KEY: "server-key", API_TENNIS_PROXY_RATE_LIMIT_DISABLED: "true", API_TENNIS_PROXY_CACHE_DISABLED: "true" },
+    fetchImpl: async () => new Response("quota", { status: 429, headers: { "retry-after": "120" } })
+  });
+  assert.equal(response.statusCode, 429);
+  assert.equal(response.headers["retry-after"], "120");
 });
 
 function makeRequest(url, ip = "127.0.0.1") {

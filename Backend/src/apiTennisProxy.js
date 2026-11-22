@@ -39,6 +39,7 @@ export const apiTennisDataPlaneContract = {
     secretPolicy: "server-side-api-key-only",
     cache: {
       liveSeconds: 5,
+      currentFixturesSeconds: 15,
       fixturesSeconds: 300,
       rankingSeconds: 3600,
       staleFallbackSeconds: 900
@@ -172,11 +173,13 @@ export async function handleAPITennisProxy(request, response, { env = process.en
       }
     }
 
-    response.writeHead(upstream.status, {
+    const headers = {
       "content-type": contentType,
-      "cache-control": cacheControlFor(target.searchParams.get("method") ?? "", env),
+      "cache-control": cacheControlFor(target, env),
       "x-match-point-cache": "MISS"
-    });
+    };
+    if (upstream.status === 429 && upstream.retryAfter) headers["retry-after"] = upstream.retryAfter;
+    response.writeHead(upstream.status, headers);
     response.end(body);
     logProxyEvent("upstream_response", request, target, { statusCode: upstream.status });
   } catch (error) {
@@ -215,6 +218,7 @@ async function fetchSharedUpstream(target, key, env, fetchImpl) {
       });
       return { status: response.status, ok: response.ok,
         contentType: response.headers.get("content-type") ?? "application/json; charset=utf-8",
+        retryAfter: response.headers.get("retry-after"),
         body: await response.text() };
     } finally {
       clearTimeout(timer);
@@ -303,12 +307,14 @@ export function handleAPITennisWebSocketUpgrade(request, socket, head, { env = p
     const pendingClientMessages = [];
 
     const closeBoth = (code = 1000, reason = "") => {
-      const close = normalizeAPITennisWebSocketClose(code, reason);
+      // Peer close events may report reserved status codes such as 1005/1006.
+      // Those describe the close event and cannot be sent in a close frame.
+      const normalized = normalizeAPITennisWebSocketClose(code, reason);
       if (client.readyState === WebSocket.OPEN || client.readyState === WebSocket.CONNECTING) {
-        client.close(close.code, close.reason);
+        client.close(normalized.code, normalized.reason);
       }
       if (upstream.readyState === WebSocket.OPEN || upstream.readyState === WebSocket.CONNECTING) {
-        upstream.close(close.code, close.reason);
+        upstream.close(normalized.code, normalized.reason);
       }
     };
 
@@ -364,12 +370,20 @@ function cacheEnabled(env) {
   return env.API_TENNIS_PROXY_CACHE_DISABLED !== "true";
 }
 
-function ttlForMethod(method, env) {
+export function apiTennisCacheTTL(target, env = process.env, now = new Date()) {
+  const method = target.searchParams.get("method") ?? "";
   switch (method) {
     case "get_livescore":
     case "get_live_odds":
       return Number(env.API_TENNIS_LIVE_CACHE_TTL_MS ?? 5_000);
     case "get_fixtures":
+      // A five-minute fixture cache can hide the final result after the match
+      // disappears from get_livescore. Only recent dates need the shorter TTL.
+      if (includesRecentFixtures(target, now)) {
+        return Math.min(Number(env.API_TENNIS_FIXTURE_CACHE_TTL_MS ?? 300_000),
+          Number(env.API_TENNIS_CURRENT_FIXTURE_CACHE_TTL_MS ?? 15_000));
+      }
+      return Number(env.API_TENNIS_FIXTURE_CACHE_TTL_MS ?? 300_000);
     case "get_H2H":
     case "get_odds":
       return Number(env.API_TENNIS_FIXTURE_CACHE_TTL_MS ?? 300_000);
@@ -383,6 +397,19 @@ function ttlForMethod(method, env) {
   }
 }
 
+function includesRecentFixtures(target, now) {
+  const start = target.searchParams.get("date_start");
+  const stop = target.searchParams.get("date_stop");
+  if (!start || !stop || !/^\d{4}-\d{2}-\d{2}$/.test(start) || !/^\d{4}-\d{2}-\d{2}$/.test(stop)) return true;
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit"
+  });
+  const today = formatter.format(now);
+  // Subtract from the calendar date, not a local 24-hour interval across DST.
+  const yesterday = new Date(Date.parse(`${today}T12:00:00Z`) - 86_400_000).toISOString().slice(0, 10);
+  return start <= today && stop >= yesterday;
+}
+
 function staleTtlMs(env) {
   return Number(env.API_TENNIS_STALE_FALLBACK_TTL_MS ?? 900_000);
 }
@@ -392,10 +419,10 @@ function getCached(cacheKey, env, options = {}) {
   const entry = proxyCache.get(cacheKey);
   if (!entry) return null;
   const age = Date.now() - entry.storedAt;
-  const method = entry.method ?? "";
-  const fresh = age <= ttlForMethod(method, env);
+  const ttl = apiTennisCacheTTL(new URL(cacheKey), env);
+  const fresh = age <= ttl;
   if (fresh) return { entry, fresh: true };
-  if (options.allowStale && age <= ttlForMethod(method, env) + staleTtlMs(env)) {
+  if (options.allowStale && age <= ttl + staleTtlMs(env)) {
     return { entry, fresh: false };
   }
   return null;
@@ -422,9 +449,9 @@ function writeCachedResponse(response, entry, cacheStatus, reason = "") {
   response.end(entry.body);
 }
 
-function cacheControlFor(method, env) {
+function cacheControlFor(target, env) {
   if (!cacheEnabled(env)) return "no-store";
-  const ttlSeconds = Math.max(0, Math.floor(ttlForMethod(method, env) / 1000));
+  const ttlSeconds = Math.max(0, Math.floor(apiTennisCacheTTL(target, env) / 1000));
   return ttlSeconds > 0 ? `private, max-age=${ttlSeconds}` : "no-store";
 }
 

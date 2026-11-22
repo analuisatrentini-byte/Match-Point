@@ -87,3 +87,36 @@ alcançar a API Neon neste ambiente. Portanto, a criação do serviço e a aplic
 da migration precisam acontecer na conta de hospedagem/banco; não publique
 segredos no repositório. Após o primeiro deploy, substitua os dois placeholders
 pelas URLs reais do serviço no app.
+
+## Live Activity na tela bloqueada
+
+A entrega remota exige o schema atualizado no Postgres e uma instância contínua
+com `START_API_TENNIS_INGESTER=true`. Além de `API_TENNIS_KEY` e `DATABASE_URL`,
+configure `APNS_KEY_PATH` (arquivo .p8 montado com segurança), `APNS_KEY_ID`,
+`APNS_TEAM_ID` e `APNS_BUNDLE_ID` (o identificador exato do app, sem o sufixo
+`.push-type.liveactivity`). O servidor usa sandbox ou produção conforme o token
+registrado pelo app. Sem essas configurações, o registro retorna HTTP 503 ou
+400 e nenhuma atualização remota é enviada.
+
+Teste a migração e o envio APNs em ambiente isolado antes de aplicar o schema
+em produção. Com inscrições ativas, a reconciliação começa na inicialização e
+consulta a fonte a cada 30 segundos. Recupera placares e busca fixtures para
+partidas ausentes do feed ao vivo. Só um resultado final explícito encerra a
+atividade; ausência ou falha do provedor não implica encerramento. Um final
+confirmado fica persistido até o APNs aceitar o encerramento, inclusive após
+reiniciar o servidor. O resultado final permanece visível por 30 segundos.
+
+O WebSocket possui prazo de conexão, ping/pong e recuperação de stream
+silencioso. O envio APNs tem prazo de 10 segundos e repete falhas transitórias
+automaticamente, mantendo o estado mais recente em vez de uma fila de pontos
+antigos. Alterações de placar usam prioridade 10; repetições são deduplicadas e
+heartbeats usam prioridade 5. A validade dos dados expira após 90 segundos
+sem aquisição recente, preservando o último placar com indicação de espera.
+
+Verifique em `/health`: `uptimeSeconds`, `apiTennisIngester.connected`,
+`lastFrameAt`, `watchdogReconnects`, `liveActivities.pushesSent`, `pushesFailed`,
+`retryingMatches` e `liveActivityReconciliation.lastSuccessAt`. As flags de
+readiness confirmam configuração, não comprovam entrega em um dispositivo.
+Uma instância que suspende por inatividade não oferece acompanhamento contínuo.
+A entrega depende do APNs e da disponibilidade do provedor e deve ser validada
+em um iPhone real, com o app em segundo plano, até o encerramento da partida.

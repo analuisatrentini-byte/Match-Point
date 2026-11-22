@@ -43,7 +43,8 @@ const pushEventQueue = redisClient ? new RedisStreamsPushQueue(redisClient) : ne
 const pushDispatcher = createPushDispatcher(store);
 const activityDispatcher = process.env.APNS_KEY_PATH && process.env.APNS_KEY_ID && process.env.APNS_TEAM_ID ? new ApnsDispatcher() : null;
 const liveActivities = new LiveActivityService({ pool: postgresPool, dispatcher: activityDispatcher });
-if (postgresPool && activityDispatcher) startLiveActivityReconciliation({pool: postgresPool, service: liveActivities});
+const stopLiveActivityReconciliation = postgresPool && activityDispatcher
+  ? startLiveActivityReconciliation({pool: postgresPool, service: liveActivities}) : null;
 const authStore = new AuthStore({ pool: postgresPool });
 
 // The dispatcher is intentionally pluggable — production installs replace
@@ -94,6 +95,7 @@ const server = http.createServer(async (request, response) => {
       const ingestion = await liveIngestionService.health();
       return sendJSON(response, 200, {
         ok: true,
+        uptimeSeconds: Math.floor(process.uptime()),
         readiness: productionReadiness(),
         stats,
         moderation,
@@ -101,6 +103,8 @@ const server = http.createServer(async (request, response) => {
         auth,
         ingestion,
         apiTennisIngester: apiTennisIngester?.stats ?? null,
+        liveActivities: liveActivities.health(),
+        liveActivityReconciliation: stopLiveActivityReconciliation?.health() ?? null,
         apiTennisProxy: apiTennisProxyStats(),
         officialRanking: officialRankingReadiness()
       });

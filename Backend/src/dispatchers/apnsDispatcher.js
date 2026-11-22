@@ -29,7 +29,8 @@ export class ApnsDispatcher {
         teamId = process.env.APNS_TEAM_ID,
         defaultBundleId = process.env.APNS_BUNDLE_ID,
         defaultEnvironment = process.env.APNS_ENVIRONMENT ?? "production",
-        tokenTtlMs = 55 * 60 * 1000
+        tokenTtlMs = 55 * 60 * 1000,
+        requestTimeoutMs = 10_000
     } = {}) {
         if (!keyPath || !keyId || !teamId) {
             throw new Error("APNs dispatcher requires APNS_KEY_PATH, APNS_KEY_ID, APNS_TEAM_ID");
@@ -40,9 +41,11 @@ export class ApnsDispatcher {
         this.defaultBundleId = defaultBundleId;
         this.defaultEnvironment = defaultEnvironment;
         this.tokenTtlMs = tokenTtlMs;
+        this.requestTimeoutMs = requestTimeoutMs;
         this._keyPem = null;
         this._token = null;
         this._tokenExpiresAt = 0;
+        this._tokenTask = null;
         this._sessions = new Map();
     }
 
@@ -87,13 +90,24 @@ export class ApnsDispatcher {
         const payload = Buffer.from(JSON.stringify(notification));
 
         return new Promise((resolve) => {
+            let settled = false;
+            let timer;
+            const finish = (result) => {
+                if (settled) return;
+                settled = true;
+                clearTimeout(timer);
+                resolve(result);
+            };
             const request = session.request({
                 ":method": "POST",
                 ":path": `/3/device/${recipient.deviceToken}`,
                 "authorization": `bearer ${token}`,
                 "apns-topic": isLiveActivity ? `${bundleId}.push-type.liveactivity` : bundleId,
                 "apns-push-type": isLiveActivity ? "liveactivity" : "alert",
-                "apns-priority": isLiveActivity ? "5" : (event.priority === "high" ? "10" : "5"),
+                "apns-priority": event.priority === "high" || (isLiveActivity && notification.aps?.event === "end") ? "10" : "5",
+                // Briefly retain the latest score across a connection loss;
+                // retain the terminal event longer so an offline device can end.
+                ...(isLiveActivity ? { "apns-expiration": String(Math.floor(Date.now() / 1000) + (notification.aps?.event === "end" ? 4 * 3600 : 60)) } : {}),
                 "content-type": "application/json"
             });
             request.setEncoding("utf8");
@@ -107,9 +121,9 @@ export class ApnsDispatcher {
             request.on("data", (chunk) => { responseBody += chunk; });
             request.on("end", () => {
                 if (responseStatus === 200) {
-                    resolve({ ok: true });
+                    finish({ ok: true });
                 } else {
-                    resolve({
+                    finish({
                         ok: false,
                         reason: `apns ${responseStatus}: ${responseBody || "no body"}`,
                         invalidToken: isInvalidTokenResponse(responseStatus, responseBody)
@@ -117,9 +131,17 @@ export class ApnsDispatcher {
                 }
             });
             request.on("error", (error) => {
-                this.dropSession(host);
-                resolve({ ok: false, reason: error.message });
+                finish({ ok: false, reason: error.message });
+                this.dropSession(host, session);
             });
+            request.on("aborted", () => finish({ ok: false, reason: "APNs stream aborted" }));
+            request.on("close", () => finish({ ok: false, reason: "APNs stream closed before response completed" }));
+            timer = setTimeout(() => {
+                finish({ ok: false, reason: "APNs request timed out" });
+                try { request.close(); } catch { /* already closed */ }
+                this.dropSession(host, session);
+            }, this.requestTimeoutMs);
+            timer.unref?.();
 
             request.write(payload);
             request.end();
@@ -132,18 +154,22 @@ export class ApnsDispatcher {
         const session = http2Connect(`https://${host}`);
         session.on("error", (error) => {
             console.error("apns session error", error.message);
-            this.dropSession(host);
+            this.dropSession(host, session);
         });
-        session.on("close", () => this.dropSession(host));
+        session.on("close", () => this.dropSession(host, session));
+        session.on("goaway", () => {
+            if (this._sessions.get(host) === session) this._sessions.delete(host);
+            session.close();
+        });
         this._sessions.set(host, session);
         return session;
     }
 
-    dropSession(host) {
+    dropSession(host, expectedSession = null) {
         const existing = this._sessions.get(host);
-        if (existing) {
-            try { existing.destroy(); } catch { /* ignore */ }
+        if (existing && (!expectedSession || existing === expectedSession)) {
             this._sessions.delete(host);
+            try { existing.destroy(); } catch { /* ignore */ }
         }
     }
 
@@ -158,6 +184,14 @@ export class ApnsDispatcher {
     /// — the caller controls lifetime by resigning.
     async getProviderToken(now = Date.now()) {
         if (this._token && now < this._tokenExpiresAt) return this._token;
+        if (this._tokenTask) return this._tokenTask;
+        const task = this.createProviderToken(now);
+        this._tokenTask = task;
+        try { return await task; }
+        finally { if (this._tokenTask === task) this._tokenTask = null; }
+    }
+
+    async createProviderToken(now) {
         const keyPem = await this.loadKey();
         const header = base64UrlJson({ alg: "ES256", kid: this.keyId });
         const claims = base64UrlJson({ iss: this.teamId, iat: Math.floor(now / 1000) });

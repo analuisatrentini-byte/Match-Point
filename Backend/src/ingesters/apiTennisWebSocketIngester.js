@@ -22,6 +22,11 @@ export class ApiTennisWebSocketIngester {
         timezone = process.env.API_TENNIS_TIMEZONE ?? "America/New_York",
         minBackoffMs = 1_000,
         maxBackoffMs = 30_000,
+        connectTimeoutMs = 15_000,
+        heartbeatIntervalMs = 20_000,
+        heartbeatTimeoutMs = 10_000,
+        silenceTimeoutMs = 90_000,
+        WebSocketClass = null,
         source = "api-tennis-ws"
     } = {}) {
         this.ingestionService = ingestionService;
@@ -30,6 +35,11 @@ export class ApiTennisWebSocketIngester {
         this.timezone = timezone;
         this.minBackoffMs = minBackoffMs;
         this.maxBackoffMs = maxBackoffMs;
+        this.connectTimeoutMs = connectTimeoutMs;
+        this.heartbeatIntervalMs = heartbeatIntervalMs;
+        this.heartbeatTimeoutMs = heartbeatTimeoutMs;
+        this.silenceTimeoutMs = silenceTimeoutMs;
+        this.WebSocketClass = WebSocketClass;
         this.source = source;
         this.stats = {
             connections: 0,
@@ -37,6 +47,10 @@ export class ApiTennisWebSocketIngester {
             framesReceived: 0,
             framesForwarded: 0,
             framesInvalid: 0,
+            watchdogReconnects: 0,
+            connected: false,
+            lastConnectedAt: null,
+            lastHeartbeatAt: null,
             lastFrameAt: null,
             lastErrorAt: null,
             lastError: null
@@ -44,6 +58,7 @@ export class ApiTennisWebSocketIngester {
         this._running = false;
         this._socket = null;
         this._backoffMs = this.minBackoffMs;
+        this._generation = 0;
     }
 
     /// Boots the connect+read loop. Idempotent — calling again while running
@@ -55,7 +70,9 @@ export class ApiTennisWebSocketIngester {
             throw new Error("API_TENNIS_WS_URL is required to start the ingester");
         }
         this._running = true;
-        this._loop().catch((error) => {
+        const generation = ++this._generation;
+        this._loop(generation).catch((error) => {
+            if (generation !== this._generation) return;
             this.stats.lastError = error.message;
             this.stats.lastErrorAt = new Date().toISOString();
             console.error("api-tennis ingester loop crashed", error);
@@ -65,22 +82,18 @@ export class ApiTennisWebSocketIngester {
 
     stop() {
         this._running = false;
-        if (this._socket) {
-            try { this._socket.close(); } catch { /* ignore */ }
-            this._socket = null;
-        }
+        this._generation += 1;
+        this._cancelReconnect?.();
+        this._cancelConnection?.();
     }
 
-    async _loop() {
-        const WebSocket = await loadWebSocket();
-        while (this._running) {
+    async _loop(generation) {
+        const WebSocket = this.WebSocketClass ?? await loadWebSocket();
+        while (this._running && generation === this._generation) {
             try {
                 await this._connectOnce(WebSocket);
-                if (!this._running) break;
-                await sleep(this._backoffMs);
-                this.stats.reconnects += 1;
-                this._backoffMs = Math.min(this.maxBackoffMs, this._backoffMs * 2);
             } catch (error) {
+                if (!this._running || generation !== this._generation) break;
                 this.stats.lastError = error.message;
                 this.stats.lastErrorAt = new Date().toISOString();
                 if (isFatalAuthError(error)) {
@@ -89,10 +102,22 @@ export class ApiTennisWebSocketIngester {
                     return;
                 }
                 console.error("api-tennis ingester connect failed:", error.message);
-                await sleep(this._backoffMs);
-                this._backoffMs = Math.min(this.maxBackoffMs, this._backoffMs * 2);
             }
+            if (!this._running || generation !== this._generation) break;
+            await this._waitForReconnect(this._backoffMs);
+            if (!this._running || generation !== this._generation) break;
+            this.stats.reconnects += 1;
+            this._backoffMs = Math.min(this.maxBackoffMs, this._backoffMs * 2);
         }
+    }
+
+    _waitForReconnect(ms) {
+        return new Promise(resolve => {
+            const complete = () => { clearTimeout(timer); this._cancelReconnect = null; resolve(); };
+            const timer = setTimeout(complete, ms);
+            timer.unref?.();
+            this._cancelReconnect = complete;
+        });
     }
 
     _connectOnce(WebSocket) {
@@ -101,17 +126,70 @@ export class ApiTennisWebSocketIngester {
             const socket = new WebSocket(url);
             this._socket = socket;
             this.stats.connections += 1;
+            let settled = false;
+            let opened = false;
+            let lastFrameAt = Date.now();
+            let awaitingPongAt = null;
+            let lastPingAt = 0;
+            let heartbeatTimer;
+            const finish = (error) => {
+                if (settled) return;
+                settled = true;
+                clearTimeout(connectTimer);
+                clearInterval(heartbeatTimer);
+                if (this._socket === socket) {
+                    this._socket = null;
+                    this._cancelConnection = null;
+                    this.stats.connected = false;
+                }
+                // A rejected/half-open socket must not continue forwarding old
+                // frames after its replacement has connected.
+                try { if (socket.terminate) socket.terminate(); else socket.close(); } catch { /* already closed */ }
+                if (error) reject(error); else resolve();
+            };
+            this._cancelConnection = () => finish();
+            const connectTimer = setTimeout(() => finish(new Error("WebSocket connection timed out")), this.connectTimeoutMs);
+            connectTimer.unref?.();
 
             socket.on("open", () => {
+                if (settled) return;
+                opened = true;
+                clearTimeout(connectTimer);
                 this._backoffMs = this.minBackoffMs;
+                this.stats.connected = true;
+                this.stats.lastConnectedAt = new Date().toISOString();
+                lastFrameAt = Date.now();
+                heartbeatTimer = setInterval(() => {
+                    const now = Date.now();
+                    const missingPong = awaitingPongAt !== null && now - awaitingPongAt >= this.heartbeatTimeoutMs;
+                    if (missingPong || now - lastFrameAt >= this.silenceTimeoutMs) {
+                        this.stats.watchdogReconnects += 1;
+                        finish(new Error(missingPong ? "WebSocket heartbeat timed out" : "WebSocket match stream went silent"));
+                        return;
+                    }
+                    if (typeof socket.ping === "function" && awaitingPongAt === null && now - lastPingAt >= this.heartbeatIntervalMs) {
+                        lastPingAt = now;
+                        awaitingPongAt = now;
+                        try { socket.ping(); } catch (error) { finish(error); }
+                    }
+                }, Math.min(this.heartbeatIntervalMs, this.heartbeatTimeoutMs));
+                heartbeatTimer.unref?.();
+            });
+            socket.on("pong", () => {
+                if (!settled) {
+                    awaitingPongAt = null;
+                    this.stats.lastHeartbeatAt = new Date().toISOString();
+                }
             });
 
             socket.on("message", (data) => {
+                if (settled || !opened) return;
+                lastFrameAt = Date.now();
                 this.stats.framesReceived += 1;
                 this.stats.lastFrameAt = new Date().toISOString();
                 let payload;
                 try {
-                    payload = JSON.parse(typeof data === "string" ? data : data.toString("utf8"));
+                    payload = JSON.parse(typeof data === "string" ? data : Buffer.from(data).toString("utf8"));
                 } catch {
                     this.stats.framesInvalid += 1;
                     return;
@@ -134,20 +212,24 @@ export class ApiTennisWebSocketIngester {
             });
 
             socket.on("close", (code, reason) => {
-                if (code >= 4000 || code === 1008 || code === 1011) {
-                    // 4xxx are provider-specific; 1008 policy violation, 1011 server error.
-                    // Treat these as fatal auth-ish errors so the loop stops retrying.
-                    const error = new Error(`ws closed ${code}: ${reason?.toString?.("utf8") ?? ""}`);
-                    error.fatalAuth = code === 1008 || (typeof reason === "string" && reason.toLowerCase().includes("auth"));
-                    return reject(error);
-                }
-                resolve();
+                const detail = reason?.toString?.("utf8") ?? "";
+                const error = new Error(`ws closed ${code}: ${detail}`);
+                error.fatalAuth = /unauthori[sz]ed|forbidden|invalid[ _-]*(api[ _-]*)?key|authentication failed/i.test(detail);
+                finish(error);
+            });
+
+            socket.on("unexpected-response", (_request, response) => {
+                const error = new Error(`WebSocket handshake rejected: ${response.statusCode}`);
+                error.fatalAuth = response.statusCode === 401 || response.statusCode === 403;
+                response.resume?.();
+                finish(error);
             });
 
             socket.on("error", (error) => {
+                if (settled) return;
                 this.stats.lastError = error.message;
                 this.stats.lastErrorAt = new Date().toISOString();
-                reject(error);
+                finish(error);
             });
         });
     }
@@ -165,15 +247,11 @@ export class ApiTennisWebSocketIngester {
 }
 
 async function loadWebSocket() {
-    if (typeof globalThis.WebSocket === "function") {
-        // Wrap the global WebSocket in a minimal EventEmitter-shaped adapter so
-        // the connect loop can use the same `on(event, cb)` API as `ws`.
-        return class extends WebSocketAdapter {};
-    }
     try {
         const module = await import("ws");
         return module.default ?? module.WebSocket ?? module;
     } catch (error) {
+        if (typeof globalThis.WebSocket === "function") return class extends WebSocketAdapter {};
         const wrapped = new Error("ws module not installed — run `npm install ws` or unset API_TENNIS_WS_URL");
         wrapped.cause = error;
         throw wrapped;
@@ -186,6 +264,7 @@ async function loadWebSocket() {
 class WebSocketAdapter {
     constructor(url) {
         this._native = new globalThis.WebSocket(url);
+        this._native.binaryType = "arraybuffer";
     }
     on(eventName, callback) {
         switch (eventName) {
@@ -243,25 +322,25 @@ export function frameToSnapshot(frame) {
         player2: frame.event_second_player ?? frame.player2 ?? "",
         player1Key: String(frame.first_player_key ?? frame.event_first_player_key ?? frame.player1Key ?? "").trim(),
         player2Key: String(frame.second_player_key ?? frame.event_second_player_key ?? frame.player2Key ?? "").trim(),
-        status: mapStatus(status, frame.event_live === "1" || frame.event_live === 1),
+        status: mapStatus(status, ["1", "true"].includes(String(frame.event_live).toLowerCase())),
         serverName: frame.event_serve ?? frame.serverName ?? "",
         score: completeScores ? sets.map(s => `${s.score_first}-${s.score_second}`).join(" ") : "",
         setScores: sets.map(s => ({ number: Number(s.score_set), player1Games: String(s.score_first), player2Games: String(s.score_second) })),
         gameScore: sets.length ? `${sets.at(-1).score_first}-${sets.at(-1).score_second}` : (frame.gameScore ?? ""),
         pointScore: frame.point_score ?? frame.event_point_result ?? frame.event_game_result ?? frame.pointScore ?? "",
         setNumber: parseIntOrNull(frame.event_set_number ?? frame.setNumber),
-        breakPoint: Boolean(frame.event_break_point) || String(frame.event_break_point ?? "").toLowerCase() === "true",
+        breakPoint: ["1", "true"].includes(String(frame.event_break_point).toLowerCase()),
         favoritePlayerKeys: Array.isArray(frame.favoritePlayerKeys) ? frame.favoritePlayerKeys : [],
         capturedAt: new Date().toISOString()
     };
 }
 
 function mapStatus(raw, liveFlag) {
-    if (raw.includes("final") || raw.includes("finished") || raw.includes("ended") || raw.includes("retired") || raw.includes("walkover")) return "completed";
+    const compact = raw.replace(/[\s._-]/g, "");
+    if (["final", "completed", "finished", "ended", "ret", "retired", "wo", "walkover", "cancelled", "canceled", "abandoned", "defaulted"].includes(compact)) return "completed";
     if (liveFlag) return "live";
     if (!raw) return "unknown";
-    if (raw.includes("live") || raw === "set 1" || raw === "set 2" || raw === "set 3") return "live";
-    if (raw.includes("final") || raw.includes("finished") || raw.includes("ended")) return "completed";
+    if (raw.includes("live") || /^set\s*[1-5]$/.test(raw) || /tie.?break|in progress/.test(raw)) return "live";
     if (raw.includes("upcoming") || raw.includes("scheduled")) return "upcoming";
     return "unknown";
 }
@@ -272,9 +351,5 @@ function parseIntOrNull(value) {
 }
 
 function isFatalAuthError(error) {
-    return Boolean(error?.fatalAuth) || String(error?.message ?? "").toLowerCase().includes("auth");
-}
-
-function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms).unref?.() ?? setTimeout(resolve, ms));
+    return Boolean(error?.fatalAuth);
 }
