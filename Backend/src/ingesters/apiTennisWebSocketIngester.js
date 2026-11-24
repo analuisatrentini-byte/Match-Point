@@ -311,6 +311,17 @@ export function frameToSnapshot(frame) {
     if (matchKey === "") return null;
     const status = String(frame.event_status ?? frame.status ?? "").trim().toLowerCase();
     const isTeamTie = /\bteams\b/i.test(String(frame.event_type_type ?? frame.event_type ?? ''));
+    const isDoubles = /\bdoubles\b/i.test(String(frame.event_type_type ?? frame.event_type ?? ''));
+    const validPlayerKey = value => {
+        const key = value == null ? '' : String(value).trim();
+        return key && key !== '0' && key !== '-1' ? key : '';
+    };
+    const firstPlayer = frame.event_first_player ?? frame.player1 ?? '';
+    const secondPlayer = frame.event_second_player ?? frame.player2 ?? '';
+    // A doubles side key identifies the pair. Only dp1/dp2 prove individual
+    // participants, even if the provider omitted the slash-separated names.
+    const individualKey = (sideKey, dp1, name) => validPlayerKey(dp1)
+        || (!isDoubles && !String(name).includes('/') ? validPlayerKey(sideKey) : '');
     const rawResult = String(frame.event_final_result ?? '').match(/^\s*(\d+)\s*[-–]\s*(\d+)\s*$/);
     const teamScore = isTeamTie && rawResult ? [Number(rawResult[1]), Number(rawResult[2])] : undefined;
 
@@ -321,10 +332,10 @@ export function frameToSnapshot(frame) {
     return {
         matchKey,
         tournamentKey: String(frame.tournament_key ?? frame.tournamentKey ?? "").trim(),
-        player1: frame.event_first_player ?? frame.player1 ?? "",
-        player2: frame.event_second_player ?? frame.player2 ?? "",
-        player1Key: String(frame.first_player_key ?? frame.event_first_player_key ?? frame.player1Key ?? "").trim(),
-        player2Key: String(frame.second_player_key ?? frame.event_second_player_key ?? frame.player2Key ?? "").trim(),
+        player1: firstPlayer,
+        player2: secondPlayer,
+        player1Key: individualKey(frame.first_player_key ?? frame.event_first_player_key ?? frame.player1Key, frame.first_player_dp1_key, firstPlayer),
+        player2Key: individualKey(frame.second_player_key ?? frame.event_second_player_key ?? frame.player2Key, frame.second_player_dp1_key, secondPlayer),
         status: mapStatus(status, ["1", "true"].includes(String(frame.event_live).toLowerCase())),
         serverName: frame.event_serve ?? frame.serverName ?? "",
         score: completeScores ? sets.map(s => `${s.score_first}-${s.score_second}`).join(" ") : "",
@@ -333,7 +344,10 @@ export function frameToSnapshot(frame) {
         pointScore: frame.point_score ?? frame.event_point_result ?? frame.event_game_result ?? frame.pointScore ?? "",
         setNumber: parseIntOrNull(frame.event_set_number ?? frame.setNumber),
         breakPoint: ["1", "true"].includes(String(frame.event_break_point).toLowerCase()),
-        favoritePlayerKeys: Array.isArray(frame.favoritePlayerKeys) ? frame.favoritePlayerKeys : [],
+        favoritePlayerKeys: [...new Set([
+            ...(Array.isArray(frame.favoritePlayerKeys) ? frame.favoritePlayerKeys : []),
+            frame.first_player_dp2_key, frame.second_player_dp2_key
+        ].map(validPlayerKey).filter(Boolean))],
         capturedAt: new Date().toISOString(),
         ...(isTeamTie ? {isTeamTie: true, teamScore, setScores: [], gameScore: '', pointScore: '', serverName: '',
                          player1Key: '', player2Key: '', favoritePlayerKeys: [],

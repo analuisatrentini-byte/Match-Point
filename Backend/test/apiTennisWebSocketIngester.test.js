@@ -150,3 +150,26 @@ test('country tie results are distinct from preallocated individual sets', () =>
     assert.equal(snapshot.gameScore, '');
     assert.equal(snapshot.pointScore, '');
 });
+
+test('doubles push recipients use all four individuals and never the pair keys', () => {
+    const snapshot = frameToSnapshot({event_key:'doubles', event_type_type:'Wta Doubles',
+        event_first_player:'First / Partner', event_second_player:'Opponent / Partner',
+        first_player_key:900, second_player_key:901,
+        first_player_dp1_key:11, first_player_dp2_key:12,
+        second_player_dp1_key:21, second_player_dp2_key:22});
+    assert.equal(snapshot.player1Key, '11');
+    assert.equal(snapshot.player2Key, '21');
+    assert.deepEqual(snapshot.favoritePlayerKeys, ['12', '22']);
+});
+
+test('incomplete doubles cannot turn a pair into a favorite individual', () => {
+    for (const fields of [
+        {event_type_type:'Atp Doubles', event_first_player:'Unavailable'},
+        {event_first_player:'First / Partner'}
+    ]) {
+        const snapshot = frameToSnapshot({event_key:'partial-doubles', first_player_key:900,
+            first_player_dp2_key:'0', second_player_dp2_key:'-1', ...fields});
+        assert.equal(snapshot.player1Key, '');
+        assert.deepEqual(snapshot.favoritePlayerKeys, []);
+    }
+});
