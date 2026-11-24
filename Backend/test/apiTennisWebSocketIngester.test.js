@@ -139,8 +139,12 @@ test('numbered scores and binary messages preserve every match in a provider bat
 
 test('country tie results are distinct from preallocated individual sets', () => {
     const snapshot = frameToSnapshot({event_key:'recorded-country-tie', event_type_type:'Teams Women',
-        event_final_result:'4 - 0', event_status:'Finished', scores:[{score_set:'1',score_first:'0',score_second:'0'}]});
+        event_final_result:'4 - 0', event_status:'Finished', first_player_key:123, second_player_key:456,
+        favoritePlayerKeys:['123'], scores:[{score_set:'1',score_first:'0',score_second:'0'}]});
     assert.equal(snapshot.isTeamTie, true);
+    assert.equal(snapshot.player1Key, '');
+    assert.equal(snapshot.player2Key, '');
+    assert.deepEqual(snapshot.favoritePlayerKeys, []);
     assert.deepEqual(snapshot.teamScore, [4,0]);
     assert.deepEqual(snapshot.setScores, []);
     assert.equal(snapshot.gameScore, '');

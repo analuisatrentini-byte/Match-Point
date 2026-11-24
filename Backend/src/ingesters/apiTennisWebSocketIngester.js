@@ -336,6 +336,7 @@ export function frameToSnapshot(frame) {
         favoritePlayerKeys: Array.isArray(frame.favoritePlayerKeys) ? frame.favoritePlayerKeys : [],
         capturedAt: new Date().toISOString(),
         ...(isTeamTie ? {isTeamTie: true, teamScore, setScores: [], gameScore: '', pointScore: '', serverName: '',
+                         player1Key: '', player2Key: '', favoritePlayerKeys: [],
                          score: teamScore ? teamScore.join('-') : ''} : {})
     };
 }
