@@ -278,3 +278,16 @@ test('confirmed final marker survives delivery failure but is not sent to Activi
     assert.equal(registration._terminalConfirmed, undefined);
     registering.stop();
 });
+
+test('team activity preserves actual result through sparse individual placeholders', () => {
+    const initial = {...state, teamScore:[2,1]};
+    const partial = mergeState(initial, {status:'live', setScores:[{number:1,player1Games:'0',player2Games:'0'}], pointScore:'0-0', gameScore:'0-0'});
+    assert.deepEqual(partial.teamScore, [2,1]);
+    assert.deepEqual(partial.setScores, []);
+    assert.equal(partial.pointScore, '');
+    assert.equal(partial.gameScore, '');
+    const final = mergeState(partial, {status:'completed', isTeamTie:true, teamScore:[4,0]});
+    assert.deepEqual(final.teamScore, [4,0]);
+    assert.equal(final.isLive, false);
+    assert.equal(final.serverIsPlayerOne, null);
+});

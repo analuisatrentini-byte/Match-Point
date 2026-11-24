@@ -3,7 +3,9 @@ import { createHash } from 'node:crypto';
 const hash = value => createHash('sha256').update(value).digest('hex');
 const validState = state => state && typeof state === 'object' && Array.isArray(state.setScores)
     && typeof state.pointScore === 'string' && typeof state.gameScore === 'string'
-    && Number.isFinite(state.lastUpdated);
+    && Number.isFinite(state.lastUpdated)
+    && (state.teamScore == null || (Array.isArray(state.teamScore) && state.teamScore.length === 2 && state.teamScore.every(v => Number.isSafeInteger(v) && v >= 0)))
+    && (state.isTeamTie == null || typeof state.isTeamTie === 'boolean');
 const foundationEpoch = 978307200;
 const terminalState = state => state?.isLive === false && /^(finalizada|finalizado|finished|completed|ended|retired|walkover|cancelled|canceled)$/i.test(state.status ?? '');
 const capturedTime = (snapshot, fallback) => {
@@ -11,7 +13,7 @@ const capturedTime = (snapshot, fallback) => {
     return Number.isFinite(time) ? time : fallback;
 };
 const contentHash = state => hash(JSON.stringify({...state, lastUpdated: 0}));
-const frameHash = snapshot => hash(JSON.stringify([snapshot.status, snapshot.setScores ?? [], snapshot.gameScore ?? '', snapshot.pointScore ?? '', snapshot.serverName ?? '']));
+const frameHash = snapshot => hash(JSON.stringify([snapshot.status, snapshot.setScores ?? [], snapshot.gameScore ?? '', snapshot.pointScore ?? '', snapshot.serverName ?? '', snapshot.teamScore ?? null]));
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 // Live Activity tokens are independent of device tokens. An installation-held
@@ -268,7 +270,18 @@ export function mergeState(previous, snapshot, sourceTime = capturedTime(snapsho
     const state = publicState(previous);
     // Only numbered per-set provider data can distinguish games from an
     // aggregate set result such as "0-1". Preserve the last known detail when absent.
-    if (Array.isArray(snapshot.setScores) && snapshot.setScores.length) {
+    const isTeamTie = snapshot.isTeamTie === true || state.isTeamTie === true || Array.isArray(state.teamScore);
+    if (isTeamTie) {
+        state.isTeamTie = true;
+        if (Array.isArray(snapshot.teamScore) && snapshot.teamScore.length === 2 && snapshot.teamScore.every(v => Number.isSafeInteger(v) && v >= 0)) {
+            state.teamScore = [...snapshot.teamScore];
+        }
+        state.setScores = [];
+        state.pointScore = '';
+        state.gameScore = '';
+        state.serverIsPlayerOne = null;
+    }
+    if (!isTeamTie && Array.isArray(snapshot.setScores) && snapshot.setScores.length) {
         const sets = [...state.setScores];
         for (const set of snapshot.setScores) {
             if (Number.isInteger(set.number) && set.number > 0 && set.number <= sets.length + 1 && /^\d+$/.test(set.player1Games) && /^\d+$/.test(set.player2Games)) {
@@ -287,9 +300,9 @@ export function mergeState(previous, snapshot, sourceTime = capturedTime(snapsho
             }
         }
     }
-    if (snapshot.pointScore && snapshot.pointScore !== '-') state.pointScore = snapshot.pointScore;
-    if (snapshot.gameScore && snapshot.gameScore !== '-') state.gameScore = snapshot.gameScore;
-    if (snapshot.serverName) {
+    if (!isTeamTie && snapshot.pointScore && snapshot.pointScore !== '-') state.pointScore = snapshot.pointScore;
+    if (!isTeamTie && snapshot.gameScore && snapshot.gameScore !== '-') state.gameScore = snapshot.gameScore;
+    if (!isTeamTie && snapshot.serverName) {
         const server = String(snapshot.serverName).toLowerCase();
         if (server === '1' || server === 'first' || server === String(snapshot.player1).toLowerCase()) state.serverIsPlayerOne = true;
         if (server === '2' || server === 'second' || server === String(snapshot.player2).toLowerCase()) state.serverIsPlayerOne = false;

@@ -310,6 +310,9 @@ export function frameToSnapshot(frame) {
     const matchKey = String(frame.event_key ?? frame.matchKey ?? frame.match_key ?? "").trim();
     if (matchKey === "") return null;
     const status = String(frame.event_status ?? frame.status ?? "").trim().toLowerCase();
+    const isTeamTie = /\bteams\b/i.test(String(frame.event_type_type ?? frame.event_type ?? ''));
+    const rawResult = String(frame.event_final_result ?? '').match(/^\s*(\d+)\s*[-–]\s*(\d+)\s*$/);
+    const teamScore = isTeamTie && rawResult ? [Number(rawResult[1]), Number(rawResult[2])] : undefined;
 
     const sets = Array.isArray(frame.scores) ? frame.scores
         .filter(s => s.score_first != null && s.score_second != null && Number(s.score_set) > 0)
@@ -331,7 +334,9 @@ export function frameToSnapshot(frame) {
         setNumber: parseIntOrNull(frame.event_set_number ?? frame.setNumber),
         breakPoint: ["1", "true"].includes(String(frame.event_break_point).toLowerCase()),
         favoritePlayerKeys: Array.isArray(frame.favoritePlayerKeys) ? frame.favoritePlayerKeys : [],
-        capturedAt: new Date().toISOString()
+        capturedAt: new Date().toISOString(),
+        ...(isTeamTie ? {isTeamTie: true, teamScore, setScores: [], gameScore: '', pointScore: '', serverName: '',
+                         score: teamScore ? teamScore.join('-') : ''} : {})
     };
 }
 
